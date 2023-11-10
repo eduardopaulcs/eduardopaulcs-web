@@ -12,7 +12,7 @@ import { useTranslation } from "react-i18next";
 const Layout = () => {
   const location = useLocation();
   const params = useParams();
-  const [, i18n] = useTranslation("common");
+  const [t, i18n] = useTranslation("common");
 
   useEffect(() => {
     // When the language code changes
@@ -27,8 +27,11 @@ const Layout = () => {
     if (currentLang !== newLang) {
       // Notify translator of change
       i18n.changeLanguage(newLang);
+
+      document.documentElement.lang = t("seo.lang");
+      document.title = t("seo.title");
     }
-  }, [params.lang, i18n]);
+  }, [params.lang, t, i18n]);
 
   /**
    * Determines whether we should redirect the user to the default language

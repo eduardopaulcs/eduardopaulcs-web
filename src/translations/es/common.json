@@ -1,4 +1,8 @@
 {
+  "seo": {
+    "lang": "es",
+    "title": "El Portfolio de Paul"
+  },
   "navbar": {
     "hamburger": {
       "label": "Abrir/cerrar navegación"

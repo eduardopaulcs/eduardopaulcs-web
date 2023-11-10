@@ -1,4 +1,8 @@
 {
+  "seo": {
+    "lang": "en",
+    "title": "Paul's Portfolio"
+  },
   "navbar": {
     "hamburger": {
       "label": "Open/close navigation"
