@@ -4,13 +4,14 @@ import Error from "../pages/Error";
 import Home from "../pages/Home";
 import Tos from "../pages/Tos";
 
-export default createBrowserRouter(
+const router = createBrowserRouter(
   createRoutesFromElements(
     <Route
       path="/"
       element={<Layout />}
       errorElement={<Error />}
     >
+      {/* Routes with the "/:lang" prefix will be translated */}
       <Route
         path="/:lang"
       >
@@ -26,3 +27,5 @@ export default createBrowserRouter(
     </Route>
   )
 );
+
+export default router;

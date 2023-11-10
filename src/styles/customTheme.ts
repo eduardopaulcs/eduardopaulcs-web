@@ -10,7 +10,7 @@ const inconsolataFamily = [
   'monospace',
 ].join(', ');
 
-export default createTheme({
+const customTheme = createTheme({
   palette: {
     mode: 'dark',
   },
@@ -36,3 +36,5 @@ export default createTheme({
     },
   },
 });
+
+export default customTheme;
