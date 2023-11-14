@@ -4,7 +4,7 @@ import { List, ListItem, ListItemButton, ListItemIcon } from "@mui/material";
 interface NavbarListProps {
   items: {
     action: () => void;
-    icon: JSX.Element;
+    icon: JSX.Element | null;
   }[];
 };
 

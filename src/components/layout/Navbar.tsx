@@ -2,26 +2,65 @@ import React, { useEffect, useState } from "react";
 import { Box, Drawer, IconButton, Theme, useMediaQuery } from "@mui/material";
 import MenuIcon from '@mui/icons-material/Menu';
 import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
-import HomeIcon from '@mui/icons-material/Home';
 import { useTranslation } from "react-i18next";
 import NavbarList from "./NavbarList";
+import { HOME_SECTIONS } from "../../constants";
+import HomeIcon from '@mui/icons-material/Home';
+import PersonIcon from '@mui/icons-material/Person';
+import MessageIcon from '@mui/icons-material/Message';
+import relativeToAbsolutePath from "../../utils/relativeToAbsolutePath";
+import { useNavigate } from "react-router-dom";
+import useScrollToLocation from "../../hooks/useScrollToLocation";
 
-const navbarLinks = [
-  {
-    route: "#",
-    icon: <HomeIcon />,
-  },
-];
+type NavbarLink = {
+  route: string;
+  isAbsolute: boolean;
+  icon: JSX.Element | null;
+};
+
+const navbarLinks: NavbarLink[] = [];
+
+HOME_SECTIONS.forEach((section) => {
+  let icon = null;
+
+  // Select icon
+  switch (section) {
+    case "inicio":
+      icon = <HomeIcon />;
+      break;
+
+    case "sobre-mi":
+      icon = <PersonIcon />;
+      break;
+
+    case "contacto":
+      icon = <MessageIcon />;
+      break;
+
+    default:
+      break;
+  };
+
+  // Add navbar link to the list
+  navbarLinks.push({
+    route: `/#${section}`,
+    isAbsolute: false,
+    icon: icon,
+  });
+});
 
 /**
  * Site Navbar. Usually found on the left side of the screen, hidden by default
  * on mobile.
  */
 const Navbar = () => {
+  useScrollToLocation();
+
+  const navigate = useNavigate();
   const isMobile = useMediaQuery((theme: Theme) => theme.breakpoints.down("sm"));
+  const [t, i18n] = useTranslation("common");
   const [drawerVariant, setDrawerVariant] = useState<"temporary"|"permanent">(isMobile ? "temporary" : "permanent");
   const [drawerOpen, setDrawerOpen] = useState<boolean>(!isMobile);
-  const [t] = useTranslation("common");
 
   useEffect(() => {
     // When the screen size changes
@@ -70,14 +109,18 @@ const Navbar = () => {
   /**
    * Handles click on a navbar link.
    */
-  const handleLinkClick = (route: string) => {
-    console.log(route);
+  const handleLinkClick = (route: string, isAbsolute: boolean) => {
+    const navigationRoute = (isAbsolute)
+      ? route
+      : relativeToAbsolutePath(route, i18n.language);
+
+    navigate(navigationRoute);
   };
 
   return (
     <Box
       sx={{
-        position: "absolute",
+        position: "fixed",
         top: 0,
         left: 0,
         height: "100vh",
@@ -118,7 +161,7 @@ const Navbar = () => {
             <NavbarList
               items={navbarLinks.map((link) => {
                 return {
-                  action: () => handleLinkClick(link.route),
+                  action: () => handleLinkClick(link.route, link.isAbsolute),
                   icon: link.icon,
                 };
               })}
