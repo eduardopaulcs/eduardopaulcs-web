@@ -115,21 +115,26 @@ const Navbar = () => {
       : relativeToAbsolutePath(route, i18n.language);
 
     navigate(navigationRoute);
+
+    if (isMobile) {
+      closeDrawer();
+    }
   };
 
   return (
-    <Box
-      sx={{
-        position: "fixed",
-        top: 0,
-        left: 0,
-        height: "100vh",
-      }}
-    >
+    <>
       {isMobile && (
         <IconButton
           aria-label={t("navbar.hamburger.label")}
           onClick={handleHamburgerClick}
+          sx={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            marginTop: ".5rem",
+            marginLeft: ".5rem",
+            zIndex: 1000,
+          }}
         >
           <MenuIcon />
         </IconButton>
@@ -139,6 +144,9 @@ const Navbar = () => {
         anchor="left"
         open={drawerOpen}
         onClose={closeDrawer}
+        sx={{
+          zIndex: 1050,
+        }}
       >
         <Box
           sx={{
@@ -179,7 +187,7 @@ const Navbar = () => {
           )}
         </Box>
       </Drawer>
-    </Box>
+    </>
   );
 };
 
