@@ -7,5 +7,16 @@
     "hamburger": {
       "label": "Open/close navigation"
     }
+  },
+  "pages": {
+    "home": {
+      "sections": {
+        "cover": {
+          "name": "Eduardo Paul Contardi Soria",
+          "profession": "Software Engineer / Carbon-Based Life Form",
+          "face": "Artistic representation of my face"
+        }
+      }
+    }
   }
 }

@@ -1,11 +1,30 @@
 import React from "react";
 import Section from "../components/pages/Home/Section";
 import { HOME_SECTIONS } from "../constants";
+import CoverSection from "../components/pages/Home/CoverSection";
+import AboutMeSection from "../components/pages/Home/AboutMeSection";
+import ContactSection from "../components/pages/Home/ContactSection";
 
 /**
  * Homepage of the site.
  */
 const Home = () => {
+  const renderSection = (section: string) => {
+    switch (section) {
+      case "inicio":
+        return <CoverSection />;
+
+      case "sobre-mi":
+        return <AboutMeSection />;
+
+      case "contacto":
+        return <ContactSection />;
+
+      default:
+        return null;
+    }
+  };
+
   return (
     <>
       {HOME_SECTIONS.map((section) => (
@@ -13,7 +32,7 @@ const Home = () => {
           id={section}
           key={section}
         >
-          {section}
+          {renderSection(section)}
         </Section>
       ))}
     </>

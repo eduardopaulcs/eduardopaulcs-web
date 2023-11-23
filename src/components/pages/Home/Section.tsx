@@ -6,6 +6,10 @@ interface SectionProps {
   children?: React.ReactNode;
 };
 
+/**
+ * One section of the homepage, it typically is the same height of the screen
+ * at least.
+ */
 const Section = ({
   id,
   children,
@@ -14,6 +18,9 @@ const Section = ({
     <Box
       id={id}
       sx={{
+        position: "relative",
+        display: "flex",
+        flexDirection: "column",
         paddingTop: "1rem",
         paddingBottom: "1rem",
         minHeight: "100vh",

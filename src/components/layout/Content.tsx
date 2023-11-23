@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, Theme, useMediaQuery } from '@mui/material';
+import { Box, Container, Theme, useMediaQuery } from '@mui/material';
 import { Outlet } from 'react-router-dom';
 
 /**
@@ -10,7 +10,8 @@ const Content = () => {
 
   return (
     <>
-      <main
+      <Box
+        component="main"
         style={{
           marginLeft: (!isMobile) ? "56px" : ""
         }}
@@ -18,7 +19,7 @@ const Content = () => {
         <Container>
           <Outlet />
         </Container>
-      </main>
+      </Box>
     </>
   );
 };
