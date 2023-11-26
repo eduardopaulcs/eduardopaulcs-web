@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { cloneElement, useEffect, useState } from "react";
 import { Box, Drawer, IconButton, Theme, useMediaQuery } from "@mui/material";
 import MenuIcon from '@mui/icons-material/Menu';
 import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
@@ -8,21 +8,27 @@ import { HOME_SECTIONS } from "../../constants";
 import HomeIcon from '@mui/icons-material/Home';
 import PersonIcon from '@mui/icons-material/Person';
 import MessageIcon from '@mui/icons-material/Message';
+import LanguageIcon from '@mui/icons-material/Language';
 import relativeToAbsolutePath from "../../utils/relativeToAbsolutePath";
 import { useNavigate } from "react-router-dom";
 import useScrollToLocation from "../../hooks/useScrollToLocation";
+import NavbarListItem from "./NavbarListItem";
 
 type NavbarLink = {
   route: string;
   isAbsolute: boolean;
-  icon: JSX.Element | null;
+  icon?: JSX.Element;
 };
 
 const navbarLinks: NavbarLink[] = [];
 
 HOME_SECTIONS.forEach((section) => {
-  let icon = null;
+  const navbarLink: NavbarLink = {
+    route: `/#${section}`,
+    isAbsolute: false,
+  };
 
+  let icon = null;
   // Select icon
   switch (section) {
     case "inicio":
@@ -40,13 +46,12 @@ HOME_SECTIONS.forEach((section) => {
     default:
       break;
   };
+  if (icon) {
+    navbarLink["icon"] = icon;
+  }
 
   // Add navbar link to the list
-  navbarLinks.push({
-    route: `/#${section}`,
-    isAbsolute: false,
-    icon: icon,
-  });
+  navbarLinks.push(navbarLink);
 });
 
 /**
@@ -121,6 +126,41 @@ const Navbar = () => {
     }
   };
 
+  /**
+   * Transforms a NavbarLink into a NavbarListItem.
+   */
+  const transformNavbarLinkToNavbarListItem = (link: NavbarLink) => {
+    const icon = (link.icon)
+      ? link.icon
+      : undefined;
+
+    return <NavbarListItem
+      action={() => handleLinkClick(link.route, link.isAbsolute)}
+      icon={icon}
+    />;
+  };
+
+  /**
+   * Gets the list of NavbarListItem to use.
+   */
+  const getNavbarListItems = () => {
+    // Navbar links
+    const items = navbarLinks.map(transformNavbarLinkToNavbarListItem);
+
+    // Navbar language selector
+    items.push(
+      <NavbarListItem
+        icon={<LanguageIcon />}
+      >
+        Testing
+      </NavbarListItem>
+    );
+
+    return items.map((item, idx) => cloneElement(item, {
+      key: idx,
+    }));
+  };
+
   return (
     <>
       {isMobile && (
@@ -166,24 +206,17 @@ const Navbar = () => {
               alignItems: "center",
             }}
           >
-            <NavbarList
-              items={navbarLinks.map((link) => {
-                return {
-                  action: () => handleLinkClick(link.route, link.isAbsolute),
-                  icon: link.icon,
-                };
-              })}
-            />
+            <NavbarList>
+              {getNavbarListItems()}
+            </NavbarList>
           </Box>
           {isMobile && (
-            <NavbarList
-              items={[
-                {
-                  action: handleCloseDrawerClick,
-                  icon: <KeyboardDoubleArrowLeftIcon />,
-                },
-              ]}
-            />
+            <NavbarList>
+              <NavbarListItem
+                action={handleCloseDrawerClick}
+                icon={<KeyboardDoubleArrowLeftIcon />}
+              />
+            </NavbarList>
           )}
         </Box>
       </Drawer>

@@ -9,6 +9,9 @@ import ContactSection from "../components/pages/Home/ContactSection";
  * Homepage of the site.
  */
 const Home = () => {
+  /**
+   * Returns the component related to the specified section.
+   */
   const renderSection = (section: string) => {
     switch (section) {
       case "inicio":
