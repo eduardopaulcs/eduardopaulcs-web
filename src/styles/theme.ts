@@ -1,4 +1,15 @@
 import { createTheme } from "@mui/material";
+import customTheme from "./customTheme.json";
+
+// Quick patch to prevent MUI types from interfering with custom properties
+declare module "@mui/material/styles" {
+  interface ThemeOptions {
+    [key: string]: any;
+  }
+  interface Theme {
+    [key: string]: any;
+  }
+}
 
 const workSansFamily = [
   '"Work Sans"',
@@ -10,9 +21,23 @@ const inconsolataFamily = [
   'monospace',
 ].join(', ');
 
-const customTheme = createTheme({
+const theme = createTheme({
   palette: {
     mode: 'dark',
+    primary: {
+      main: "#5c8099",
+      light: "#c7dae7",
+      dark: "#324a5b",
+    },
+    secondary: {
+      main: "#5c6199",
+      light: "#c3c6db",
+      dark: "#2d2d69",
+    },
+    background: {
+      default: "#151c21",
+      paper: "#151c21",
+    },
   },
   typography: {
     fontFamily: workSansFamily,
@@ -35,6 +60,7 @@ const customTheme = createTheme({
       fontFamily: inconsolataFamily,
     },
   },
+  custom: customTheme,
 });
 
-export default customTheme;
+export default theme;

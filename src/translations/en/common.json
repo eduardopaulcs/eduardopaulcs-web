@@ -4,16 +4,21 @@
     "title": "Paul's Portfolio"
   },
   "navbar": {
-    "hamburger": {
-      "label": "Open/close navigation"
-    }
+    "openCloseNavigation": "Open/close navigation",
+    "closeNavigation": "Close navigation",
+    "link": {
+      "cover": "Home",
+      "aboutMe": "About me",
+      "contact": "Contact"
+    },
+    "changeLanguage": "Change language"
   },
   "pages": {
     "home": {
       "sections": {
         "cover": {
           "name": "Eduardo Paul Contardi Soria",
-          "profession": "Software Engineer / Carbon-Based Life Form",
+          "profession": "Software Architect / Carbon-Based Life Form",
           "face": "Artistic representation of my face"
         }
       }

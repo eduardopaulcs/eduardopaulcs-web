@@ -1,56 +1,34 @@
 import React, { cloneElement, useEffect, useState } from "react";
-import { Box, Drawer, IconButton, Theme, useMediaQuery } from "@mui/material";
+import { Box, Drawer, IconButton, Theme, useMediaQuery, useTheme } from "@mui/material";
 import MenuIcon from '@mui/icons-material/Menu';
-import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
+import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import { useTranslation } from "react-i18next";
 import NavbarList from "./NavbarList";
 import { HOME_SECTIONS } from "../../constants";
-import HomeIcon from '@mui/icons-material/Home';
-import PersonIcon from '@mui/icons-material/Person';
-import MessageIcon from '@mui/icons-material/Message';
 import LanguageIcon from '@mui/icons-material/Language';
 import relativeToAbsolutePath from "../../utils/relativeToAbsolutePath";
 import { useNavigate } from "react-router-dom";
 import useScrollToLocation from "../../hooks/useScrollToLocation";
 import NavbarListItem from "./NavbarListItem";
+import { mapSectionKeyToIcon } from "../../utils/homeSectionMappers";
 
 type NavbarLink = {
   route: string;
   isAbsolute: boolean;
-  icon?: JSX.Element;
+  icon: JSX.Element;
+  labelKey: string;
 };
 
 const navbarLinks: NavbarLink[] = [];
 
-HOME_SECTIONS.forEach((section) => {
+Object.entries(HOME_SECTIONS).forEach(([sectionKey, sectionRoute]) => {
   const navbarLink: NavbarLink = {
-    route: `/#${section}`,
+    route: `/#${sectionRoute}`,
     isAbsolute: false,
+    icon: mapSectionKeyToIcon(sectionKey),
+    labelKey: sectionKey,
   };
 
-  let icon = null;
-  // Select icon
-  switch (section) {
-    case "inicio":
-      icon = <HomeIcon />;
-      break;
-
-    case "sobre-mi":
-      icon = <PersonIcon />;
-      break;
-
-    case "contacto":
-      icon = <MessageIcon />;
-      break;
-
-    default:
-      break;
-  };
-  if (icon) {
-    navbarLink["icon"] = icon;
-  }
-
-  // Add navbar link to the list
   navbarLinks.push(navbarLink);
 });
 
@@ -66,6 +44,8 @@ const Navbar = () => {
   const [t, i18n] = useTranslation("common");
   const [drawerVariant, setDrawerVariant] = useState<"temporary"|"permanent">(isMobile ? "temporary" : "permanent");
   const [drawerOpen, setDrawerOpen] = useState<boolean>(!isMobile);
+  const theme = useTheme();
+  const primaryDarkColor = theme.palette.primary.dark;
 
   useEffect(() => {
     // When the screen size changes
@@ -130,13 +110,10 @@ const Navbar = () => {
    * Transforms a NavbarLink into a NavbarListItem.
    */
   const transformNavbarLinkToNavbarListItem = (link: NavbarLink) => {
-    const icon = (link.icon)
-      ? link.icon
-      : undefined;
-
     return <NavbarListItem
       action={() => handleLinkClick(link.route, link.isAbsolute)}
-      icon={icon}
+      icon={link.icon}
+      label={t(`navbar.link.${link.labelKey}`)}
     />;
   };
 
@@ -151,6 +128,7 @@ const Navbar = () => {
     items.push(
       <NavbarListItem
         icon={<LanguageIcon />}
+        label={t("navbar.changeLanguage")}
       >
         Testing
       </NavbarListItem>
@@ -164,20 +142,26 @@ const Navbar = () => {
   return (
     <>
       {isMobile && (
-        <IconButton
-          aria-label={t("navbar.hamburger.label")}
-          onClick={handleHamburgerClick}
-          sx={{
+        <Box
+          sx={(theme) => ({
             position: "fixed",
+            display: "flex",
             top: 0,
             left: 0,
-            marginTop: ".5rem",
-            marginLeft: ".5rem",
             zIndex: 1000,
-          }}
+            width: theme.custom.components.navbar.width,
+            height: theme.custom.components.navbar.width,
+            justifyContent: "center",
+            alignItems: "center",
+          })}
         >
-          <MenuIcon />
-        </IconButton>
+          <IconButton
+            aria-label={t("navbar.openCloseNavigation")}
+            onClick={handleHamburgerClick}
+          >
+            <MenuIcon />
+          </IconButton>
+        </Box>
       )}
       <Drawer
         variant={drawerVariant}
@@ -186,6 +170,16 @@ const Navbar = () => {
         onClose={closeDrawer}
         sx={{
           zIndex: 1050,
+        }}
+        PaperProps={{
+          sx: {
+            backgroundColor: {
+              xs: primaryDarkColor,
+              sm: "transparent",
+            },
+            backgroundImage: "none",
+            border: 0,
+          },
         }}
       >
         <Box
@@ -202,7 +196,10 @@ const Navbar = () => {
               height: "100%",
               display: "flex",
               flexDirection: "column",
-              justifyContent: (isMobile) ? "start" : "center",
+              justifyContent: {
+                xs: "start",
+                sm: "center",
+              },
               alignItems: "center",
             }}
           >
@@ -214,7 +211,8 @@ const Navbar = () => {
             <NavbarList>
               <NavbarListItem
                 action={handleCloseDrawerClick}
-                icon={<KeyboardDoubleArrowLeftIcon />}
+                icon={<KeyboardArrowLeftIcon />}
+                label={t("navbar.closeNavigation")}
               />
             </NavbarList>
           )}

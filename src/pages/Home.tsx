@@ -1,44 +1,39 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Section from "../components/pages/Home/Section";
 import { HOME_SECTIONS } from "../constants";
-import CoverSection from "../components/pages/Home/CoverSection";
-import AboutMeSection from "../components/pages/Home/AboutMeSection";
-import ContactSection from "../components/pages/Home/ContactSection";
+import { mapSectionKeyToComponent } from "../utils/homeSectionMappers";
+import Background from "../components/pages/Home/Background";
+import { Box } from "@mui/material";
 
 /**
  * Homepage of the site.
  */
 const Home = () => {
-  /**
-   * Returns the component related to the specified section.
-   */
-  const renderSection = (section: string) => {
-    switch (section) {
-      case "inicio":
-        return <CoverSection />;
+  const homeRef = useRef<HTMLDivElement>();
+  const [homeHeight, setHomeHeight] = useState<number>(0);
 
-      case "sobre-mi":
-        return <AboutMeSection />;
-
-      case "contacto":
-        return <ContactSection />;
-
-      default:
-        return null;
+  useEffect(() => {
+    if (homeRef.current) {
+      setHomeHeight(homeRef.current.offsetHeight);
     }
-  };
+  }, [homeRef]);
 
   return (
-    <>
-      {HOME_SECTIONS.map((section) => (
+    <Box
+      ref={homeRef}
+    >
+      <Background
+        height={homeHeight}
+      />
+      {Object.entries(HOME_SECTIONS).map(([sectionKey, sectionRoute]) => (
         <Section
-          id={section}
-          key={section}
+          id={sectionRoute}
+          key={sectionKey}
         >
-          {renderSection(section)}
+          {mapSectionKeyToComponent(sectionKey)}
         </Section>
       ))}
-    </>
+    </Box>
   );
 };
 
