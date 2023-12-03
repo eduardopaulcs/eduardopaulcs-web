@@ -12,6 +12,17 @@ interface BackgroundProps {
 
 const blobHeightFactor = 60;
 
+const calculateBackgroundHeight = (height: number) => {
+  // Calculate background height
+  let newBackgroundHeight = Math.ceil(height/2);
+  // Cap minimum height to window height
+  if (newBackgroundHeight < window.innerHeight) {
+    newBackgroundHeight = window.innerHeight;
+  }
+
+  return newBackgroundHeight;
+};
+
 /**
  * Component to display the background image of the home page.
  */
@@ -19,7 +30,7 @@ const Background = ({
   height
 }: BackgroundProps) => {
   const backgroundRef = useRef<HTMLDivElement>();
-  const [backgroundHeight, setBackgroundHeight] = useState<number>(Math.ceil(height/2));
+  const [backgroundHeight, setBackgroundHeight] = useState<number>(calculateBackgroundHeight(height));
   const [scrollPosition, setScrollPosition] = useState<number>(0);
   const [randomBlobs, setRandomBlobs] = useState<JSX.Element[]>([]);
   const theme = useTheme();
@@ -29,7 +40,7 @@ const Background = ({
   const sm = useMediaQuery(theme.breakpoints.between("sm", "md"));
 
   useEffect(() => {
-    // Executed when the component loads for the first time
+    // When the component loads
 
     window.addEventListener("scroll", handleScroll, {passive: true});
 
@@ -43,12 +54,7 @@ const Background = ({
 
     const blobs = [Blob1, Blob2, Blob3, Blob4, Blob5];
 
-    // Calculate background height
-    let newBackgroundHeight = Math.ceil(height/2);
-    // Cap minimum height to window height
-    if (newBackgroundHeight < window.innerHeight) {
-      newBackgroundHeight = window.innerHeight;
-    }
+    const newBackgroundHeight = calculateBackgroundHeight(height);
     setBackgroundHeight(newBackgroundHeight);
 
     // Calculate number of blobs to use

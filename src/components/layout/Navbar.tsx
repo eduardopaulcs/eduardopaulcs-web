@@ -1,13 +1,13 @@
 import React, { cloneElement, useEffect, useState } from "react";
-import { Box, Drawer, IconButton, Theme, useMediaQuery, useTheme } from "@mui/material";
+import { Box, Drawer, IconButton, useMediaQuery, useTheme } from "@mui/material";
 import MenuIcon from '@mui/icons-material/Menu';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import { useTranslation } from "react-i18next";
 import NavbarList from "./NavbarList";
-import { HOME_SECTIONS } from "../../constants";
+import { HOME_SECTIONS, LANGUAGES } from "../../constants";
 import LanguageIcon from '@mui/icons-material/Language';
 import relativeToAbsolutePath from "../../utils/relativeToAbsolutePath";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import useScrollToLocation from "../../hooks/useScrollToLocation";
 import NavbarListItem from "./NavbarListItem";
 import { mapSectionKeyToIcon } from "../../utils/homeSectionMappers";
@@ -22,15 +22,18 @@ type NavbarLink = {
 const navbarLinks: NavbarLink[] = [];
 
 Object.entries(HOME_SECTIONS).forEach(([sectionKey, sectionRoute]) => {
-  const navbarLink: NavbarLink = {
+  navbarLinks.push({
     route: `/#${sectionRoute}`,
     isAbsolute: false,
     icon: mapSectionKeyToIcon(sectionKey),
     labelKey: sectionKey,
-  };
-
-  navbarLinks.push(navbarLink);
+  });
 });
+
+const calculateTranslatedPage = (lang: string | undefined) => {
+  // TODO: move to another place
+  return (lang !== undefined && LANGUAGES.includes(lang));
+};
 
 /**
  * Site Navbar. Usually found on the left side of the screen, hidden by default
@@ -40,11 +43,14 @@ const Navbar = () => {
   useScrollToLocation();
 
   const navigate = useNavigate();
-  const isMobile = useMediaQuery((theme: Theme) => theme.breakpoints.down("sm"));
   const [t, i18n] = useTranslation("common");
+  const params = useParams();
+  const [translatedPage, setTranslatedPage] = useState<boolean>(calculateTranslatedPage(params.lang));
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const [drawerVariant, setDrawerVariant] = useState<"temporary"|"permanent">(isMobile ? "temporary" : "permanent");
   const [drawerOpen, setDrawerOpen] = useState<boolean>(!isMobile);
-  const theme = useTheme();
+  const [changeLanguageOpen, setChangeLanguageOpen] = useState<boolean>(false);
   const primaryDarkColor = theme.palette.primary.dark;
 
   useEffect(() => {
@@ -55,39 +61,63 @@ const Navbar = () => {
     setDrawerOpen(!isMobile);
   }, [isMobile]);
 
+  useEffect(() => {
+    // When the URL language parameter changes
+
+    setTranslatedPage(calculateTranslatedPage(params.lang));
+  }, [params.lang]);
+
   /**
-   * Toggles the drawer open state.
+   * Toggles the drawer open state (only for mobile).
    */
   const toggleDrawer = () => {
-    setDrawerOpen(!drawerOpen);
+    if (isMobile) {
+      if (drawerOpen) {
+        closeChangeLanguage();
+      }
+      setDrawerOpen(!drawerOpen);
+    }
   };
 
   /**
-   * Closes the drawer.
+   * Closes the drawer (only for mobile).
    */
   const closeDrawer = () => {
-    setDrawerOpen(false);
+    if (isMobile) {
+      closeChangeLanguage();
+      setDrawerOpen(false);
+    }
   };
 
   /**
-   * Handles click on the hamburger or menu button (only for mobile).
+   * Toggles the change language button (only for translated pages).
+   */
+  const toggleChangeLanguage = () => {
+    if (translatedPage) {
+      setChangeLanguageOpen(!changeLanguageOpen);
+    }
+  };
+
+  /**
+   * Closes the change language button (only for translated pages).
+   */
+  const closeChangeLanguage = () => {
+    if (translatedPage) {
+      setChangeLanguageOpen(false);
+    }
+  };
+
+  /**
+   * Handles click on the hamburger or menu button.
    */
   const handleHamburgerClick = () => {
-    if (!isMobile) {
-      return;
-    }
-
     toggleDrawer();
   };
 
   /**
-   * Handles click on the "close drawer" button (only for mobile).
+   * Handles click on the "close drawer" button.
    */
   const handleCloseDrawerClick = () => {
-    if (!isMobile) {
-      return;
-    }
-
     closeDrawer();
   };
 
@@ -99,11 +129,32 @@ const Navbar = () => {
       ? route
       : relativeToAbsolutePath(route, i18n.language);
 
-    navigate(navigationRoute);
+    navigate(navigationRoute, {
+      replace: !isAbsolute,
+    });
 
-    if (isMobile) {
-      closeDrawer();
+    closeDrawer();
+  };
+
+  /**
+   * Handles click on the "change language" button.
+   */
+  const handleChangeLanguageClick = () => {
+    toggleChangeLanguage();
+  };
+
+  /**
+   * Handles click on a new language.
+   */
+  const handleLanguageClick = (lang: string) => {
+    if (i18n.language !== lang) {
+      navigate(`/${lang}`, {
+        replace: true,
+      });
     }
+
+    closeChangeLanguage();
+    closeDrawer();
   };
 
   /**
@@ -124,15 +175,27 @@ const Navbar = () => {
     // Navbar links
     const items = navbarLinks.map(transformNavbarLinkToNavbarListItem);
 
-    // Navbar language selector
-    items.push(
-      <NavbarListItem
-        icon={<LanguageIcon />}
-        label={t("navbar.changeLanguage")}
-      >
-        Testing
-      </NavbarListItem>
-    );
+    if (translatedPage && LANGUAGES.length > 1) {
+      // Navbar language selector
+      items.push(
+        <NavbarListItem
+          action={() => handleChangeLanguageClick()}
+          icon={<LanguageIcon />}
+          label={t("navbar.changeLanguage")}
+          open={changeLanguageOpen}
+        >
+          <NavbarList>
+            {LANGUAGES.map((lang, idx) => (
+              <NavbarListItem
+                key={idx}
+                action={() => handleLanguageClick(lang)}
+                text={lang.toUpperCase()}
+              />
+            ))}
+          </NavbarList>
+        </NavbarListItem>
+      );
+    }
 
     return items.map((item, idx) => cloneElement(item, {
       key: idx,
