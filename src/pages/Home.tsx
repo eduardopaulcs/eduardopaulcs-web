@@ -1,21 +1,29 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import type { MutableRefObject } from "react";
 import Section from "../components/pages/Home/Section";
 import { HOME_SECTIONS } from "../constants";
 import { mapSectionKeyToComponent } from "../utils/homeSectionMappers";
 import Background from "../components/pages/Home/Background";
 import { Box } from "@mui/material";
 
+const getHomeHeight = (homeRef: MutableRefObject<HTMLDivElement | undefined>) => {
+  if (homeRef.current) {
+    return homeRef.current.offsetHeight;
+  }
+
+  return 0;
+};
+
 /**
  * Homepage of the site.
  */
 const Home = () => {
   const homeRef = useRef<HTMLDivElement>();
-  const [homeHeight, setHomeHeight] = useState<number>(0);
+
+  const [homeHeight, setHomeHeight] = useState<number>(getHomeHeight(homeRef));
 
   useEffect(() => {
-    if (homeRef.current) {
-      setHomeHeight(homeRef.current.offsetHeight);
-    }
+    setHomeHeight(getHomeHeight(homeRef));
   }, [homeRef]);
 
   return (
@@ -23,7 +31,7 @@ const Home = () => {
       ref={homeRef}
     >
       <Background
-        height={homeHeight}
+        totalHeight={homeHeight}
       />
       {Object.entries(HOME_SECTIONS).map(([sectionKey, sectionRoute]) => (
         <Section

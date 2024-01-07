@@ -1,16 +1,17 @@
-import React, { cloneElement, useEffect, useState } from "react";
+import { cloneElement, useEffect, useState } from "react";
 import { Box, Drawer, IconButton, useMediaQuery, useTheme } from "@mui/material";
 import MenuIcon from '@mui/icons-material/Menu';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
-import { useTranslation } from "react-i18next";
 import NavbarList from "./NavbarList";
 import { HOME_SECTIONS, LANGUAGES } from "../../constants";
 import LanguageIcon from '@mui/icons-material/Language';
 import relativeToAbsolutePath from "../../utils/relativeToAbsolutePath";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import useScrollToLocation from "../../hooks/useScrollToLocation";
 import NavbarListItem from "./NavbarListItem";
 import { mapSectionKeyToIcon } from "../../utils/homeSectionMappers";
+import useLangParam from "../../hooks/useLangParam";
+import useTranslation from "../../hooks/useTranslation";
 
 type NavbarLink = {
   route: string;
@@ -18,6 +19,8 @@ type NavbarLink = {
   icon: JSX.Element;
   labelKey: string;
 };
+
+type DrawerVariant = "temporary" | "permanent";
 
 const navbarLinks: NavbarLink[] = [];
 
@@ -30,11 +33,6 @@ Object.entries(HOME_SECTIONS).forEach(([sectionKey, sectionRoute]) => {
   });
 });
 
-const calculateTranslatedPage = (lang: string | undefined) => {
-  // TODO: move to another place
-  return (lang !== undefined && LANGUAGES.includes(lang));
-};
-
 /**
  * Site Navbar. Usually found on the left side of the screen, hidden by default
  * on mobile.
@@ -43,15 +41,17 @@ const Navbar = () => {
   useScrollToLocation();
 
   const navigate = useNavigate();
-  const [t, i18n] = useTranslation("common");
-  const params = useParams();
-  const [translatedPage, setTranslatedPage] = useState<boolean>(calculateTranslatedPage(params.lang));
+  const {t, currentLang} = useTranslation();
+  const langParam = useLangParam();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
-  const [drawerVariant, setDrawerVariant] = useState<"temporary"|"permanent">(isMobile ? "temporary" : "permanent");
+  const primaryDarkColor = theme.palette.primary.dark;
+
+  const [drawerVariant, setDrawerVariant] = useState<DrawerVariant>(
+    isMobile ? "temporary" : "permanent"
+  );
   const [drawerOpen, setDrawerOpen] = useState<boolean>(!isMobile);
   const [changeLanguageOpen, setChangeLanguageOpen] = useState<boolean>(false);
-  const primaryDarkColor = theme.palette.primary.dark;
 
   useEffect(() => {
     // When the screen size changes
@@ -61,11 +61,12 @@ const Navbar = () => {
     setDrawerOpen(!isMobile);
   }, [isMobile]);
 
-  useEffect(() => {
-    // When the URL language parameter changes
-
-    setTranslatedPage(calculateTranslatedPage(params.lang));
-  }, [params.lang]);
+  /**
+   * Determines whether we are in a multilanguage page.
+   */
+  const isMultilanguagePage = () => {
+    return langParam !== null;
+  };
 
   /**
    * Toggles the drawer open state (only for mobile).
@@ -93,7 +94,7 @@ const Navbar = () => {
    * Toggles the change language button (only for translated pages).
    */
   const toggleChangeLanguage = () => {
-    if (translatedPage) {
+    if (isMultilanguagePage()) {
       setChangeLanguageOpen(!changeLanguageOpen);
     }
   };
@@ -102,7 +103,7 @@ const Navbar = () => {
    * Closes the change language button (only for translated pages).
    */
   const closeChangeLanguage = () => {
-    if (translatedPage) {
+    if (isMultilanguagePage()) {
       setChangeLanguageOpen(false);
     }
   };
@@ -127,7 +128,7 @@ const Navbar = () => {
   const handleLinkClick = (route: string, isAbsolute: boolean) => {
     const navigationRoute = (isAbsolute)
       ? route
-      : relativeToAbsolutePath(route, i18n.language);
+      : relativeToAbsolutePath(route, currentLang);
 
     navigate(navigationRoute, {
       replace: !isAbsolute,
@@ -146,9 +147,9 @@ const Navbar = () => {
   /**
    * Handles click on a new language.
    */
-  const handleLanguageClick = (lang: string) => {
-    if (i18n.language !== lang) {
-      navigate(`/${lang}`, {
+  const handleLanguageClick = (newLang: string) => {
+    if (currentLang !== newLang) {
+      navigate(`/${newLang}`, {
         replace: true,
       });
     }
@@ -175,7 +176,8 @@ const Navbar = () => {
     // Navbar links
     const items = navbarLinks.map(transformNavbarLinkToNavbarListItem);
 
-    if (translatedPage && LANGUAGES.length > 1) {
+    // If we are in a multilanguage page and we have multiple languages
+    if (isMultilanguagePage() && LANGUAGES.length > 1) {
       // Navbar language selector
       items.push(
         <NavbarListItem

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Box, useMediaQuery, useTheme } from "@mui/material";
 import { ReactComponent as Blob1 } from "../../../images/background/blob1.svg";
 import { ReactComponent as Blob2 } from "../../../images/background/blob2.svg";
@@ -7,14 +7,14 @@ import { ReactComponent as Blob4 } from "../../../images/background/blob4.svg";
 import { ReactComponent as Blob5 } from "../../../images/background/blob5.svg";
 
 interface BackgroundProps {
-  height: number;
+  totalHeight: number;
 };
 
 const blobHeightFactor = 60;
 
-const calculateBackgroundHeight = (height: number) => {
+const getBackgroundHeight = (totalHeight: number) => {
   // Calculate background height
-  let newBackgroundHeight = Math.ceil(height/2);
+  let newBackgroundHeight = Math.ceil(totalHeight/2);
   // Cap minimum height to window height
   if (newBackgroundHeight < window.innerHeight) {
     newBackgroundHeight = window.innerHeight;
@@ -23,21 +23,36 @@ const calculateBackgroundHeight = (height: number) => {
   return newBackgroundHeight;
 };
 
+const getBackgroundScroll = () => {
+  return -Math.floor(window.scrollY/4);
+};
+
 /**
  * Component to display the background image of the home page.
  */
 const Background = ({
-  height
+  totalHeight
 }: BackgroundProps) => {
   const backgroundRef = useRef<HTMLDivElement>();
-  const [backgroundHeight, setBackgroundHeight] = useState<number>(calculateBackgroundHeight(height));
-  const [scrollPosition, setScrollPosition] = useState<number>(0);
-  const [randomBlobs, setRandomBlobs] = useState<JSX.Element[]>([]);
   const theme = useTheme();
   const primaryDarkColor = theme.palette.primary.dark;
   const lg = useMediaQuery(theme.breakpoints.up("lg"));
   const md = useMediaQuery(theme.breakpoints.between("md", "lg"));
   const sm = useMediaQuery(theme.breakpoints.between("sm", "md"));
+
+  const [backgroundHeight, setBackgroundHeight] = useState<number>(
+    getBackgroundHeight(totalHeight)
+  );
+  const [backgroundScroll, setBackgroundScroll] = useState<number>(getBackgroundScroll());
+  // ToDo: Start with random blobs already set
+  const [randomBlobs, setRandomBlobs] = useState<JSX.Element[]>([]);
+
+  /**
+   * Handles window's scroll.
+   */
+  const handleScroll = () => {
+    setBackgroundScroll(getBackgroundScroll());
+  };
 
   useEffect(() => {
     // When the component loads
@@ -54,10 +69,11 @@ const Background = ({
 
     const blobs = [Blob1, Blob2, Blob3, Blob4, Blob5];
 
-    const newBackgroundHeight = calculateBackgroundHeight(height);
+    const newBackgroundHeight = getBackgroundHeight(totalHeight);
     setBackgroundHeight(newBackgroundHeight);
 
     // Calculate number of blobs to use
+    // Hopefully they don't open this website in a potato, if so, sorry dear user!
     const numberOfBlobs = Math.ceil(newBackgroundHeight/blobHeightFactor);
 
     const selectedBlobs: JSX.Element[] = [];
@@ -106,14 +122,7 @@ const Background = ({
       );
     }
     setRandomBlobs(selectedBlobs);
-  }, [height, primaryDarkColor, backgroundRef, lg, md, sm]);
-
-  /**
-   * Handles the screen scroll.
-   */
-  const handleScroll = () => {
-    setScrollPosition(-Math.floor(window.scrollY/4));
-  };
+  }, [totalHeight, primaryDarkColor, backgroundRef, lg, md, sm]);
 
   return (
     <Box
@@ -133,7 +142,7 @@ const Background = ({
         },
       }}
       style={{
-        top: scrollPosition,
+        top: backgroundScroll,
         height: backgroundHeight,
       }}
       ref={backgroundRef}

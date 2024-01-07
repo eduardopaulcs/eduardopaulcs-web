@@ -1,61 +1,91 @@
-import React, { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Content from "./Content";
 import { Box } from "@mui/material";
-import { Navigate, useParams } from "react-router-dom";
-import { DEFAULT_LANG, LANGUAGES } from "../../constants";
+import { Navigate } from "react-router-dom";
+import { LANGUAGES } from "../../constants";
 import Navbar from "./Navbar";
-import { useTranslation } from "react-i18next";
 import useLocationPath from "../../hooks/useLocationPath";
+import useLangParam from "../../hooks/useLangParam";
+import useTranslation from "../../hooks/useTranslation";
+
+const validateLocationPathAndLangParam = (locationPath: string, langParam: string | null) => {
+  const isLangParamValid = !!(langParam && LANGUAGES.includes(langParam));
+  const isLocationPathValid = !(locationPath === "/");
+
+  return {isLocationPathValid, isLangParamValid};
+};
 
 /**
  * Site layout component.
  */
 const Layout = () => {
   const locationPath = useLocationPath(true);
-  const params = useParams();
-  const [t, i18n] = useTranslation("common");
+  const langParam = useLangParam();
+  const {t, currentLang, setLang} = useTranslation();
+
+  const {
+    isLocationPathValid: locationPathValid,
+    isLangParamValid: langParamValid,
+  } = validateLocationPathAndLangParam(locationPath, langParam);
+  const [isLocationPathValid, setIsLocationPathValid] = useState<boolean>(locationPathValid);
+  const [isLangParamValid, setIsLangParamValid] = useState<boolean>(langParamValid);
 
   useEffect(() => {
-    // When the language code changes
+    // When the language parameter changes
 
-    // Get new and current languages
-    const currentLang = i18n.language;
-    const newLang = (params.lang !== undefined && LANGUAGES.includes(params.lang))
-      ? params.lang
-      : DEFAULT_LANG;
+    // Validate location and language
+    const {
+      isLocationPathValid,
+      isLangParamValid,
+    } = validateLocationPathAndLangParam(locationPath, langParam);
 
-    // If the language actually changed
-    if (currentLang !== newLang) {
+    setIsLocationPathValid(isLocationPathValid);
+    setIsLangParamValid(isLangParamValid);
+
+    // HACK!! Compiler doesn't care we just validated this variable, so we
+    //        have to cast it to undefined, this will never be undefined
+    const newLang = langParam || undefined;
+    if (
+      // If the new language is valid
+      isLangParamValid &&
+      // And if the language actually changed
+      currentLang !== newLang
+    ) {
       // Notify translator of change
-      i18n.changeLanguage(newLang);
+      setLang(newLang);
 
       document.documentElement.lang = t("seo.lang");
       document.title = t("seo.title");
     }
-  }, [params.lang, t, i18n]);
-
-  /**
-   * Determines whether we should redirect the user to the default language
-   * home page.
-   */
-  const shouldRedirect = () => {
-    // If the user entered a wrong language code or landed on the root path
-    if (
-      locationPath === "/" ||
-      (params.lang !== undefined && !LANGUAGES.includes(params.lang))
-    ) {
-      // Redirect
-      return true;
-    }
-
-    return false;
-  };
+  }, [locationPath, langParam, t, currentLang, setLang]);
 
   const renderContent = () => {
     // If we should redirect the user to the default language home page
-    if (shouldRedirect()) {
+    // ToDo: Handle 404 page, don't redirect to home page if the user tries
+    //       "/test", because right now we are assuming the user tried the
+    //       "test" language, but that doesn't make sense
+    if (!isLocationPathValid || (langParam !== null && !isLangParamValid)) {
+      // Get browser language
+      const browserLangMatch = navigator.language.match(/^([\w]{2})(?:-[\w]{2})?$/);
+      const browserLang = (browserLangMatch !== null && browserLangMatch.length === 2)
+        ? browserLangMatch[1].toLowerCase()
+        : null;
+
+      // Default to current language
+      let redirectLang = currentLang;
+
+      // If we have a valid browser language
+      if (
+        browserLang &&
+        browserLang !== redirectLang &&
+        LANGUAGES.includes(browserLang)
+      ) {
+        // Default to that
+        redirectLang = browserLang;
+      }
+
       return (
-        <Navigate to={`/${DEFAULT_LANG}`} replace />
+        <Navigate to={`/${redirectLang}`} replace />
       );
     }
 

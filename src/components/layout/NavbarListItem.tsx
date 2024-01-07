@@ -1,4 +1,3 @@
-import React from "react";
 import { Collapse, ListItem, ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
 
 interface NavbarListItemProps {

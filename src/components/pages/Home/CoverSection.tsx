@@ -1,12 +1,11 @@
-import React from "react";
 import { Box, Stack, Typography } from "@mui/material";
-import { useTranslation } from "react-i18next";
 import Face from "../../../images/home/face.png";
 import Blob from "../../../images/home/blob.png";
 import Lines from "../../../images/home/lines.png";
+import useTranslation from "../../../hooks/useTranslation";
 
 const CoverSection = () => {
-  const [t] = useTranslation("common");
+  const {t} = useTranslation();
 
   return (
     <Box

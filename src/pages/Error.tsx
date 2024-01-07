@@ -1,5 +1,3 @@
-import React from "react";
-
 /**
  * Page shown when an error occurs on the frontend. Usually used for 404 error
  * page.
