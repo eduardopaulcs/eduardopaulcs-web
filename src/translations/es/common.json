@@ -13,6 +13,9 @@
     },
     "changeLanguage": "Cambiar idioma"
   },
+  "modal": {
+    "closeModal": "Cerrar"
+  },
   "pages": {
     "home": {
       "sections": {
@@ -20,6 +23,14 @@
           "name": "Eduardo Paul Contardi Soria",
           "profession": "Arquitecto de Software / Forma de vida a base de carbono",
           "face": "Representación artística de mi cara"
+        },
+        "contact": {
+          "title": "Contacto",
+          "links": {
+            "linkedin": "LinkedIn",
+            "github": "GitHub",
+            "email": "Correo electrónico"
+          }
         }
       }
     }

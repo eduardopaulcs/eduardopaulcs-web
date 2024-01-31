@@ -1,10 +1,10 @@
 import { cloneElement, useEffect, useState } from "react";
 import { Box, Drawer, IconButton, useMediaQuery, useTheme } from "@mui/material";
-import MenuIcon from '@mui/icons-material/Menu';
-import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
+import MenuIcon from "@mui/icons-material/Menu";
+import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import NavbarList from "./NavbarList";
 import { HOME_SECTIONS, LANGUAGES } from "../../constants";
-import LanguageIcon from '@mui/icons-material/Language';
+import LanguageIcon from "@mui/icons-material/Language";
 import relativeToAbsolutePath from "../../utils/relativeToAbsolutePath";
 import { useNavigate } from "react-router-dom";
 import useScrollToLocation from "../../hooks/useScrollToLocation";

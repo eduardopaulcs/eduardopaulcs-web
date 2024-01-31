@@ -1,29 +1,26 @@
-import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
-import HomeIcon from '@mui/icons-material/Home';
-import PersonIcon from '@mui/icons-material/Person';
-import MessageIcon from '@mui/icons-material/Message';
-import CoverSection from '../components/pages/Home/CoverSection';
-import AboutMeSection from '../components/pages/Home/AboutMeSection';
-import ContactSection from '../components/pages/Home/ContactSection';
+import { Home, Message, Person, QuestionMark } from "@mui/icons-material";
+import CoverSection from "../components/pages/Home/CoverSection";
+import AboutMeSection from "../components/pages/Home/AboutMeSection";
+import ContactSection from "../components/pages/Home/ContactSection";
 
 export const mapSectionKeyToIcon = (sectionKey: string) => {
   let icon = null;
 
   switch (sectionKey) {
     case "cover":
-      icon = <HomeIcon />;
+      icon = <Home />;
       break;
 
     case "aboutMe":
-      icon = <PersonIcon />;
+      icon = <Person />;
       break;
 
     case "contact":
-      icon = <MessageIcon />;
+      icon = <Message />;
       break;
 
     default:
-      icon = <QuestionMarkIcon />;
+      icon = <QuestionMark />;
       break;
   };
 

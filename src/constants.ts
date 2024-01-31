@@ -10,3 +10,9 @@ export const HOME_SECTIONS = {
   "aboutMe": "sobre-mi",
   "contact": "contacto",
 };
+
+export const CONTACT_MEANS = {
+  "linkedin": "LINKEDIN_URL",
+  "github": "GITHUB_URL",
+  "email": "CONTACT_EMAIL",
+};

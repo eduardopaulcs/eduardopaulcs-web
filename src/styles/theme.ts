@@ -13,17 +13,17 @@ declare module "@mui/material/styles" {
 
 const workSansFamily = [
   '"Work Sans"',
-  'sans-serif',
-].join(', ');
+  "sans-serif",
+].join(", ");
 
 const inconsolataFamily = [
   '"Inconsolata"',
-  'monospace',
-].join(', ');
+  "monospace",
+].join(", ");
 
 const theme = createTheme({
   palette: {
-    mode: 'dark',
+    mode: "dark",
     primary: {
       main: "#5c8099",
       light: "#c7dae7",

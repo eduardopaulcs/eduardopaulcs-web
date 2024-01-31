@@ -1,10 +1,10 @@
-import { RouterProvider } from 'react-router-dom';
-import router from '../routes/router';
-import { CssBaseline, ThemeProvider } from '@mui/material';
-import theme from '../styles/theme';
-import { I18nextProvider } from 'react-i18next';
-import translator from '../translations/translator';
-import '../styles/App.css';
+import { RouterProvider } from "react-router-dom";
+import router from "../routes/router";
+import { CssBaseline, ThemeProvider } from "@mui/material";
+import theme from "../styles/theme";
+import { I18nextProvider } from "react-i18next";
+import translator from "../translations/translator";
+import "../styles/App.css";
 
 /**
  * Global app component.
