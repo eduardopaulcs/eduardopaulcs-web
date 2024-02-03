@@ -57,6 +57,7 @@ const Layout = () => {
 
       document.documentElement.lang = t("seo.lang");
       document.title = t("seo.title");
+      document.querySelector("meta[name='description']")?.setAttribute("content", t("seo.description"));
     }
   }, [locationPath, langParam, t, currentLang, setLang]);
 
