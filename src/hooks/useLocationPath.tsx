@@ -2,13 +2,13 @@ import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import useLangParam from "./useLangParam";
 
-const getLocationPath = (currentPath: string, langParam: string | null, absolute: boolean) => {
+const getLocationPath = (currentPath: string, langParam: string | null, isAbsolute: boolean) => {
   let newPath = currentPath;
 
   // If we can return a relative path, and we are dealing with a translated
   // route
   if (
-    !absolute &&
+    !isAbsolute &&
     (langParam && (new RegExp(`^/${langParam}[?#/]?`)).test(currentPath))
   ) {
     // Remove the language prefix
@@ -26,19 +26,19 @@ const getLocationPath = (currentPath: string, langParam: string | null, absolute
 };
 
 /**
- * Hook used to retrieve the current route the user is at. If absolute is passed
- * as true, then the whole path will be returned, otherwise the relative path
- * to the language parameter will be returned.
+ * Hook used to retrieve the current route the user is at. If isAbsolute is
+ * passed as true, then the whole path will be returned, otherwise the relative
+ * path to the language parameter will be returned.
  */
-const useLocationPath = (absolute = false) => {
+const useLocationPath = (isAbsolute = false) => {
   const {pathname} = useLocation();
   const langParam = useLangParam();
 
-  const [locationPath, setLocationPath] = useState<string>(getLocationPath(pathname, langParam, absolute));
+  const [locationPath, setLocationPath] = useState<string>(getLocationPath(pathname, langParam, isAbsolute));
 
   useEffect(() => {
-    setLocationPath(getLocationPath(pathname, langParam, absolute));
-  }, [pathname, langParam, absolute]);
+    setLocationPath(getLocationPath(pathname, langParam, isAbsolute));
+  }, [pathname, langParam, isAbsolute]);
 
   return locationPath;
 };

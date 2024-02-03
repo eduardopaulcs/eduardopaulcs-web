@@ -4,7 +4,7 @@ import useTranslation from "../../hooks/useTranslation";
 
 interface ModalProps extends React.ComponentPropsWithoutRef<typeof MuiModal> {
   onClose: () => void;
-  cross?: boolean;
+  showCross?: boolean;
   closeOnBackdropClick?: boolean;
 };
 
@@ -16,7 +16,7 @@ interface ModalProps extends React.ComponentPropsWithoutRef<typeof MuiModal> {
 const Modal = ({
   onClose,
   children,
-  cross = true,
+  showCross = true,
   closeOnBackdropClick = true,
   ...otherProps
 }: ModalProps) => {
@@ -44,7 +44,7 @@ const Modal = ({
    * Handles user clicking on the close cross.
    */
   const handleCrossClick = () => {
-    if (!cross) {
+    if (!showCross) {
       return;
     }
 
@@ -70,13 +70,20 @@ const Modal = ({
           sx={{
             position: "relative",
             padding: "3rem",
-            bgcolor: "primary.dark",
+            bgcolor: "secondary.dark",
             boxShadow: "0px 0px 48px 4px #000",
-            maxWidth: "100%",
+            maxWidth: {
+              xs: "100%",
+              md: "48rem",
+            },
+            margin: {
+              xs: "0",
+              sm: "2rem",
+            },
           }}
           onClick={handleModalClick}
         >
-          {cross && (
+          {showCross && (
             <IconButton
               sx={{
                 position: "absolute",

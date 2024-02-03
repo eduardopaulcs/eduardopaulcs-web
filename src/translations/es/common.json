@@ -4,9 +4,9 @@
     "title": "El Portfolio de Paul"
   },
   "navbar": {
-    "openCloseNavigation": "Abrir/cerrar navegación",
+    "toggleNavigation": "Abrir/cerrar navegación",
     "closeNavigation": "Cerrar navegación",
-    "link": {
+    "links": {
       "cover": "Inicio",
       "aboutMe": "Sobre mí",
       "contact": "Contacto"
@@ -23,6 +23,200 @@
           "name": "Eduardo Paul Contardi Soria",
           "profession": "Arquitecto de Software / Forma de vida a base de carbono",
           "face": "Representación artística de mi cara"
+        },
+        "aboutMe": {
+          "title": "Sobre mí",
+          "description": [
+            "Puedes llamarme Paul. Soy una persona apasionada por el desarrollo de software y de videojuegos de Buenos Aires, Argentina.",
+            "Desde una edad muy temprana comencé a interesarme por el mundo del desarrollo, cuando en mi infancia tuve contacto con mi primera PC la cual me permitió explorar la curiosidad que me generaba aprender el funcionamiento de las cosas, y en específico, del software.",
+            "Quizás por la exposición que tuve a esto, quizás también por mi personalidad detallista innata, o quizás por combinación de ambas, desarrollé una capacidad de análisis muy alta y versátil la cual me permite poner el ojo en cuestiones técnicas y humanas con la misma facilidad."
+          ],
+          "timeline": {
+            "title": "Experiencia",
+            "description": "A continuación presento un resumen de los proyectos y estudios en los que me incursioné a lo largo de mi carrera profesional.",
+            "items": [
+              {
+                "title": "Proyectos personales por diversión",
+                "description": [
+                  "Mis primeros pasos en el mundo de la programación. Empecé interesándome en cómo se hacían los videojuegos, qué decisiones técnicas se tuvieron en cuenta, cómo se programaban.",
+                  "Esta etapa comprende varios proyectos en C++, donde utilizaba motores gráficos y recursos de sonido, texturas y modelos 3D de otros videojuegos, luego les aplicaba mi propia lógica y creaba mis propios niveles."
+                ],
+                "date": "2010 - 2016"
+              },
+              {
+                "title": "Proyectos web independientes",
+                "description": [
+                  "Cuando comencé a sentir que quería dedicarme a esto tuve por seguro una cosa: los proyectos relacionados a videojuegos eran muy ambiciosos, especialmente para un muchacho de 17 años.",
+                  "Por esto y porque también comencé a interesarme en cómo aplicar soluciones informáticas a problemas cotidianos de mi entorno, me interesé por el desarrollo web. Aquí es donde aprendí las bases de PHP y JavaScript.",
+                  "Más tarde, por curiosidad, me embarcaría en algunos proyectos de prueba de aplicaciones móviles y de aplicaciones de escritorio, donde sumaría Java y Python a mis lenguajes conocidos.",
+                  "Estos proyectos no eran muy complejos ni utilizaban librerías muy complejas tampoco, pero yo creo que eso fue una ventaja; es así como pude comprender las bases y generar cimientos sólidos del desarrollo web."
+                ],
+                "date": "2016 - 2020"
+              },
+              {
+                "title": "Ingeniería en Informática en Universidad de Buenos Aires",
+                "description": [
+                  "Casi por una cuestión de flujo natural, mi siguiente paso era estudiar algo relacionado a lo que me gustaba. Por eso decidí inscribirme en Ingeniería en Informática en la Universidad de Buenos Aires, carrera que también es conocida como \"Ingeniería en Sistemas\" o \"Software Engineering\" (aunque puede haber pequeñas diferencias, obviamente).",
+                  "En esta casa de estudios, por lo menos en el momento de mi cursada, no existían exámenes de ingreso ni nada del estilo, si no que todos los estudiantes atravesaban un año lectivo conocido como el CBC (Ciclo Básico Común), que sirve para asentar las bases de la carrera.",
+                  "Mi paso por el CBC fue complicado, puesto que tuve algunos problemas de salud de por medio, pero no me rendí. Esta era una carrera que me gustaba mucho, así que decidí continuar estudiando apenas pude.",
+                  "Así llegué a cursar mis primeras materias relacionadas realmente con informática, pero me encontré con una enorme desilusión: los programas estaban muy desactualizados y por consecuencia me veía continuamente en la situación de marcarle errores lógicos a los profesores.",
+                  "Aquí es donde decidí que, de seguir estudiando esta carrera, no podría ser en este mismo lugar."
+                ],
+                "date": "2017 - 2021"
+              },
+              {
+                "title": "Desarrollo full stack independiente",
+                "description": [
+                  "Una vez consideré que tenía las herramientas suficientes para comenzar a hacer trabajos me embarqué en mis primeros proyectos profesionales de desarrollo web. Aquí es donde entré en contacto con la parte más profunda y técnica del desarrollo web, como los frameworks, el versionado y distintas técnicas.",
+                  "Puesto que era la única persona encargada de los proyectos que tomaba, inevitablemente estuve encargado del desarrollo web full stack; aunque a algunas personas no les gusta este término, así que lo aclaro: desarrollo web de front-end y back-end.",
+                  "Al ser mis primeros proyectos profesionales también pude experimentar con cuestiones como estimar un desarrollo, llegar a acuerdos con clientes y trabajar conforme a ello."
+                ],
+                "date": "2020 - Diciembre 2021"
+              },
+              {
+                "title": "Introduction to Computer Science de CS50 (Harvard University)",
+                "description": [
+                  "De cara a la situación que viví durante mi cursada de Ingeniería en Informática en la Universidad de Buenos Aires, decidí buscar poder formarme por otros lados, aunque sea temporalmente.",
+                  "Encontré este curso de Harvard University el cual lo daban en el programa \"CS50\", me inscribí y cursé durante 1 año. Aunque es cierto que es un curso introductorio y muchas cosas que vi aquí ya las conocía, me sirvió para darle un enfoque mucho más técnico a mis conocimientos previos.",
+                  "Nunca obtuve el certificado de cursada no porque no lo haya terminado, de hecho llegué a completarlo, pero necesitaba entregar un proyecto final. Pero por cuestiones de tiempo nunca llegué a presentarlo."
+                ],
+                "date": "Enero 2021 - Diciembre 2021"
+              },
+              {
+                "title": "Desarrollador full stack en NewBitCrew",
+                "description": [
+                  "Convencido de que estaba preparado para mucho más me sumé al equipo de desarrollo de NewBitCrew como desarrollador full stack a tiempo completo. Aquí pude aprender y crecer mucho, tanto personal como profesionalmente.",
+                  "Desde el comienzo encaré desafíos full stack: estuve a cargo del diseño técnico y estético, y del consecuente desarrollo, de proyectos importantes. Además pude aportar esporádicamente en otros.",
+                  "Afronté y conduje refactorizaciones completas y nuevos desarrollos, incluyendo análisis técnico. La calidad, la alta capacidad resolutiva y el trabajo en equipo son algunos aspectos que he perfeccionado durante esta etapa."
+                ],
+                "date": "Diciembre 2021 - Febrero 2023"
+              },
+              {
+                "title": "Desarrollador de front-end en Byter",
+                "description": [
+                  "De cara a que contaba con tiempo extra y con ansias de tener más desafíos, estuve colaborando un tiempo con Byter como desarrollador de front-end a tiempo parcial.",
+                  "En esta ocasión pude terminar de refinar mis habilidades de front-end, creando aplicaciones web complejas, tratando con una gran cantidad de datos relacionados entre sí, manteniendo además una línea estética."
+                ],
+                "date": "Agosto 2022 - Diciembre 2022"
+              },
+              {
+                "title": "Team Lead en NewBitCrew",
+                "description": [
+                  "Actualmente me encuentro aquí, dirigiendo un equipo de desarrollo en NewBitCrew a tiempo completo.",
+                  "Mis tareas cotidianas consisten en: seguir de cerca el estado de cada desarrollador, hacer control general de los proyectos, realizar análisis técnico y revisión de pendientes, generar tareas y documentación, realizar informes de status, tratar con clientes continuamente y hacer despliegues a distintos ambientes. Además de, por supuesto, desarrollar.",
+                  "Yo creo que estar en esta posición me ha servido para consolidar aspectos técnicos que normalmente no se ven siendo desarrollador, o que por lo menos se ven poco. Por ejemplo cuestiones de arquitectura, buenas prácticas al desarrollar y al tratar con ambientes productivos, también la búsqueda de soluciones a problemas o pedidos planteados teniendo en cuenta variables como lo son el tiempo, la mentalidad del cliente, lo previamente acordado, etc.",
+                  "Pero lo que me parece fundamental es el aspecto humano; sin un buen trabajo en equipo y una excelente comunicación los problemas están a la vuelta de la esquina. Es por esto que todos los días intento darle mi impronta personal al liderazgo, transmitir buena energía, levantar el ánimo y cuidar la salud mental de los integrantes. Soy creyente de que los espacios de trabajo sanos no se dan solos, son construcciones complejas y en las que cada uno debe aportar."
+                ],
+                "date": "Febrero 2023 - Actualidad"
+              }
+            ]
+          },
+          "future": {
+            "title": "¿Qué viene?",
+            "description": "No me gusta estar sin hacer nada, además estoy consciente de la velocidad que tiene este rubro. Es por eso que estoy constantemente buscando qué mejorar o aprender. Soy impulsado principalmente por la curiosidad o lo que me divierte aprender, aunque también tengo en cuenta qué temas son relevantes en el momento."
+          },
+          "tools": {
+            "title": "Herramientas",
+            "description": "Aquí muestro algunos de los tantos frameworks, lenguajes, programas, librerías, técnicas y demás, que conozco, lo cual decidí llamar \"herramientas\".",
+            "categories": [
+              {
+                "title": "Lenguajes",
+                "items": [
+                  "C",
+                  "C++",
+                  "Java",
+                  "PHP",
+                  "JavaScript / TypeScript",
+                  "Python"
+                ]
+              },
+              {
+                "title": "Programas",
+                "items": [
+                  "Microsoft Visual Studio",
+                  "Visual Studio Code",
+                  "Eclipse",
+                  "NetBeans"
+                ]
+              },
+              {
+                "title": "Tecnologías web",
+                "items": [
+                  "Laravel",
+                  "Symfony",
+                  "React",
+                  "Vue.js",
+                  "AngularJS",
+                  "Gatsby",
+                  "Sails.js",
+                  "Node.js"
+                ]
+              },
+              {
+                "title": "Estilado de UI",
+                "items": [
+                  "Sass / Scss",
+                  "Bootstrap",
+                  "Tailwind",
+                  "MUI"
+                ]
+              },
+              {
+                "title": "Bases de datos",
+                "items": [
+                  "SQL",
+                  "MySQL",
+                  "SQLite",
+                  "MongoDB",
+                  "Redis"
+                ]
+              },
+              {
+                "title": "Infraestructura y versionado",
+                "items": [
+                  "Docker / Docker Compose",
+                  "Git",
+                  "GitHub",
+                  "GitLab"
+                ]
+              },
+              {
+                "title": "Arquitectura",
+                "items": [
+                  "MVC",
+                  "DDD",
+                  "Microservicios",
+                  "Monolítica"
+                ]
+              },
+              {
+                "title": "Metodología",
+                "items": [
+                  "CI/CD",
+                  "Agile",
+                  "Scrum"
+                ]
+              },
+              {
+                "title": "Sistemas",
+                "items": [
+                  "Ubuntu / Linux",
+                  "Windows"
+                ]
+              },
+              {
+                "title": "Misceláneo",
+                "items": [
+                  "Generación de documentación",
+                  "Control y reportes de status",
+                  "Coordinación de equipos de desarrollo",
+                  "Análisis y estimación de tareas",
+                  "Diagramado de arquitectura",
+                  "Despliegues de ambientes productivos"
+                ]
+              }
+            ]
+          }
         },
         "contact": {
           "title": "Contacto",

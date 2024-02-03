@@ -1,5 +1,6 @@
-import { Collapse, ListItem, ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
+import { Collapse, ListItem, ListItemButton, ListItemIcon, ListItemText, Tooltip } from "@mui/material";
 
+// ToDo: Make conditional props out of these
 interface NavbarListItemProps {
   action: () => void;
   icon?: JSX.Element;
@@ -35,48 +36,50 @@ const NavbarListItem = ({
         flexDirection: "column",
       }}
     >
-      <ListItemButton
-        onClick={handleButtonClick}
-        aria-label={label}
-        sx={(theme) => ({
-          padding: 0,
-          "& > .MuiListItemIcon-root": {
-            transition: "transform 0.2s ease-out",
-          },
-          backgroundColor: "transparent",
-          "&:hover": {
-            backgroundColor: "transparent",
+      <Tooltip title={label} placement="right" arrow>
+        <ListItemButton
+          onClick={handleButtonClick}
+          aria-label={label}
+          sx={(theme) => ({
+            padding: 0,
             "& > .MuiListItemIcon-root": {
-              transform: "scale(1.3)",
+              transition: "transform 0.2s ease-out",
             },
-          },
-          width: theme.custom.components.navbar.width,
-          height: theme.custom.components.navbar.width,
-          justifyContent: "center",
-          alignItems: "center",
-        })}
-      >
-        {icon && (
-          <ListItemIcon
-            aria-hidden
-            sx={{
-              justifyContent: "center",
-              minWidth: "initial",
-            }}
-          >
-            {icon}
-          </ListItemIcon>
-        )}
-        {text && (
-          <ListItemText
-            sx={{
-              textAlign: "center",
-            }}
-          >
-            {text}
-          </ListItemText>
-        )}
-      </ListItemButton>
+            backgroundColor: "transparent",
+            "&:hover": {
+              backgroundColor: "transparent",
+              "& > .MuiListItemIcon-root": {
+                transform: "scale(1.3)",
+              },
+            },
+            width: theme.custom.components.navbar.width,
+            height: theme.custom.components.navbar.width,
+            justifyContent: "center",
+            alignItems: "center",
+          })}
+        >
+          {icon && (
+            <ListItemIcon
+              aria-hidden
+              sx={{
+                justifyContent: "center",
+                minWidth: "initial",
+              }}
+            >
+              {icon}
+            </ListItemIcon>
+          )}
+          {text && (
+            <ListItemText
+              sx={{
+                textAlign: "center",
+              }}
+            >
+              {text}
+            </ListItemText>
+          )}
+        </ListItemButton>
+      </Tooltip>
       {children && (
         <Collapse
           in={open || false}

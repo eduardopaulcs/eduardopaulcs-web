@@ -14,10 +14,10 @@ import useLangParam from "../../hooks/useLangParam";
 import useTranslation from "../../hooks/useTranslation";
 
 type NavbarLink = {
+  key: string;
   route: string;
-  isAbsolute: boolean;
   icon: JSX.Element;
-  labelKey: string;
+  isAbsolute: boolean;
 };
 
 type DrawerVariant = "temporary" | "permanent";
@@ -26,10 +26,10 @@ const navbarLinks: NavbarLink[] = [];
 
 Object.entries(HOME_SECTIONS).forEach(([sectionKey, sectionRoute]) => {
   navbarLinks.push({
+    key: sectionKey,
     route: `/#${sectionRoute}`,
-    isAbsolute: false,
     icon: mapSectionKeyToIcon(sectionKey),
-    labelKey: sectionKey,
+    isAbsolute: false,
   });
 });
 
@@ -45,7 +45,6 @@ const Navbar = () => {
   const langParam = useLangParam();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
-  const primaryDarkColor = theme.palette.primary.dark;
 
   const [drawerVariant, setDrawerVariant] = useState<DrawerVariant>(
     isMobile ? "temporary" : "permanent"
@@ -165,7 +164,7 @@ const Navbar = () => {
     return <NavbarListItem
       action={() => handleLinkClick(link.route, link.isAbsolute)}
       icon={link.icon}
-      label={t(`navbar.link.${link.labelKey}`)}
+      label={t(`navbar.links.${link.key}`)}
     />;
   };
 
@@ -221,7 +220,7 @@ const Navbar = () => {
           })}
         >
           <IconButton
-            aria-label={t("navbar.openCloseNavigation")}
+            aria-label={t("navbar.toggleNavigation")}
             onClick={handleHamburgerClick}
           >
             <MenuIcon />
@@ -239,7 +238,7 @@ const Navbar = () => {
         PaperProps={{
           sx: {
             backgroundColor: {
-              xs: primaryDarkColor,
+              xs: "primary.dark",
               sm: "transparent",
             },
             backgroundImage: "none",

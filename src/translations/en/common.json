@@ -4,11 +4,11 @@
     "title": "Paul's Portfolio"
   },
   "navbar": {
-    "openCloseNavigation": "Open/close navigation",
+    "toggleNavigation": "Toggle navigation",
     "closeNavigation": "Close navigation",
-    "link": {
+    "links": {
       "cover": "Home",
-      "aboutMe": "About me",
+      "aboutMe": "About Me",
       "contact": "Contact"
     },
     "changeLanguage": "Change language"
@@ -23,6 +23,200 @@
           "name": "Eduardo Paul Contardi Soria",
           "profession": "Software Architect / Carbon-Based Life Form",
           "face": "Artistic representation of my face"
+        },
+        "aboutMe": {
+          "title": "About Me",
+          "description": [
+            "You can call me Paul. I'm a person passionate about software and game development from Buenos Aires, Argentina.",
+            "From a very young age, I became interested in the world of development when I had my first contact with a PC in my childhood. It allowed me to explore the curiosity of understanding how things work, especially in terms of software.",
+            "Perhaps due to this exposure, maybe also because of my innate attention to detail, or perhaps a combination of both, I developed a high and versatile analytical ability. It enables me to focus on technical and human issues with equal ease."
+          ],
+          "timeline": {
+            "title": "Experience",
+            "description": "Here I present a summary of the projects and studies I have undertaken throughout my professional career.",
+            "items": [
+              {
+                "title": "Personal Fun Projects",
+                "description": [
+                  "My initial steps into the programming world. I started by delving into how video games were made, considering technical decisions, and learning programming.",
+                  "This phase includes various C++ projects where I utilized graphic engines and resources such as sound, textures, and 3D models from other games. I then applied my own logic and created my own levels."
+                ],
+                "date": "2010 - 2016"
+              },
+              {
+                "title": "Independent Web Projects",
+                "description": [
+                  "When I began to feel that I wanted to dedicate myself to this, I was certain of one thing: game-related projects were too ambitious, especially for a 17-year-old.",
+                  "For this reason, and because I also started to be interested in how to apply software solutions to everyday problems in my environment, I became interested in web development. This is where I learned the basics of PHP and JavaScript.",
+                  "Later, out of curiosity, I ventured into some test projects for mobile and desktop applications, adding Java and Python to my known programming languages.",
+                  "These projects weren't very complex, nor did they use elaborate libraries. However, I believe this simplicity was an advantage, allowing me to grasp the basics and build a solid foundation in web development."
+                ],
+                "date": "2016 - 2020"
+              },
+              {
+                "title": "Computer Engineering at the University of Buenos Aires",
+                "description": [
+                  "Naturally, my next step was to study something related to my interests. Hence, I enrolled in Computer Engineering at the University of Buenos Aires.",
+                  "At this institution, during my studies, there were no entrance exams. Instead, all students went through a basic academic year known as CBC (Common Basic Cycle) to establish the foundations of the program.",
+                  "My journey through CBC was challenging due to health issues, but I didn't give up. This was a field I was passionate about, so I decided to continue studying as soon as I could.",
+                  "As I began taking my first truly informatics-related subjects, I encountered a significant disappointment: the programs were outdated, which led me to situations where I had to continually point out logical errors to professors.",
+                  "It was at this point that I decided if I were to continue studying this field, it couldn't be at this particular place."
+                ],
+                "date": "2017 - 2021"
+              },
+              {
+                "title": "Independent Full Stack Development",
+                "description": [
+                  "Once I believed I had the necessary tools, I embarked on my first professional web development projects. This marked my entry into the deeper technical aspects of web development, such as frameworks, versioning, and various techniques.",
+                  "Since I was the sole person in charge of the projects I took on, I naturally handled full-stack web development. Though some people may not like this term, I clarify: front-end and back-end web development.",
+                  "These were my initial professional projects, allowing me to experience tasks like estimating a project, reaching agreements with clients, and working accordingly."
+                ],
+                "date": "2020 - December 2021"
+              },
+              {
+                "title": "Introduction to Computer Science from CS50 (Harvard University)",
+                "description": [
+                  "In light of the challenges I faced during my Computer Engineering studies at the University of Buenos Aires, I sought alternative learning paths, even if temporarily.",
+                  "I found this course from Harvard University offered in the 'CS50' program, enrolled, and completed it over a year. While it covered introductory content, and I was familiar with many concepts, it provided a more technical focus on my existing knowledge.",
+                  "Although I didn't obtain the completion certificate not because I didn't finish it—I did reach completion, but I needed to submit a final project. Unfortunately, due to time constraints, I never submitted it."
+                ],
+                "date": "January 2021 - December 2021"
+              },
+              {
+                "title": "Full Stack Developer at NewBitCrew",
+                "description": [
+                  "Convinced that I was ready for more, I joined the NewBitCrew development team as a full-time full-stack developer. Here, I learned and grew significantly, both personally and professionally.",
+                  "From the beginning, I took on full-stack challenges, responsible for technical and aesthetic design, as well as subsequent development of significant projects. And I occasionally contributed to other projects.",
+                  "I faced and led complete refactorings and new developments, including technical analysis. Quality, high problem-solving capacity, and teamwork are some aspects I perfected during this phase."
+                ],
+                "date": "December 2021 - February 2023"
+              },
+              {
+                "title": "Front-end Developer at Byter",
+                "description": [
+                  "With extra time and a desire for more challenges, I collaborated with Byter as a part-time front-end developer.",
+                  "During this period, I refined my front-end skills, creating complex web applications, dealing with a large amount of interconnected data, while maintaining a consistent aesthetic."
+                ],
+                "date": "August 2022 - December 2022"
+              },
+              {
+                "title": "Team Lead at NewBitCrew",
+                "description": [
+                  "Currently, I am here, full-time leading a development team at NewBitCrew.",
+                  "My daily tasks include closely monitoring each developer's progress, overseeing general project status, conducting technical analysis and pending reviews, creating tasks and documentation, providing status reports, continuously interacting with clients, and deploying to various environments. In addition to, of course, development.",
+                  "I believe being in this position has helped me solidify technical aspects that aren't typically visible as a developer, or at least are seen less frequently. For example, matters of architecture, best practices in development, and dealing with production environments, as well as problem-solving and addressing requests considering variables such as time, client mindset, prior agreements, etc.",
+                  "But what I find fundamental is the human aspect; without good teamwork and excellent communication, problems are just around the corner. This is why every day I try to imprint my personal touch on leadership, convey positive energy, boost morale, and take care of the mental health of the team members. I believe that healthy workspaces don't happen on their own; they are complex constructions in which everyone must contribute."
+                ],
+                "date": "February 2023 - Present"
+              }
+            ]
+          },
+          "future": {
+            "title": "What's next?",
+            "description": "I don't like being idle, and I'm aware of the fast pace of this industry. That's why I'm constantly looking for ways to improve or learn. I'm primarily driven by curiosity or what I find enjoyable to learn, though I also take into account what topics are relevant at the moment."
+          },
+          "tools": {
+            "title": "Tools",
+            "description": "Here I present some of the many frameworks, languages, programs, libraries, techniques, and more that I know, which I decided to call 'tools'.",
+            "categories": [
+              {
+                "title": "Programming Languages",
+                "items": [
+                  "C",
+                  "C++",
+                  "Java",
+                  "PHP",
+                  "JavaScript / TypeScript",
+                  "Python"
+                ]
+              },
+              {
+                "title": "Programs",
+                "items": [
+                  "Microsoft Visual Studio",
+                  "Visual Studio Code",
+                  "Eclipse",
+                  "NetBeans"
+                ]
+              },
+              {
+                "title": "Web Technologies",
+                "items": [
+                  "Laravel",
+                  "Symfony",
+                  "React",
+                  "Vue.js",
+                  "AngularJS",
+                  "Gatsby",
+                  "Sails.js",
+                  "Node.js"
+                ]
+              },
+              {
+                "title": "UI Styling",
+                "items": [
+                  "Sass / Scss",
+                  "Bootstrap",
+                  "Tailwind",
+                  "MUI"
+                ]
+              },
+              {
+                "title": "Databases",
+                "items": [
+                  "SQL",
+                  "MySQL",
+                  "SQLite",
+                  "MongoDB",
+                  "Redis"
+                ]
+              },
+              {
+                "title": "Infrastructure and Versioning",
+                "items": [
+                  "Docker / Docker Compose",
+                  "Git",
+                  "GitHub",
+                  "GitLab"
+                ]
+              },
+              {
+                "title": "Architecture",
+                "items": [
+                  "MVC",
+                  "DDD",
+                  "Microservices",
+                  "Monolithic"
+                ]
+              },
+              {
+                "title": "Methodology",
+                "items": [
+                  "CI/CD",
+                  "Agile",
+                  "Scrum"
+                ]
+              },
+              {
+                "title": "OS",
+                "items": [
+                  "Ubuntu / Linux",
+                  "Windows"
+                ]
+              },
+              {
+                "title": "Misc",
+                "items": [
+                  "Documentation generation",
+                  "Status control and reporting",
+                  "Development team coordination",
+                  "Task analysis and estimation",
+                  "Architecture diagramming",
+                  "Deployment to production environments"
+                ]
+              }
+            ]
+          }
         },
         "contact": {
           "title": "Contact",
