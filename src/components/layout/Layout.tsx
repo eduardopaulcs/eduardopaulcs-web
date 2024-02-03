@@ -94,6 +94,7 @@ const Layout = () => {
     return (
       <Box
         sx={{
+          display: "flex",
           flexDirection: "column",
           height: "100%",
         }}

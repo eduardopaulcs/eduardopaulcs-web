@@ -11,6 +11,7 @@ const Footer = () => {
         flexDirection: "column",
         backgroundColor: "background.default",
         padding: "2rem 1rem",
+        marginTop: "auto",
       }}
     >
       <Typography

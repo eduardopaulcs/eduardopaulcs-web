@@ -21,6 +21,17 @@
     "closeModal": "Cerrar"
   },
   "pages": {
+    "error": {
+      "titles": {
+        "generic": "Error!",
+        "code": "Error {{code}}!"
+      },
+      "descriptions": {
+        "generic": "An unexpected error occurred.",
+        "404": "Page not found."
+      },
+      "goBack": "Go back"
+    },
     "home": {
       "sections": {
         "cover": {
