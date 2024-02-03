@@ -2,7 +2,6 @@ import { Route, createBrowserRouter, createRoutesFromElements } from "react-rout
 import Layout from "../components/layout/Layout";
 import Error from "../pages/Error";
 import Home from "../pages/Home";
-import Tos from "../pages/Tos";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -20,10 +19,6 @@ const router = createBrowserRouter(
           element={<Home />}
         />
       </Route>
-      <Route
-        path="/tos"
-        element={<Tos />}
-      />
     </Route>
   )
 );

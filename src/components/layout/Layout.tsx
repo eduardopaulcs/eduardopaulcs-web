@@ -7,6 +7,7 @@ import Navbar from "./Navbar";
 import useLocationPath from "../../hooks/useLocationPath";
 import useLangParam from "../../hooks/useLangParam";
 import useTranslation from "../../hooks/useTranslation";
+import Footer from "./Footer";
 
 const validateLocationPathAndLangParam = (locationPath: string, langParam: string | null) => {
   const isLangParamValid = !!(langParam && LANGUAGES.includes(langParam));
@@ -98,6 +99,7 @@ const Layout = () => {
       >
         <Navbar />
         <Content />
+        <Footer />
       </Box>
     );
   };

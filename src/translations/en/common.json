@@ -13,6 +13,9 @@
     },
     "changeLanguage": "Change language"
   },
+  "footer": {
+    "copyright": "Copyright © 2024 Eduardo Paul Contardi Soria"
+  },
   "modal": {
     "closeModal": "Cerrar"
   },
