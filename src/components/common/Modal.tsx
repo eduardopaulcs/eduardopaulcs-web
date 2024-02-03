@@ -70,16 +70,18 @@ const Modal = ({
           sx={{
             position: "relative",
             padding: "3rem",
-            bgcolor: "secondary.dark",
+            backgroundColor: "secondary.dark",
             boxShadow: "0px 0px 48px 4px #000",
             maxWidth: {
               xs: "100%",
               md: "48rem",
             },
+            maxHeight: "100%",
             margin: {
               xs: "0",
               sm: "2rem",
             },
+            overflowY: "auto",
           }}
           onClick={handleModalClick}
         >

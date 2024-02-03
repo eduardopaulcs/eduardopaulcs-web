@@ -222,6 +222,12 @@ const Navbar = () => {
           <IconButton
             aria-label={t("navbar.toggleNavigation")}
             onClick={handleHamburgerClick}
+            sx={{
+              backgroundColor: "primary.dark",
+              "&:hover": {
+                backgroundColor: "primary.dark",
+              },
+            }}
           >
             <MenuIcon />
           </IconButton>
@@ -257,9 +263,12 @@ const Navbar = () => {
         >
           <Box
             sx={{
-              height: "100%",
               display: "flex",
               flexDirection: "column",
+              height: {
+                xs: "initial",
+                sm: "100%",
+              },
               justifyContent: {
                 xs: "start",
                 sm: "center",

@@ -1,5 +1,5 @@
 import React from "react";
-import { Grid, styled } from "@mui/material";
+import { Grid, styled, useMediaQuery, useTheme } from "@mui/material";
 import TimelineCard from "./TimelineCard";
 import TimelineTip from "./TimelineTip";
 import TimelineLine from "./TimelineLine";
@@ -36,6 +36,10 @@ const TimelineItem = ({
   const cards: TimelineItemChild[] = [];
   const tips: TimelineItemChild[] = [];
 
+  const theme = useTheme();
+  const showTwoColumns = useMediaQuery(theme.breakpoints.down("sm"));
+  const shouldReverse = (showTwoColumns ? true : reverse);
+
   if (!isDownArrow && !isUpArrow) {
     // Map every children to cards or tips
     processedChildren.forEach((child) => {
@@ -58,6 +62,9 @@ const TimelineItem = ({
     });
   }
 
+  /**
+   * Renders the center column that contains the event dots.
+   */
   const renderCenterColumn = () => {
     if (!isDownArrow && !isUpArrow) {
       return (
@@ -109,7 +116,7 @@ const TimelineItem = ({
     <StyledLi>
       <Grid
         container
-        direction={reverse ? "row-reverse" :  "row"}
+        direction={shouldReverse ? "row-reverse" :  "row"}
         alignItems={align}
         justifyContent="center"
         spacing={0}
@@ -120,23 +127,30 @@ const TimelineItem = ({
             flex: "1",
             padding: "1rem",
             display: "flex",
-            justifyContent: (reverse ? "start" : "end"),
+            flexDirection: "column",
+            alignItems: (shouldReverse ? "start" : "end"),
+            gap: ".5rem",
           }}
         >
+          {(showTwoColumns && tips.length > 0) && tips[0]}
           {cards.length > 0 && cards[0]}
         </Grid>
         {renderCenterColumn()}
-        <Grid
-          item
-          sx={{
-            flex: "1",
-            padding: "1rem",
-            display: "flex",
-            justifyContent: (reverse ? "end" : "start"),
-          }}
-        >
-          {tips.length > 0 && tips[0]}
-        </Grid>
+        {!showTwoColumns && (
+          <Grid
+            item
+            sx={{
+              flex: "1",
+              padding: "1rem",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: (shouldReverse ? "end" : "start"),
+              gap: ".5rem",
+            }}
+          >
+            {tips.length > 0 && tips[0]}
+          </Grid>
+        )}
       </Grid>
     </StyledLi>
   );
