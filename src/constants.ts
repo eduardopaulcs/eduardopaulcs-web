@@ -6,9 +6,9 @@ export const LANGUAGES = [
 export const DEFAULT_LANG = "en";
 
 export const HOME_SECTIONS = {
-  "cover": "inicio",
-  "aboutMe": "sobre-mi",
-  "contact": "contacto",
+  "cover": "home",
+  "aboutMe": "about-me",
+  "contact": "contact",
 };
 
 export const CONTACT_MEANS = {
