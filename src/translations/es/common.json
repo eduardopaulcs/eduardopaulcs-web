@@ -89,7 +89,7 @@
                 "date": "2020 - Diciembre 2021"
               },
               {
-                "title": "Introduction to Computer Science de CS50 (Harvard University)",
+                "title": "Introduction to Computer Science de HarvardX",
                 "description": [
                   "De cara a la situación que viví durante mi cursada de Ingeniería en Informática en la Universidad de Buenos Aires, decidí buscar poder formarme por otros lados, aunque sea temporalmente.",
                   "Encontré este curso de Harvard University el cual lo daban en el programa \"CS50\", me inscribí y cursé durante 1 año. Aunque es cierto que es un curso introductorio y muchas cosas que vi aquí ya las conocía, me sirvió para darle un enfoque mucho más técnico a mis conocimientos previos.",
@@ -190,6 +190,7 @@
                 "title": "Infraestructura y versionado",
                 "items": [
                   "Docker / Docker Compose",
+                  "Nginx",
                   "Git",
                   "GitHub",
                   "GitLab"
