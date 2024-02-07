@@ -89,7 +89,7 @@
                 "date": "2020 - December 2021"
               },
               {
-                "title": "Introduction to Computer Science from CS50 (Harvard University)",
+                "title": "Introduction to Computer Science from HarvardX",
                 "description": [
                   "In light of the challenges I faced during my Computer Engineering studies at the University of Buenos Aires, I sought alternative learning paths, even if temporarily.",
                   "I found this course from Harvard University offered in the 'CS50' program, enrolled, and completed it over a year. While it covered introductory content, and I was familiar with many concepts, it provided a more technical focus on my existing knowledge.",
@@ -190,6 +190,7 @@
                 "title": "Infrastructure and Versioning",
                 "items": [
                   "Docker / Docker Compose",
+                  "Nginx",
                   "Git",
                   "GitHub",
                   "GitLab"
