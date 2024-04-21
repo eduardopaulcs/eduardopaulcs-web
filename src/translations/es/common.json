@@ -36,15 +36,16 @@
       "sections": {
         "cover": {
           "name": "Eduardo Paul Contardi Soria",
-          "profession": "Arquitecto de Software / Forma de vida a base de carbono",
+          "profession": "Software Engineer / Desarrollador Web Full Stack",
           "face": "Representación artística de mi cara"
         },
         "aboutMe": {
           "title": "Sobre mí",
           "description": [
-            "Puedes llamarme Paul. Soy una persona apasionada por el desarrollo de software y de videojuegos de Buenos Aires, Argentina.",
-            "Desde una edad muy temprana comencé a interesarme por el mundo del desarrollo, cuando en mi infancia tuve contacto con mi primera PC la cual me permitió explorar la curiosidad que me generaba aprender el funcionamiento de las cosas, y en específico, del software.",
-            "Quizás por la exposición que tuve a esto, quizás también por mi personalidad detallista innata, o quizás por combinación de ambas, desarrollé una capacidad de análisis muy alta y versátil la cual me permite poner el ojo en cuestiones técnicas y humanas con la misma facilidad."
+            "Soy una persona apasionada por el desarrollo de software y de videojuegos de Buenos Aires, Argentina. Actualmente desempeñándome en el mundo del desarrollo web.",
+            "Mi perfil de trabajo es metódico, siguiendo reglas claras y definidas, enfocándome en el desarrollo de código estructurado, legible y escalable. Esto, sin embargo, no es un limitante al momento de sumarme a un equipo o proyecto activo, ya que mi capacidad analítica me permite adaptarme a las condiciones que se presenten.",
+            "Mi experiencia como supervisor de un equipo de desarrollo y como arquitecto de software me dotaron también de capacidades de gestión humana como lo son la moral, los plazos de entrega y la comunicación asertiva.",
+            "Disfruto de poder aportar y ver crecer los proyectos en los que participo."
           ],
           "timeline": {
             "title": "Experiencia",
@@ -137,87 +138,83 @@
               {
                 "title": "Lenguajes",
                 "items": [
-                  "C",
-                  "C++",
-                  "Java",
                   "PHP",
                   "JavaScript / TypeScript",
-                  "Python"
+                  "Python",
+                  "Java",
+                  "C"
                 ]
               },
               {
-                "title": "Programas",
-                "items": [
-                  "Microsoft Visual Studio",
-                  "Visual Studio Code",
-                  "Eclipse",
-                  "NetBeans"
-                ]
-              },
-              {
-                "title": "Tecnologías web",
+                "title": "Desarrollo de back end",
                 "items": [
                   "Laravel",
                   "Symfony",
-                  "React",
-                  "Vue.js",
-                  "AngularJS",
-                  "Gatsby",
+                  "Node.js",
                   "Sails.js",
-                  "Node.js"
-                ]
-              },
-              {
-                "title": "Estilado de UI",
-                "items": [
-                  "Sass / Scss",
-                  "Bootstrap",
-                  "Tailwind",
-                  "MUI"
-                ]
-              },
-              {
-                "title": "Bases de datos",
-                "items": [
-                  "SQL",
+                  "Arc",
+                  "Flask",
                   "MySQL",
+                  "SQL",
                   "SQLite",
                   "MongoDB",
                   "Redis"
                 ]
               },
               {
-                "title": "Infraestructura y versionado",
+                "title": "Desarrollo de front end",
+                "items": [
+                  "React",
+                  "Vue.js",
+                  "AngularJS",
+                  "Gatsby",
+                  "Redux"
+                ]
+              },
+              {
+                "title": "Maquetado y estilo",
+                "items": [
+                  "Bootstrap",
+                  "Tailwind CSS",
+                  "MUI",
+                  "Sass / Scss"
+                ]
+              },
+              {
+                "title": "Infraestructura",
                 "items": [
                   "Docker / Docker Compose",
-                  "Nginx",
+                  "AWS",
+                  "Nginx"
+                ]
+              },
+              {
+                "title": "Arquitectura",
+                "items": [
+                  "OOP",
+                  "MVC",
+                  "MVVC",
+                  "API REST",
+                  "CI/CD",
+                  "DDD",
+                  "TDD",
+                  "SOLID"
+                ]
+              },
+              {
+                "title": "Versionado",
+                "items": [
                   "Git",
                   "GitHub",
                   "GitLab"
                 ]
               },
               {
-                "title": "Arquitectura",
+                "title": "Metodología y gestión",
                 "items": [
-                  "MVC",
-                  "DDD",
-                  "Microservicios",
-                  "Monolítica"
-                ]
-              },
-              {
-                "title": "Metodología",
-                "items": [
-                  "CI/CD",
-                  "Agile",
-                  "Scrum"
-                ]
-              },
-              {
-                "title": "Sistemas",
-                "items": [
-                  "Ubuntu / Linux",
-                  "Windows"
+                  "Scrum",
+                  "Kanban",
+                  "Jira"
                 ]
               },
               {
@@ -225,10 +222,11 @@
                 "items": [
                   "Generación de documentación",
                   "Control y reportes de status",
-                  "Coordinación de equipos de desarrollo",
+                  "Liderazgo de equipos de desarrollo",
                   "Análisis y estimación de tareas",
                   "Diagramado de arquitectura",
-                  "Despliegues de ambientes productivos"
+                  "Revisión de código (Code review)",
+                  "Despliegues en ambientes productivos"
                 ]
               }
             ]

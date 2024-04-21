@@ -36,15 +36,16 @@
       "sections": {
         "cover": {
           "name": "Eduardo Paul Contardi Soria",
-          "profession": "Software Architect / Carbon-Based Life Form",
+          "profession": "Software Engineer / Full Stack Web Developer",
           "face": "Artistic representation of my face"
         },
         "aboutMe": {
           "title": "About Me",
           "description": [
-            "You can call me Paul. I'm a person passionate about software and game development from Buenos Aires, Argentina.",
-            "From a very young age, I became interested in the world of development when I had my first contact with a PC in my childhood. It allowed me to explore the curiosity of understanding how things work, especially in terms of software.",
-            "Perhaps due to this exposure, maybe also because of my innate attention to detail, or perhaps a combination of both, I developed a high and versatile analytical ability. It enables me to focus on technical and human issues with equal ease."
+            "I'm a person passionate about software and game development from Buenos Aires, Argentina. Currently working in the world of web development.",
+            "My work profile is methodical, following clear and defined rules, focusing on the development of structured, readable, and scalable code. However, this is not a limitation when joining an active team or project, as my analytical skills allow me to adapt to the conditions that arise.",
+            "My experience as a supervisor of a development team and as a software architect has also equipped me with human management skills such as morale, delivery deadlines, and assertive communication.",
+            "I enjoy contributing to and seeing projects grow in which I participate."
           ],
           "timeline": {
             "title": "Experience",
@@ -137,87 +138,83 @@
               {
                 "title": "Programming Languages",
                 "items": [
-                  "C",
-                  "C++",
-                  "Java",
                   "PHP",
                   "JavaScript / TypeScript",
-                  "Python"
+                  "Python",
+                  "Java",
+                  "C"
                 ]
               },
               {
-                "title": "Programs",
-                "items": [
-                  "Microsoft Visual Studio",
-                  "Visual Studio Code",
-                  "Eclipse",
-                  "NetBeans"
-                ]
-              },
-              {
-                "title": "Web Technologies",
+                "title": "Back End Development",
                 "items": [
                   "Laravel",
                   "Symfony",
-                  "React",
-                  "Vue.js",
-                  "AngularJS",
-                  "Gatsby",
+                  "Node.js",
                   "Sails.js",
-                  "Node.js"
-                ]
-              },
-              {
-                "title": "UI Styling",
-                "items": [
-                  "Sass / Scss",
-                  "Bootstrap",
-                  "Tailwind",
-                  "MUI"
-                ]
-              },
-              {
-                "title": "Databases",
-                "items": [
-                  "SQL",
+                  "Arc",
+                  "Flask",
                   "MySQL",
+                  "SQL",
                   "SQLite",
                   "MongoDB",
                   "Redis"
                 ]
               },
               {
-                "title": "Infrastructure and Versioning",
+                "title": "Front End Development",
+                "items": [
+                  "React",
+                  "Vue.js",
+                  "AngularJS",
+                  "Gatsby",
+                  "Redux"
+                ]
+              },
+              {
+                "title": "Layout and style",
+                "items": [
+                  "Bootstrap",
+                  "Tailwind CSS",
+                  "MUI",
+                  "Sass / Scss"
+                ]
+              },
+              {
+                "title": "Infrastructure",
                 "items": [
                   "Docker / Docker Compose",
-                  "Nginx",
+                  "AWS",
+                  "Nginx"
+                ]
+              },
+              {
+                "title": "Architecture",
+                "items": [
+                  "OOP",
+                  "MVC",
+                  "MVVC",
+                  "API REST",
+                  "CI/CD",
+                  "DDD",
+                  "TDD",
+                  "SOLID"
+                ]
+              },
+              {
+                "title": "Versioning",
+                "items": [
                   "Git",
                   "GitHub",
                   "GitLab"
                 ]
               },
               {
-                "title": "Architecture",
+                "title": "Methodology and management",
                 "items": [
-                  "MVC",
-                  "DDD",
-                  "Microservices",
-                  "Monolithic"
-                ]
-              },
-              {
-                "title": "Methodology",
-                "items": [
-                  "CI/CD",
-                  "Agile",
-                  "Scrum"
-                ]
-              },
-              {
-                "title": "OS",
-                "items": [
-                  "Ubuntu / Linux",
-                  "Windows"
+                  "Scrum",
+                  "Kanban",
+                  "Jira"
                 ]
               },
               {
@@ -225,9 +222,10 @@
                 "items": [
                   "Documentation generation",
                   "Status control and reporting",
-                  "Development team coordination",
+                  "Leading development team",
                   "Task analysis and estimation",
                   "Architecture diagramming",
+                  "Code review",
                   "Deployment to production environments"
                 ]
               }
