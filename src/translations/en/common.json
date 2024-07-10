@@ -110,7 +110,7 @@
               {
                 "title": "Front-end Developer at Byter",
                 "description": [
-                  "With extra time and a desire for more challenges, I collaborated with Byter as a part-time front-end developer.",
+                  "With extra time and a desire for more challenges, I collaborated with Byter as a temporal front-end developer.",
                   "During this period, I refined my front-end skills, creating complex web applications, dealing with a large amount of interconnected data, while maintaining a consistent aesthetic."
                 ],
                 "date": "August 2022 - December 2022"
@@ -118,12 +118,18 @@
               {
                 "title": "Team Lead at NewBitCrew",
                 "description": [
-                  "Currently, I am here, full-time leading a development team at NewBitCrew.",
-                  "My daily tasks include closely monitoring each developer's progress, overseeing general project status, conducting technical analysis and pending reviews, creating tasks and documentation, providing status reports, continuously interacting with clients, and deploying to various environments. In addition to, of course, development.",
+                  "My daily tasks included closely monitoring each developer's progress, overseeing general project status, conducting technical analysis and pending reviews, creating tasks and documentation, providing status reports, continuously interacting with clients, and deploying to various environments. In addition to, of course, development.",
                   "I believe being in this position has helped me solidify technical aspects that aren't typically visible as a developer, or at least are seen less frequently. For example, matters of architecture, best practices in development, and dealing with production environments, as well as problem-solving and addressing requests considering variables such as time, client mindset, prior agreements, etc.",
-                  "But what I find fundamental is the human aspect; without good teamwork and excellent communication, problems are just around the corner. This is why every day I try to imprint my personal touch on leadership, convey positive energy, boost morale, and take care of the mental health of the team members. I believe that healthy workspaces don't happen on their own; they are complex constructions in which everyone must contribute."
+                  "Every day I tried to imprint my personal touch on leadership, convey positive energy, boost morale, and take care of the mental health of the team members."
                 ],
-                "date": "February 2023 - Present"
+                "date": "February 2023 - May 2024"
+              },
+              {
+                "title": "Software Engineer at Mercado Libre",
+                "description": [
+                  "I am currently here, serving as a full-time Software Engineer at Mercado Libre."
+                ],
+                "date": "July 2024 - Present"
               }
             ]
           },
