@@ -1,6 +1,6 @@
 {
   "name": "eduardopaulcs-web",
-  "version": "2.0.5",
+  "homepage": "https://eduardopaulcs.com",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.11.1",
