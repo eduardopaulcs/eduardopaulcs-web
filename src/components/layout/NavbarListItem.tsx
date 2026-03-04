@@ -36,7 +36,12 @@ const NavbarListItem = ({
         flexDirection: "column",
       }}
     >
-      <Tooltip title={label} placement="right" arrow>
+      <Tooltip
+        title={label}
+        placement="right"
+        arrow
+        PopperProps={{ popperOptions: { strategy: "fixed" } }}
+      >
         <ListItemButton
           onClick={handleButtonClick}
           aria-label={label}

@@ -1,4 +1,4 @@
-import { cloneElement, useEffect, useState } from "react";
+import { cloneElement, useEffect, useRef, useState } from "react";
 import { Box, Drawer, IconButton, useMediaQuery, useTheme } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
@@ -8,6 +8,7 @@ import LanguageIcon from "@mui/icons-material/Language";
 import relativeToAbsolutePath from "../../utils/relativeToAbsolutePath";
 import { useNavigate } from "react-router-dom";
 import useScrollToLocation from "../../hooks/useScrollToLocation";
+import useScrollHashSync from "../../hooks/useScrollHashSync";
 import NavbarListItem from "./NavbarListItem";
 import { mapSectionKeyToIcon } from "../../utils/homeSectionMappers";
 import useLangParam from "../../hooks/useLangParam";
@@ -38,7 +39,9 @@ Object.entries(HOME_SECTIONS).forEach(([sectionKey, sectionRoute]) => {
  * on mobile.
  */
 const Navbar = () => {
-  useScrollToLocation();
+  const syncHashRef = useRef<string | null>(null);
+  const isNavigatingRef = useScrollToLocation(syncHashRef);
+  useScrollHashSync(isNavigatingRef, syncHashRef);
 
   const navigate = useNavigate();
   const {t, currentLang} = useTranslation();
@@ -125,6 +128,25 @@ const Navbar = () => {
    * Handles click on a navbar link.
    */
   const handleLinkClick = (route: string, isAbsolute: boolean) => {
+    // If the target hash matches the current one, navigate() won't trigger
+    // useScrollToLocation (no hash change), so we scroll directly instead.
+    if (!isAbsolute) {
+      const targetHash = route.includes("#") ? route.split("#")[1] : "";
+      const currentHash = window.location.hash.replace("#", "");
+      if (targetHash && targetHash === currentHash) {
+        const element = document.getElementById(targetHash);
+        if (element) {
+          isNavigatingRef.current = true;
+          element.scrollIntoView({ behavior: "smooth" });
+          window.addEventListener("scrollend", () => {
+            isNavigatingRef.current = false;
+          }, { once: true });
+        }
+        closeDrawer();
+        return;
+      }
+    }
+
     const navigationRoute = (isAbsolute)
       ? route
       : relativeToAbsolutePath(route, currentLang);

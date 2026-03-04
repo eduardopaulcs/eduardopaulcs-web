@@ -46,15 +46,13 @@ const Layout = () => {
     // HACK!! Compiler doesn't care we just validated this variable, so we
     //        have to cast it to undefined, this will never be undefined
     const newLang = langParam || undefined;
-    if (
-      // If the new language is valid
-      isLangParamValid &&
-      // And if the language actually changed
-      currentLang !== newLang
-    ) {
-      // Notify translator of change
-      setLang(newLang);
+    if (isLangParamValid) {
+      // Notify translator of change only when the language actually changed
+      if (currentLang !== newLang) {
+        setLang(newLang);
+      }
 
+      // Always keep SEO metadata in sync with the current language
       document.documentElement.lang = t("seo.lang");
       document.title = t("seo.title");
       document.querySelector("meta[name='description']")?.setAttribute("content", t("seo.description"));
