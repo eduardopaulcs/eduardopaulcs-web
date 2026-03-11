@@ -158,44 +158,46 @@
               {
                 "title": "Programming Languages",
                 "items": [
-                  "PHP",
                   "JavaScript / TypeScript",
                   "Python",
+                  "Golang",
                   "Java",
+                  "PHP",
                   "C"
                 ]
               },
               {
                 "title": "Back End Development",
                 "items": [
-                  "Laravel",
-                  "Symfony",
                   "Node.js",
-                  "Sails.js",
-                  "Arc",
-                  "Flask",
                   "MySQL",
                   "SQL",
-                  "SQLite",
+                  "Redis",
                   "MongoDB",
-                  "Redis"
+                  "BigQuery",
+                  "Laravel",
+                  "Flask",
+                  "Symfony",
+                  "Sails.js",
+                  "Arc",
+                  "SQLite"
                 ]
               },
               {
                 "title": "Front End Development",
                 "items": [
                   "React",
+                  "Redux",
                   "Vue.js",
                   "AngularJS",
-                  "Gatsby",
-                  "Redux"
+                  "Gatsby"
                 ]
               },
               {
                 "title": "Layout and style",
                 "items": [
-                  "Bootstrap",
                   "Tailwind CSS",
+                  "Bootstrap",
                   "MUI",
                   "Sass / Scss"
                 ]
@@ -211,14 +213,26 @@
               {
                 "title": "Architecture",
                 "items": [
-                  "OOP",
-                  "MVC",
-                  "MVVC",
                   "API REST",
                   "CI/CD",
+                  "OOP",
+                  "SOLID",
                   "DDD",
+                  "Topics / Consumers",
+                  "Jobs",
+                  "KVS",
                   "TDD",
-                  "SOLID"
+                  "MVC",
+                  "MVVC"
+                ]
+              },
+              {
+                "title": "AI Tools",
+                "items": [
+                  "GitHub Copilot",
+                  "Cursor",
+                  "Claude Code",
+                  "AI usage / prompting"
                 ]
               },
               {
@@ -240,13 +254,13 @@
               {
                 "title": "Misc",
                 "items": [
-                  "Documentation generation",
-                  "Status control and reporting",
                   "Leading development team",
-                  "Task analysis and estimation",
-                  "Architecture diagramming",
                   "Code review",
-                  "Deployment to production environments"
+                  "Architecture diagramming",
+                  "Task analysis and estimation",
+                  "Deployment to production environments",
+                  "Documentation generation",
+                  "Status control and reporting"
                 ]
               }
             ]
