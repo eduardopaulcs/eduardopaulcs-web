@@ -2,6 +2,9 @@ import { Route, createBrowserRouter, createRoutesFromElements } from "react-rout
 import Layout from "../components/layout/Layout";
 import Error from "../pages/Error";
 import Home from "../pages/Home";
+import Landing from "../pages/Landing";
+import Blog from "../pages/Blog";
+import Fun from "../pages/Fun";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -16,7 +19,19 @@ const router = createBrowserRouter(
       >
         <Route
           path="/:lang/"
+          element={<Landing />}
+        />
+        <Route
+          path="/:lang/me"
           element={<Home />}
+        />
+        <Route
+          path="/:lang/blog"
+          element={<Blog />}
+        />
+        <Route
+          path="/:lang/fun"
+          element={<Fun />}
         />
       </Route>
     </Route>

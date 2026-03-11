@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Content from "./Content";
-import { Box } from "@mui/material";
-import { Navigate } from "react-router-dom";
+import { Box, Button } from "@mui/material";
+import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import { LANGUAGES } from "../../constants";
 import Navbar from "./Navbar";
 import useLocationPath from "../../hooks/useLocationPath";
@@ -20,9 +20,24 @@ const validateLocationPathAndLangParam = (locationPath: string, langParam: strin
  * Site layout component.
  */
 const Layout = () => {
+  const { pathname } = useLocation();
+  const navigate = useNavigate();
   const locationPath = useLocationPath(true);
   const langParam = useLangParam();
+
+  // The landing page has only one path segment (the lang), e.g. "/en/"
+  const isLandingPage = pathname.split("/").filter(Boolean).length <= 1;
   const {t, currentLang, setLang} = useTranslation();
+
+  /**
+   * Switches the site language, preserving the current sub-path.
+   */
+  const handleLangSwitch = (lang: string) => {
+    if (lang !== currentLang) {
+      const newPath = pathname.replace(`/${currentLang}`, `/${lang}`);
+      navigate(newPath, { replace: true });
+    }
+  };
 
   const {
     isLocationPathValid: locationPathValid,
@@ -97,8 +112,32 @@ const Layout = () => {
           height: "100%",
         }}
       >
-        <Navbar />
-        <Content />
+        {LANGUAGES.length > 1 && (
+          <Box
+            sx={{
+              position: "fixed",
+              top: 16,
+              right: 16,
+              zIndex: 2000,
+              display: "flex",
+              gap: 1,
+            }}
+          >
+            {LANGUAGES.map((lang) => (
+              <Button
+                key={lang}
+                onClick={() => handleLangSwitch(lang)}
+                variant={lang === currentLang ? "contained" : "outlined"}
+                size="small"
+                sx={{ borderRadius: 0, minWidth: 48 }}
+              >
+                {lang.toUpperCase()}
+              </Button>
+            ))}
+          </Box>
+        )}
+        {!isLandingPage && <Navbar />}
+        <Content hasNavbar={!isLandingPage} />
         <Footer />
       </Box>
     );

@@ -8,11 +8,16 @@
     "toggleNavigation": "Abrir/cerrar navegación",
     "closeNavigation": "Cerrar navegación",
     "links": {
-      "cover": "Inicio",
       "aboutMe": "Sobre mí",
-      "contact": "Contacto"
+      "experience": "Experiencia",
+      "tools": "Herramientas",
+      "contact": "Contacto",
+      "me": "Portfolio",
+      "blog": "Blog",
+      "fun": "Fun"
     },
-    "changeLanguage": "Cambiar idioma"
+    "changeLanguage": "Cambiar idioma",
+    "goBack": "Inicio"
   },
   "footer": {
     "copyright": "Copyright © 2024 Eduardo Paul Contardi Soria"
@@ -32,6 +37,15 @@
       },
       "goBack": "Volver"
     },
+    "landing": {
+      "sections": {
+        "me": { "title": "Portfolio", "description": "Sobre mí, mi experiencia y contacto" },
+        "blog": { "title": "Blog", "description": "Artículos y pensamientos" },
+        "fun": { "title": "Fun", "description": "Juegos y proyectos simples" }
+      }
+    },
+    "blog": { "title": "Blog", "comingSoon": "¡Próximamente!" },
+    "fun": { "title": "Fun", "comingSoon": "¡Próximamente!" },
     "home": {
       "sections": {
         "cover": {

@@ -2,16 +2,16 @@ import { cloneElement, useEffect, useRef, useState } from "react";
 import { Box, Drawer, IconButton, useMediaQuery, useTheme } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
+import HomeIcon from "@mui/icons-material/Home";
 import NavbarList from "./NavbarList";
-import { HOME_SECTIONS, LANGUAGES } from "../../constants";
-import LanguageIcon from "@mui/icons-material/Language";
+import { HOME_SECTIONS, SITE_SECTIONS } from "../../constants";
 import relativeToAbsolutePath from "../../utils/relativeToAbsolutePath";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import useScrollToLocation from "../../hooks/useScrollToLocation";
 import useScrollHashSync from "../../hooks/useScrollHashSync";
 import NavbarListItem from "./NavbarListItem";
 import { mapSectionKeyToIcon } from "../../utils/homeSectionMappers";
-import useLangParam from "../../hooks/useLangParam";
+import { mapSiteSectionKeyToIcon } from "../../utils/siteSectionMappers";
 import useTranslation from "../../hooks/useTranslation";
 
 type NavbarLink = {
@@ -23,16 +23,30 @@ type NavbarLink = {
 
 type DrawerVariant = "temporary" | "permanent";
 
-const navbarLinks: NavbarLink[] = [];
+/**
+ * Builds the navbar link list dynamically based on the current route context.
+ * On the portfolio page (`/me`), shows home section links with hash anchors.
+ * On all other pages, shows site section links.
+ */
+const getNavbarLinks = (pathname: string): NavbarLink[] => {
+  const isPortfolioPage = pathname.split("/").includes(SITE_SECTIONS.me);
 
-Object.entries(HOME_SECTIONS).forEach(([sectionKey, sectionRoute]) => {
-  navbarLinks.push({
+  if (isPortfolioPage) {
+    return Object.entries(HOME_SECTIONS).map(([sectionKey, sectionRoute]) => ({
+      key: sectionKey,
+      route: `${SITE_SECTIONS.me}#${sectionRoute}`,
+      icon: mapSectionKeyToIcon(sectionKey),
+      isAbsolute: false,
+    }));
+  }
+
+  return Object.keys(SITE_SECTIONS).map((sectionKey) => ({
     key: sectionKey,
-    route: `/#${sectionRoute}`,
-    icon: mapSectionKeyToIcon(sectionKey),
+    route: sectionKey,
+    icon: mapSiteSectionKeyToIcon(sectionKey),
     isAbsolute: false,
-  });
-});
+  }));
+};
 
 /**
  * Site Navbar. Usually found on the left side of the screen, hidden by default
@@ -43,9 +57,9 @@ const Navbar = () => {
   const isNavigatingRef = useScrollToLocation(syncHashRef);
   useScrollHashSync(isNavigatingRef, syncHashRef);
 
+  const { pathname } = useLocation();
   const navigate = useNavigate();
   const {t, currentLang} = useTranslation();
-  const langParam = useLangParam();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
@@ -53,7 +67,6 @@ const Navbar = () => {
     isMobile ? "temporary" : "permanent"
   );
   const [drawerOpen, setDrawerOpen] = useState<boolean>(!isMobile);
-  const [changeLanguageOpen, setChangeLanguageOpen] = useState<boolean>(false);
 
   useEffect(() => {
     // When the screen size changes
@@ -64,20 +77,10 @@ const Navbar = () => {
   }, [isMobile]);
 
   /**
-   * Determines whether we are in a multilanguage page.
-   */
-  const isMultilanguagePage = () => {
-    return langParam !== null;
-  };
-
-  /**
    * Toggles the drawer open state (only for mobile).
    */
   const toggleDrawer = () => {
     if (isMobile) {
-      if (drawerOpen) {
-        closeChangeLanguage();
-      }
       setDrawerOpen(!drawerOpen);
     }
   };
@@ -87,26 +90,7 @@ const Navbar = () => {
    */
   const closeDrawer = () => {
     if (isMobile) {
-      closeChangeLanguage();
       setDrawerOpen(false);
-    }
-  };
-
-  /**
-   * Toggles the change language button (only for translated pages).
-   */
-  const toggleChangeLanguage = () => {
-    if (isMultilanguagePage()) {
-      setChangeLanguageOpen(!changeLanguageOpen);
-    }
-  };
-
-  /**
-   * Closes the change language button (only for translated pages).
-   */
-  const closeChangeLanguage = () => {
-    if (isMultilanguagePage()) {
-      setChangeLanguageOpen(false);
     }
   };
 
@@ -159,23 +143,10 @@ const Navbar = () => {
   };
 
   /**
-   * Handles click on the "change language" button.
+   * Handles click on the "go back to landing" button.
    */
-  const handleChangeLanguageClick = () => {
-    toggleChangeLanguage();
-  };
-
-  /**
-   * Handles click on a new language.
-   */
-  const handleLanguageClick = (newLang: string) => {
-    if (currentLang !== newLang) {
-      navigate(`/${newLang}`, {
-        replace: true,
-      });
-    }
-
-    closeChangeLanguage();
+  const handleGoBackClick = () => {
+    navigate(relativeToAbsolutePath("/", currentLang), { replace: false });
     closeDrawer();
   };
 
@@ -191,38 +162,14 @@ const Navbar = () => {
   };
 
   /**
-   * Gets the list of NavbarListItem to use.
+   * Gets the list of NavbarListItem to use (section links only).
    */
   const getNavbarListItems = () => {
-    // Navbar links
-    const items = navbarLinks.map(transformNavbarLinkToNavbarListItem);
-
-    // If we are in a multilanguage page and we have multiple languages
-    if (isMultilanguagePage() && LANGUAGES.length > 1) {
-      // Navbar language selector
-      items.push(
-        <NavbarListItem
-          action={() => handleChangeLanguageClick()}
-          icon={<LanguageIcon />}
-          label={t("navbar.changeLanguage")}
-          open={changeLanguageOpen}
-        >
-          <NavbarList>
-            {LANGUAGES.map((lang, idx) => (
-              <NavbarListItem
-                key={idx}
-                action={() => handleLanguageClick(lang)}
-                text={lang.toUpperCase()}
-              />
-            ))}
-          </NavbarList>
-        </NavbarListItem>
-      );
-    }
-
-    return items.map((item, idx) => cloneElement(item, {
-      key: idx,
-    }));
+    const navbarLinks = getNavbarLinks(pathname);
+    return navbarLinks.map((link, idx) => cloneElement(
+      transformNavbarLinkToNavbarListItem(link),
+      { key: idx }
+    ));
   };
 
   return (
@@ -283,6 +230,16 @@ const Navbar = () => {
             alignItems: "center",
           }}
         >
+          {/* Desktop: go-back at top */}
+          {!isMobile && (
+            <NavbarList>
+              <NavbarListItem
+                action={handleGoBackClick}
+                icon={<HomeIcon />}
+                label={t("navbar.goBack")}
+              />
+            </NavbarList>
+          )}
           <Box
             sx={{
               display: "flex",
@@ -302,8 +259,14 @@ const Navbar = () => {
               {getNavbarListItems()}
             </NavbarList>
           </Box>
+          {/* Mobile: go-back + close at bottom */}
           {isMobile && (
             <NavbarList>
+              <NavbarListItem
+                action={handleGoBackClick}
+                icon={<HomeIcon />}
+                label={t("navbar.goBack")}
+              />
               <NavbarListItem
                 action={handleCloseDrawerClick}
                 icon={<KeyboardArrowLeftIcon />}
