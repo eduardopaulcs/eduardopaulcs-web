@@ -26,7 +26,7 @@ const Fun = () => {
   const [searchFilter, setSearchFilter] = useState<string>("");
 
   const filteredGames = games.filter((g) =>
-    matchesName(t(`pages.fun.games.${g}.name`), searchFilter)
+    matchesName(t(`pages.fun.games.${g.id}.name`), searchFilter)
   );
 
   return (
@@ -58,7 +58,7 @@ const Fun = () => {
           ) : (
             <Grid container spacing={2}>
               {filteredGames.map((game) => (
-                <Grid item xs={12} sm={6} md={4} key={game}>
+                <Grid item xs={12} sm={6} md={4} key={game.id}>
                   <GameCard game={game} />
                 </Grid>
               ))}
