@@ -13,7 +13,7 @@ interface BlogPostCardProps {
  * Displays the post title, date, preview text, and a "Read more" link.
  */
 const BlogPostCard = ({ post }: BlogPostCardProps) => {
-  const { t, currentLang } = useTranslation();
+  const { currentLang } = useTranslation();
   const navigate = useNavigate();
 
   const formattedDate = new Date(`${post.date}T00:00:00`).toLocaleDateString(
