@@ -8,12 +8,14 @@ Non-obvious systems and design decisions. Read this before touching routing, scr
 
 ```
 createBrowserRouter
-└── Route path="/" element={<Layout />}        ← handles redirects + SEO
+└── Route path="/" element={<Layout />}                        ← handles redirects + SEO
     └── Route path=":lang"
-        ├── Route index element={<Landing />}   → /:lang/
-        ├── Route path="me" element={<Home />}  → /:lang/me
-        ├── Route path="blog" element={<Blog />}
-        └── Route path="fun" element={<Fun />}
+        ├── Route index element={<Landing />}                  → /:lang/
+        ├── Route path="me" element={<Home />}                 → /:lang/me
+        ├── Route path="blog" element={<Blog />}               → /:lang/blog
+        ├── Route path="blog/:postId" element={<BlogPost />}   → /:lang/blog/:postId
+        ├── Route path="fun" element={<Fun />}                 → /:lang/fun
+        └── Route path="fun/:gameId" element={<FunGame />}     → /:lang/fun/:gameId
 ```
 
 **Language detection order** (in `translator.ts`):
@@ -29,10 +31,10 @@ createBrowserRouter
 
 ```
 Layout.tsx
-├── Language switcher (fixed top-right, always visible if LANGUAGES.length > 1)
-├── Navbar (excluded when isLandingPage)
-├── Content (marginLeft = navbar.width when hasNavbar, 0 otherwise)
-└── Footer
+├── Language switcher (fixed top-right — hidden on game pages)
+├── Navbar (excluded when isLandingPage or isGamePage)
+├── Content (marginLeft = navbar.width when hasNavbar; Container skipped when disableContainer)
+└── Footer (excluded on game pages)
 ```
 
 `isLandingPage` detection:
@@ -42,11 +44,22 @@ const isLandingPage = pathname.split("/").filter(Boolean).length <= 1;
 // "/en/me" → ["en", "me"] → length 2 → false
 ```
 
+`isGamePage` detection:
+```ts
+const segments = pathname.split("/").filter(Boolean);
+const isGamePage = segments.length === 3 && segments[1] === "fun";
+// "/en/fun/dichos" → ["en", "fun", "dichos"] → length 3, [1]="fun" → true
+// "/en/fun"        → ["en", "fun"] → length 2 → false
+```
+
 **Why `hasNavbar` prop on Content, not reading URL in Content?**
 Layout owns the decision of whether the Navbar exists. Content should not re-derive that from the URL — it would duplicate logic and create a coupling point. Layout passes the fact down explicitly.
 
 **Why `marginLeft` on `<main>` and not padding on the page?**
 The MUI permanent Drawer does not push content — it overlaps. The `marginLeft` on `<main>` compensates for the drawer width so content is not occluded. On the landing page, there is no drawer, so `marginLeft` must be 0.
+
+**Why `disableContainer` on game pages?**
+`Content.tsx` normally wraps `<Outlet />` in MUI `<Container>`, which adds horizontal padding and a max-width constraint. Game pages render an `<iframe>` that must fill the entire viewport with no padding. Passing `disableContainer={isGamePage}` from `Layout.tsx` to `Content.tsx` skips the `<Container>` wrapper only for game pages, keeping all other pages unchanged.
 
 ---
 
@@ -131,6 +144,78 @@ Home.tsx
 
 ---
 
+## Fun / Games System
+
+### Data pipeline
+
+```
+public/fun/index.json          ← plain string[] of game IDs (e.g. ["dichos"])
+    ↓ fetch (useFunGames.ts)
+useFunGames hook               ← module-level cache, shared across concurrent callers
+    ↓
+Fun.tsx                        ← searchable gallery, renders <GameCard game={id} />
+FunGame.tsx                    ← individual game, renders <iframe>
+```
+
+`public/fun/index.json` is the source of truth for which games exist. It's a flat string array — no metadata objects. Adding a new game only requires adding its ID to this file and creating the game folder.
+
+### Game folder structure
+
+```
+public/fun/games/
+├── i18n.js                    ← shared ES-module i18n loader (all games use this)
+└── {gameId}/
+    ├── index.html             ← standalone game (ES module, top-level await)
+    ├── style.css
+    ├── assets/                ← game-specific assets (e.g. words.json)
+    └── i18n/
+        ├── en.json            ← game-specific strings
+        └── es.json
+```
+
+### Game i18n (standalone, no React)
+
+Games are self-contained HTML pages in iframes. They don't have access to the React i18n pipeline. Instead they use a shared vanilla JS loader:
+
+```js
+// public/fun/games/i18n.js  (ES module)
+export async function loadTranslations(gameId, lang) {
+  // fetches /fun/games/{gameId}/i18n/{lang}.json
+  // falls back to "en" if the requested lang is missing
+  // returns a t(key) function using dot-notation resolution
+}
+```
+
+Usage in a game's `index.html`:
+```html
+<script type="module">
+  import { loadTranslations } from '/fun/games/i18n.js';
+  const lang = new URLSearchParams(location.search).get('lang') ?? 'en';
+  const t = await loadTranslations('dichos', lang);
+  document.getElementById('btn').textContent = t('generate');
+</script>
+```
+
+The React app passes `?lang={currentLang}` in the iframe `src` URL so the game starts in the correct language without any cross-frame communication.
+
+### FunGame page — floating UI ownership
+
+On game pages, `Layout.tsx` hides its own lang switcher and footer. `FunGame.tsx` owns all floating controls:
+
+- **Desktop (≥ sm):** back-nav buttons stacked top-left; lang switcher top-right. All `position: fixed`, `zIndex: 2000`.
+- **Mobile (< sm):** single `IconButton` (`☰`/`✕`) fixed top-left. Tap opens a vertical panel with back-nav + lang switcher buttons. Any action closes the panel.
+
+All floating buttons use `color="secondary"` (violet), `size="small"`, `borderRadius: 0`, and no hover color change (`"&:hover": { backgroundColor: "secondary.main" }`).
+
+**Why FunGame owns the lang switcher instead of Layout?**
+The lang switcher in Layout is positioned top-right and always visible. On game pages the iframe fills 100vh, so the switcher would float above the game content — acceptable on desktop but not on mobile where screen space is scarce. Giving FunGame full ownership allows the mobile collapse pattern without adding mobile-detection logic to Layout.
+
+### CSS gotchas in standalone game pages
+
+- Do NOT set `html, body { height: 100%; display: flex }` in a game's `style.css`. When the game is embedded in an iframe those styles have no effect on the parent page, but if they propagate (e.g. shared styles) they can lock the iframe viewport and block scroll. Use `min-height: 100vh` instead.
+
+---
+
 ## Background Component
 
 `src/components/pages/Home/Background.tsx` renders a fixed, full-screen decorative gradient/image layer.
@@ -161,6 +246,87 @@ MUI's default `Popper` uses `position: absolute` relative to the document, causi
 ```
 
 This switches the Popper to `position: fixed`, anchoring it to the viewport instead of the document.
+
+---
+
+## Blog System
+
+### Data pipeline
+
+```
+public/blog/index.json           ← post metadata array (newest-first by convention)
+    ↓ fetch (useBlogPosts.ts)
+useBlogPosts hook                ← module-level cache, shared across concurrent callers
+    ↓
+Blog.tsx                         ← list page with title + year filters
+BlogPost.tsx                     ← detail page, resolves :postId → renders BlogPostDetail
+    ↓
+BlogPostDetail.tsx               ← fetches the .md file, renders it with ReactMarkdown
+    ↓ fetch (useBlogPost.ts)
+public/blog/posts/{date}-{id}.md ← post content
+```
+
+### Post file naming
+
+`public/blog/posts/{YYYY-MM-DD}-{id}.md` — both the date and the slug are required in the filename. The path is derived in `useBlogPost.ts` from `post.date` and `post.id`.
+
+`public/blog/index.json` is the only source of truth for which posts exist. It must be kept sorted **newest-first** — that is the display order.
+
+### Why no auto-discovery?
+
+CRA/browser cannot list directory contents without a server. Auto-discovery would require either a backend endpoint, a prebuild script, or a bundler plugin. A manually maintained `index.json` is the simplest approach with zero runtime cost for a static GitHub Pages site.
+
+### Request deduplication in `useBlogPosts`
+
+`Blog.tsx` and `BlogPost.tsx` both call `useBlogPosts()` and can mount simultaneously (e.g. direct navigation to a post URL). Without deduplication this fires two `fetch` calls to `index.json`.
+
+Module-level variables prevent this:
+
+```ts
+let cachedPosts: BlogPostMeta[] | null = null;
+let pendingFetch: Promise<BlogPostMeta[]> | null = null;
+```
+
+- **First caller:** creates `pendingFetch`, attaches `.then` handlers.
+- **Concurrent second caller:** `pendingFetch` already set — attaches to the same promise, no second fetch.
+- **Subsequent mounts:** `cachedPosts !== null` → `useEffect` exits immediately, state initializes with cached data and `loading: false`.
+
+**Why module-level, not context/provider?** No extra component tree wrapping needed — deduplication is transparent to callers.
+
+### `lang` field on `BlogPostMeta`
+
+```ts
+lang?: string;  // BCP 47 tag, e.g. "en", "es"
+```
+
+Used exclusively as the HTML `lang` attribute on the wrapping element (`<Card lang={post.lang}>` in `BlogPostCard`, `<Box lang={post.lang}>` wrapping `ReactMarkdown` in `BlogPostDetail`). This enables browser-native translation prompts when a post's language differs from the page language.
+
+**No visual badge or indicator** — the field is invisible to the user. Do not add any language label to post cards or detail views.
+
+### Year filter visibility
+
+`BlogDateFilter` returns `null` when there is only one year of posts (or none). This avoids showing a filter with a single option that has no effect.
+
+### Title search (`normalize` utility)
+
+`src/utils/normalize.ts` provides case- and accent-insensitive string normalization:
+
+```ts
+const normalize = (s: string): string =>
+  s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+```
+
+`Blog.tsx` tokenizes the query on whitespace and requires **all tokens** to appear in the normalized title (`matchesTitle`). Multi-word queries act as AND filters — `"codigo ia"` matches `"Código e IA"`.
+
+### `getEnvVariable` raw mode (for `PUBLIC_URL`)
+
+`process.env.PUBLIC_URL` is a special CRA variable — it does not carry the `REACT_APP_` prefix. Access it via `getEnvVariable` with `raw: true`:
+
+```ts
+getEnvVariable("PUBLIC_URL", "", true)  // returns process.env.PUBLIC_URL or ""
+```
+
+Both `useBlogPosts` and `useBlogPost` use this form. Do not access `process.env.PUBLIC_URL` directly in hooks or components — go through `getEnvVariable` to keep the access pattern consistent.
 
 ---
 
