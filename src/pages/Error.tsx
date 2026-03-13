@@ -42,7 +42,7 @@ const Error = () => {
       sx={{
         display: "flex",
         flexDirection: "column",
-        height: "100%",
+        minHeight: "100vh",
       }}
     >
       <Navbar />
@@ -50,7 +50,7 @@ const Error = () => {
         sx={{
           display: "flex",
           flexDirection: "column",
-          height: "100%",
+          flex: 1,
           width: "100%",
           alignItems: "center",
           justifyContent: "center",

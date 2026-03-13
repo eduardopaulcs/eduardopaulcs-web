@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dichos</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <p class="ornament">⁂</p>
+  <h1 class="title">Dichos</h1>
+
+  <div id="error" class="error" style="display:none;"></div>
+  <span id="loading" class="loading" style="display:none;">✦</span>
+
+  <div id="quoteArea" class="quote-area" style="display:none;"></div>
+
+  <div id="divider" class="divider">✦</div>
+
+  <button id="generateBtn" class="generate-btn" disabled>—</button>
+
+  <script type="module">
+    import { loadTranslations } from '/fun/games/i18n.js';
+
+    const lang = new URLSearchParams(window.location.search).get('lang') || 'en';
+
+    const btn = document.getElementById('generateBtn');
+    const quoteArea = document.getElementById('quoteArea');
+    const loadingEl = document.getElementById('loading');
+    const errorEl = document.getElementById('error');
+
+    loadingEl.style.display = 'inline-block';
+
+    let words = null;
+
+    function random(arr) {
+      return arr[Math.floor(Math.random() * arr.length)];
+    }
+
+    function generateDicho() {
+      if (!words) return;
+      const adj = random(words.adjectives);
+      const noun = random(words.nouns);
+      const dicho = Math.random() < 0.5
+        ? 'más ' + adj + ' que ' + noun
+        : adj + ' como ' + noun;
+      renderDicho(dicho);
+    }
+
+    function renderDicho(dicho) {
+      const box = document.createElement('div');
+      box.className = 'quote-box';
+
+      const open = document.createElement('span');
+      open.className = 'open-quote';
+      open.textContent = '\u201C';
+
+      const text = document.createElement('p');
+      text.className = 'dicho';
+      text.textContent = dicho;
+
+      const close = document.createElement('span');
+      close.className = 'close-quote';
+      close.textContent = '\u201D';
+
+      box.appendChild(open);
+      box.appendChild(text);
+      box.appendChild(close);
+
+      // Replace content — DOM replacement re-triggers CSS animation
+      quoteArea.innerHTML = '';
+      quoteArea.appendChild(box);
+      quoteArea.style.display = 'block';
+    }
+
+    try {
+      const [t, wordsData] = await Promise.all([
+        loadTranslations('dichos', lang),
+        fetch('/fun/games/dichos/assets/words.json').then(r => {
+          if (!r.ok) throw new Error('Failed to load words (' + r.status + ')');
+          return r.json();
+        }),
+      ]);
+
+      btn.textContent = t('generate');
+      words = wordsData;
+      loadingEl.style.display = 'none';
+      btn.disabled = false;
+    } catch (err) {
+      loadingEl.style.display = 'none';
+      errorEl.textContent = err.message;
+      errorEl.style.display = 'block';
+    }
+
+    btn.addEventListener('click', generateDicho);
+  </script>
+</body>
+</html>

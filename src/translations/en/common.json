@@ -8,14 +8,20 @@
     "toggleNavigation": "Toggle navigation",
     "closeNavigation": "Close navigation",
     "links": {
-      "cover": "Home",
       "aboutMe": "About Me",
-      "contact": "Contact"
+      "experience": "Experience",
+      "tools": "Tools",
+      "contact": "Contact",
+      "me": "Portfolio",
+      "blog": "Blog",
+      "fun": "Fun",
+      "backToBlog": "Back to Blog"
     },
-    "changeLanguage": "Change language"
+    "changeLanguage": "Change language",
+    "goBack": "Home"
   },
   "footer": {
-    "copyright": "Copyright © 2024 Eduardo Paul Contardi Soria"
+    "copyright": "Copyright © {{yearRange}} Eduardo Paul Contardi Soria"
   },
   "modal": {
     "closeModal": "Cerrar"
@@ -31,6 +37,35 @@
         "404": "Page not found."
       },
       "goBack": "Go back"
+    },
+    "landing": {
+      "sections": {
+        "me": { "title": "Portfolio", "description": "About me, my experience and contact" },
+        "blog": { "title": "Blog", "description": "Articles and thoughts" },
+        "fun": { "title": "Fun", "description": "Games and simple projects" }
+      }
+    },
+    "blog": {
+      "title": "Blog",
+      "searchByTitle": "Search by title",
+      "filterByYear": "Filter by year",
+      "allYears": "All",
+      "noPostsFound": "No posts found.",
+      "readMore": "Read more",
+      "backToBlog": "← Back to Blog",
+      "loading": "Loading..."
+    },
+    "fun": {
+      "title": "Fun",
+      "searchByName": "Search by name",
+      "noGamesFound": "No games found.",
+      "games": {
+        "dichos": {
+          "name": "Dichos",
+          "description": "Argentine sayings generator.",
+          "generate": "Generate"
+        }
+      }
     },
     "home": {
       "sections": {
@@ -144,44 +179,46 @@
               {
                 "title": "Programming Languages",
                 "items": [
-                  "PHP",
                   "JavaScript / TypeScript",
                   "Python",
+                  "Golang",
                   "Java",
+                  "PHP",
                   "C"
                 ]
               },
               {
                 "title": "Back End Development",
                 "items": [
-                  "Laravel",
-                  "Symfony",
                   "Node.js",
-                  "Sails.js",
-                  "Arc",
-                  "Flask",
                   "MySQL",
                   "SQL",
-                  "SQLite",
+                  "Redis",
                   "MongoDB",
-                  "Redis"
+                  "BigQuery",
+                  "Laravel",
+                  "Flask",
+                  "Symfony",
+                  "Sails.js",
+                  "Arc",
+                  "SQLite"
                 ]
               },
               {
                 "title": "Front End Development",
                 "items": [
                   "React",
+                  "Redux",
                   "Vue.js",
                   "AngularJS",
-                  "Gatsby",
-                  "Redux"
+                  "Gatsby"
                 ]
               },
               {
                 "title": "Layout and style",
                 "items": [
-                  "Bootstrap",
                   "Tailwind CSS",
+                  "Bootstrap",
                   "MUI",
                   "Sass / Scss"
                 ]
@@ -197,14 +234,26 @@
               {
                 "title": "Architecture",
                 "items": [
-                  "OOP",
-                  "MVC",
-                  "MVVC",
                   "API REST",
                   "CI/CD",
+                  "OOP",
+                  "SOLID",
                   "DDD",
+                  "Topics / Consumers",
+                  "Jobs",
+                  "KVS",
                   "TDD",
-                  "SOLID"
+                  "MVC",
+                  "MVVC"
+                ]
+              },
+              {
+                "title": "AI Tools",
+                "items": [
+                  "GitHub Copilot",
+                  "Cursor",
+                  "Claude Code",
+                  "AI usage / prompting"
                 ]
               },
               {
@@ -226,13 +275,13 @@
               {
                 "title": "Misc",
                 "items": [
-                  "Documentation generation",
-                  "Status control and reporting",
                   "Leading development team",
-                  "Task analysis and estimation",
-                  "Architecture diagramming",
                   "Code review",
-                  "Deployment to production environments"
+                  "Architecture diagramming",
+                  "Task analysis and estimation",
+                  "Deployment to production environments",
+                  "Documentation generation",
+                  "Status control and reporting"
                 ]
               }
             ]
