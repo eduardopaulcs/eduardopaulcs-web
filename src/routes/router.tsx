@@ -4,6 +4,7 @@ import Error from "../pages/Error";
 import Home from "../pages/Home";
 import Landing from "../pages/Landing";
 import Blog from "../pages/Blog";
+import BlogPost from "../pages/BlogPost";
 import Fun from "../pages/Fun";
 
 const router = createBrowserRouter(
@@ -28,6 +29,10 @@ const router = createBrowserRouter(
         <Route
           path="/:lang/blog"
           element={<Blog />}
+        />
+        <Route
+          path="/:lang/blog/:postId"
+          element={<BlogPost />}
         />
         <Route
           path="/:lang/fun"

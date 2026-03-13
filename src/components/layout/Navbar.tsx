@@ -3,6 +3,7 @@ import { Box, Drawer, IconButton, useMediaQuery, useTheme } from "@mui/material"
 import MenuIcon from "@mui/icons-material/Menu";
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import HomeIcon from "@mui/icons-material/Home";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import NavbarList from "./NavbarList";
 import { HOME_SECTIONS, SITE_SECTIONS } from "../../constants";
 import relativeToAbsolutePath from "../../utils/relativeToAbsolutePath";
@@ -11,7 +12,6 @@ import useScrollToLocation from "../../hooks/useScrollToLocation";
 import useScrollHashSync from "../../hooks/useScrollHashSync";
 import NavbarListItem from "./NavbarListItem";
 import { mapSectionKeyToIcon } from "../../utils/homeSectionMappers";
-import { mapSiteSectionKeyToIcon } from "../../utils/siteSectionMappers";
 import useTranslation from "../../hooks/useTranslation";
 
 type NavbarLink = {
@@ -26,11 +26,13 @@ type DrawerVariant = "temporary" | "permanent";
 /**
  * Builds the navbar link list dynamically based on the current route context.
  * On the portfolio page (`/me`), shows home section links with hash anchors.
- * On all other pages, shows site section links.
+ * On a blog post detail page, shows a single "Back to Blog" link.
+ * On the blog list page or other pages, shows no section links.
  */
 const getNavbarLinks = (pathname: string): NavbarLink[] => {
-  const isPortfolioPage = pathname.split("/").includes(SITE_SECTIONS.me);
+  const pathParts = pathname.split("/").filter(Boolean);
 
+  const isPortfolioPage = pathParts.includes(SITE_SECTIONS.me);
   if (isPortfolioPage) {
     return Object.entries(HOME_SECTIONS).map(([sectionKey, sectionRoute]) => ({
       key: sectionKey,
@@ -40,12 +42,18 @@ const getNavbarLinks = (pathname: string): NavbarLink[] => {
     }));
   }
 
-  return Object.keys(SITE_SECTIONS).map((sectionKey) => ({
-    key: sectionKey,
-    route: sectionKey,
-    icon: mapSiteSectionKeyToIcon(sectionKey),
-    isAbsolute: false,
-  }));
+  // Blog post detail page: lang + "blog" + postId = 3 parts
+  const isBlogPost = pathParts.includes(SITE_SECTIONS.blog) && pathParts.length > 2;
+  if (isBlogPost) {
+    return [{
+      key: "backToBlog",
+      route: SITE_SECTIONS.blog,
+      icon: <ArrowBackIcon />,
+      isAbsolute: false,
+    }];
+  }
+
+  return [];
 };
 
 /**

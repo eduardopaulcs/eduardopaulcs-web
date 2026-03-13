@@ -76,7 +76,7 @@ const Background = ({
         clipPath: "inset(0)",
         filter: "blur(8px)",
         backgroundColor: "background.default",
-        backgroundImage: `url("${bgImage}")`,
+        backgroundImage: bgImage ? `url("${bgImage}")` : "none",
         backgroundRepeat: "no-repeat",
         backgroundPosition: "top",
         backgroundSize: "cover",

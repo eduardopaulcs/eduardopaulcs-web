@@ -14,7 +14,8 @@
       "contact": "Contact",
       "me": "Portfolio",
       "blog": "Blog",
-      "fun": "Fun"
+      "fun": "Fun",
+      "backToBlog": "Back to Blog"
     },
     "changeLanguage": "Change language",
     "goBack": "Home"
@@ -44,7 +45,16 @@
         "fun": { "title": "Fun", "description": "Games and simple projects" }
       }
     },
-    "blog": { "title": "Blog", "comingSoon": "Coming soon!" },
+    "blog": {
+      "title": "Blog",
+      "searchByTitle": "Search by title",
+      "filterByYear": "Filter by year",
+      "allYears": "All",
+      "noPostsFound": "No posts found.",
+      "readMore": "Read more",
+      "backToBlog": "← Back to Blog",
+      "loading": "Loading..."
+    },
     "fun": { "title": "Fun", "comingSoon": "Coming soon!" },
     "home": {
       "sections": {

@@ -14,7 +14,8 @@
       "contact": "Contacto",
       "me": "Portfolio",
       "blog": "Blog",
-      "fun": "Fun"
+      "fun": "Fun",
+      "backToBlog": "Volver al Blog"
     },
     "changeLanguage": "Cambiar idioma",
     "goBack": "Inicio"
@@ -40,11 +41,20 @@
     "landing": {
       "sections": {
         "me": { "title": "Portfolio", "description": "Sobre mí, mi experiencia y contacto" },
-        "blog": { "title": "Blog", "description": "Artículos y pensamientos" },
+        "blog": { "title": "Blog", "description": "Posts y pensamientos" },
         "fun": { "title": "Fun", "description": "Juegos y proyectos simples" }
       }
     },
-    "blog": { "title": "Blog", "comingSoon": "¡Próximamente!" },
+    "blog": {
+      "title": "Blog",
+      "searchByTitle": "Buscar por título",
+      "filterByYear": "Filtrar por año",
+      "allYears": "Todos",
+      "noPostsFound": "No se encontraron posts.",
+      "readMore": "Leer más",
+      "backToBlog": "← Volver al Blog",
+      "loading": "Cargando..."
+    },
     "fun": { "title": "Fun", "comingSoon": "¡Próximamente!" },
     "home": {
       "sections": {
