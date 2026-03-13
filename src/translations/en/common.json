@@ -55,7 +55,18 @@
       "backToBlog": "← Back to Blog",
       "loading": "Loading..."
     },
-    "fun": { "title": "Fun", "comingSoon": "Coming soon!" },
+    "fun": {
+      "title": "Fun",
+      "searchByName": "Search by name",
+      "noGamesFound": "No games found.",
+      "games": {
+        "dichos": {
+          "name": "Dichos",
+          "description": "Argentine sayings generator.",
+          "generate": "Generate"
+        }
+      }
+    },
     "home": {
       "sections": {
         "cover": {

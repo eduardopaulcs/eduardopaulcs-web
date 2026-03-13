@@ -3,12 +3,13 @@ import { Outlet } from "react-router-dom";
 
 interface ContentProps {
   hasNavbar: boolean;
+  disableContainer?: boolean;
 }
 
 /**
  * Site's main content component.
  */
-const Content = ({ hasNavbar }: ContentProps) => {
+const Content = ({ hasNavbar, disableContainer = false }: ContentProps) => {
   return (
     <>
       <Box
@@ -19,9 +20,7 @@ const Content = ({ hasNavbar }: ContentProps) => {
           } : 0,
         })}
       >
-        <Container>
-          <Outlet />
-        </Container>
+        {disableContainer ? <Outlet /> : <Container><Outlet /></Container>}
       </Box>
     </>
   );

@@ -21,11 +21,11 @@ const Landing = () => {
     <Box
       sx={{
         position: "relative",
-        height: "100vh",
+        minHeight: "100vh",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        overflow: "hidden",
+        overflowX: "hidden",
       }}
     >
       <Background totalHeight={0} />

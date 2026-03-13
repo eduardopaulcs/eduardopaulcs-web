@@ -6,6 +6,7 @@ import Landing from "../pages/Landing";
 import Blog from "../pages/Blog";
 import BlogPost from "../pages/BlogPost";
 import Fun from "../pages/Fun";
+import FunGame from "../pages/FunGame";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -37,6 +38,10 @@ const router = createBrowserRouter(
         <Route
           path="/:lang/fun"
           element={<Fun />}
+        />
+        <Route
+          path="/:lang/fun/:gameId"
+          element={<FunGame />}
         />
       </Route>
     </Route>

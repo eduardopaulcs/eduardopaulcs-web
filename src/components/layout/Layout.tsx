@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Content from "./Content";
 import { Box, Button } from "@mui/material";
 import { Navigate, useLocation, useNavigate } from "react-router-dom";
-import { LANGUAGES } from "../../constants";
+import { LANGUAGES, SITE_SECTIONS } from "../../constants";
 import Navbar from "./Navbar";
 import useLocationPath from "../../hooks/useLocationPath";
 import useLangParam from "../../hooks/useLangParam";
@@ -26,7 +26,11 @@ const Layout = () => {
   const langParam = useLangParam();
 
   // The landing page has only one path segment (the lang), e.g. "/en/"
-  const isLandingPage = pathname.split("/").filter(Boolean).length <= 1;
+  const pathSegments = pathname.split("/").filter(Boolean);
+  const isLandingPage = pathSegments.length <= 1;
+  // Game pages (/:lang/fun/:gameId) have their own full-screen layout — no Navbar or Footer
+  const isGamePage = pathSegments.length >= 3 && pathSegments[1] === SITE_SECTIONS.fun;
+  const showNavbar = !isLandingPage && !isGamePage;
   const {t, currentLang, setLang} = useTranslation();
 
   /**
@@ -109,10 +113,10 @@ const Layout = () => {
         sx={{
           display: "flex",
           flexDirection: "column",
-          height: "100%",
+          minHeight: "100vh",
         }}
       >
-        {LANGUAGES.length > 1 && (
+        {LANGUAGES.length > 1 && !isGamePage && (
           <Box
             sx={{
               position: "fixed",
@@ -129,16 +133,20 @@ const Layout = () => {
                 onClick={() => handleLangSwitch(lang)}
                 variant={lang === currentLang ? "contained" : "outlined"}
                 size="small"
-                sx={{ borderRadius: 0, minWidth: 48 }}
+                sx={{
+                  borderRadius: 0,
+                  minWidth: 48,
+                  "&:hover": { backgroundColor: lang === currentLang ? "primary.main" : "transparent" },
+                }}
               >
                 {lang.toUpperCase()}
               </Button>
             ))}
           </Box>
         )}
-        {!isLandingPage && <Navbar />}
-        <Content hasNavbar={!isLandingPage} />
-        <Footer />
+        {showNavbar && <Navbar />}
+        <Content hasNavbar={showNavbar} disableContainer={isGamePage} />
+        {!isGamePage && <Footer />}
       </Box>
     );
   };

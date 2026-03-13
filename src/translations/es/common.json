@@ -55,7 +55,18 @@
       "backToBlog": "← Volver al Blog",
       "loading": "Cargando..."
     },
-    "fun": { "title": "Fun", "comingSoon": "¡Próximamente!" },
+    "fun": {
+      "title": "Fun",
+      "searchByName": "Buscar por nombre",
+      "noGamesFound": "No se encontraron juegos.",
+      "games": {
+        "dichos": {
+          "name": "Dichos",
+          "description": "Generador de dichos argentinos.",
+          "generate": "Generar"
+        }
+      }
+    },
     "home": {
       "sections": {
         "cover": {

@@ -5,12 +5,7 @@ import BlogPostCard from "../components/pages/Blog/BlogPostCard";
 import BlogTitleFilter from "../components/pages/Blog/BlogTitleFilter";
 import useTranslation from "../hooks/useTranslation";
 import useBlogPosts from "../hooks/useBlogPosts";
-
-/**
- * Normalizes a string to lowercase with accents removed for comparison.
- */
-const normalize = (s: string): string =>
-  s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+import normalize from "../utils/normalize";
 
 /**
  * Returns true if all whitespace-separated tokens in query appear in title.
