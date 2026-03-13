@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import Content from "./Content";
-import { Box } from "@mui/material";
-import { Navigate } from "react-router-dom";
-import { LANGUAGES } from "../../constants";
+import { Box, Button } from "@mui/material";
+import { Navigate, useLocation, useNavigate } from "react-router-dom";
+import { LANGUAGES, SITE_SECTIONS } from "../../constants";
 import Navbar from "./Navbar";
 import useLocationPath from "../../hooks/useLocationPath";
 import useLangParam from "../../hooks/useLangParam";
@@ -20,9 +20,28 @@ const validateLocationPathAndLangParam = (locationPath: string, langParam: strin
  * Site layout component.
  */
 const Layout = () => {
+  const { pathname } = useLocation();
+  const navigate = useNavigate();
   const locationPath = useLocationPath(true);
   const langParam = useLangParam();
+
+  // The landing page has only one path segment (the lang), e.g. "/en/"
+  const pathSegments = pathname.split("/").filter(Boolean);
+  const isLandingPage = pathSegments.length <= 1;
+  // Game pages (/:lang/fun/:gameId) have their own full-screen layout — no Navbar or Footer
+  const isGamePage = pathSegments.length >= 3 && pathSegments[1] === SITE_SECTIONS.fun;
+  const showNavbar = !isLandingPage && !isGamePage;
   const {t, currentLang, setLang} = useTranslation();
+
+  /**
+   * Switches the site language, preserving the current sub-path.
+   */
+  const handleLangSwitch = (lang: string) => {
+    if (lang !== currentLang) {
+      const newPath = pathname.replace(`/${currentLang}`, `/${lang}`);
+      navigate(newPath, { replace: true });
+    }
+  };
 
   const {
     isLocationPathValid: locationPathValid,
@@ -46,15 +65,13 @@ const Layout = () => {
     // HACK!! Compiler doesn't care we just validated this variable, so we
     //        have to cast it to undefined, this will never be undefined
     const newLang = langParam || undefined;
-    if (
-      // If the new language is valid
-      isLangParamValid &&
-      // And if the language actually changed
-      currentLang !== newLang
-    ) {
-      // Notify translator of change
-      setLang(newLang);
+    if (isLangParamValid) {
+      // Notify translator of change only when the language actually changed
+      if (currentLang !== newLang) {
+        setLang(newLang);
+      }
 
+      // Always keep SEO metadata in sync with the current language
       document.documentElement.lang = t("seo.lang");
       document.title = t("seo.title");
       document.querySelector("meta[name='description']")?.setAttribute("content", t("seo.description"));
@@ -96,12 +113,40 @@ const Layout = () => {
         sx={{
           display: "flex",
           flexDirection: "column",
-          height: "100%",
+          minHeight: "100vh",
         }}
       >
-        <Navbar />
-        <Content />
-        <Footer />
+        {LANGUAGES.length > 1 && !isGamePage && (
+          <Box
+            sx={{
+              position: "fixed",
+              top: 16,
+              right: 16,
+              zIndex: 2000,
+              display: "flex",
+              gap: 1,
+            }}
+          >
+            {LANGUAGES.map((lang) => (
+              <Button
+                key={lang}
+                onClick={() => handleLangSwitch(lang)}
+                variant={lang === currentLang ? "contained" : "outlined"}
+                size="small"
+                sx={{
+                  borderRadius: 0,
+                  minWidth: 48,
+                  "&:hover": { backgroundColor: lang === currentLang ? "primary.main" : "transparent" },
+                }}
+              >
+                {lang.toUpperCase()}
+              </Button>
+            ))}
+          </Box>
+        )}
+        {showNavbar && <Navbar />}
+        <Content hasNavbar={showNavbar} disableContainer={isGamePage} />
+        {!isGamePage && <Footer />}
       </Box>
     );
   };

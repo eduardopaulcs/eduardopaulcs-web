@@ -8,14 +8,20 @@
     "toggleNavigation": "Abrir/cerrar navegación",
     "closeNavigation": "Cerrar navegación",
     "links": {
-      "cover": "Inicio",
       "aboutMe": "Sobre mí",
-      "contact": "Contacto"
+      "experience": "Experiencia",
+      "tools": "Herramientas",
+      "contact": "Contacto",
+      "me": "Portfolio",
+      "blog": "Blog",
+      "fun": "Fun",
+      "backToBlog": "Volver al Blog"
     },
-    "changeLanguage": "Cambiar idioma"
+    "changeLanguage": "Cambiar idioma",
+    "goBack": "Inicio"
   },
   "footer": {
-    "copyright": "Copyright © 2024 Eduardo Paul Contardi Soria"
+    "copyright": "Copyright © {{yearRange}} Eduardo Paul Contardi Soria"
   },
   "modal": {
     "closeModal": "Cerrar"
@@ -31,6 +37,35 @@
         "404": "Página no encontrada."
       },
       "goBack": "Volver"
+    },
+    "landing": {
+      "sections": {
+        "me": { "title": "Portfolio", "description": "Sobre mí, mi experiencia y contacto" },
+        "blog": { "title": "Blog", "description": "Posts y pensamientos" },
+        "fun": { "title": "Fun", "description": "Juegos y proyectos simples" }
+      }
+    },
+    "blog": {
+      "title": "Blog",
+      "searchByTitle": "Buscar por título",
+      "filterByYear": "Filtrar por año",
+      "allYears": "Todos",
+      "noPostsFound": "No se encontraron posts.",
+      "readMore": "Leer más",
+      "backToBlog": "← Volver al Blog",
+      "loading": "Cargando..."
+    },
+    "fun": {
+      "title": "Fun",
+      "searchByName": "Buscar por nombre",
+      "noGamesFound": "No se encontraron juegos.",
+      "games": {
+        "dichos": {
+          "name": "Dichos",
+          "description": "Generador de dichos argentinos.",
+          "generate": "Generar"
+        }
+      }
     },
     "home": {
       "sections": {
@@ -144,44 +179,46 @@
               {
                 "title": "Lenguajes",
                 "items": [
-                  "PHP",
                   "JavaScript / TypeScript",
                   "Python",
+                  "Golang",
                   "Java",
+                  "PHP",
                   "C"
                 ]
               },
               {
                 "title": "Desarrollo de back end",
                 "items": [
-                  "Laravel",
-                  "Symfony",
                   "Node.js",
-                  "Sails.js",
-                  "Arc",
-                  "Flask",
                   "MySQL",
                   "SQL",
-                  "SQLite",
+                  "Redis",
                   "MongoDB",
-                  "Redis"
+                  "BigQuery",
+                  "Laravel",
+                  "Flask",
+                  "Symfony",
+                  "Sails.js",
+                  "Arc",
+                  "SQLite"
                 ]
               },
               {
                 "title": "Desarrollo de front end",
                 "items": [
                   "React",
+                  "Redux",
                   "Vue.js",
                   "AngularJS",
-                  "Gatsby",
-                  "Redux"
+                  "Gatsby"
                 ]
               },
               {
                 "title": "Maquetado y estilo",
                 "items": [
-                  "Bootstrap",
                   "Tailwind CSS",
+                  "Bootstrap",
                   "MUI",
                   "Sass / Scss"
                 ]
@@ -197,14 +234,26 @@
               {
                 "title": "Arquitectura",
                 "items": [
-                  "OOP",
-                  "MVC",
-                  "MVVC",
                   "API REST",
                   "CI/CD",
+                  "OOP",
+                  "SOLID",
                   "DDD",
+                  "Topics / Consumers",
+                  "Jobs",
+                  "KVS",
                   "TDD",
-                  "SOLID"
+                  "MVC",
+                  "MVVC"
+                ]
+              },
+              {
+                "title": "Herramientas de IA",
+                "items": [
+                  "GitHub Copilot",
+                  "Cursor",
+                  "Claude Code",
+                  "Uso de IA / prompting"
                 ]
               },
               {
@@ -226,13 +275,13 @@
               {
                 "title": "Misceláneo",
                 "items": [
-                  "Generación de documentación",
-                  "Control y reportes de status",
                   "Liderazgo de equipos de desarrollo",
-                  "Análisis y estimación de tareas",
-                  "Diagramado de arquitectura",
                   "Revisión de código (Code review)",
-                  "Despliegues en ambientes productivos"
+                  "Diagramado de arquitectura",
+                  "Análisis y estimación de tareas",
+                  "Despliegues en ambientes productivos",
+                  "Generación de documentación",
+                  "Control y reportes de status"
                 ]
               }
             ]

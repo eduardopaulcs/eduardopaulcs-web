@@ -71,9 +71,12 @@ const Background = ({
         height: "100%",
         zIndex: -50,
         overflow: "hidden",
+        // clipPath contains the blur filter output within the element's bounds.
+        // overflow:hidden alone doesn't clip filter effects.
+        clipPath: "inset(0)",
         filter: "blur(8px)",
         backgroundColor: "background.default",
-        backgroundImage: `url("${bgImage}")`,
+        backgroundImage: bgImage ? `url("${bgImage}")` : "none",
         backgroundRepeat: "no-repeat",
         backgroundPosition: "top",
         backgroundSize: "cover",
