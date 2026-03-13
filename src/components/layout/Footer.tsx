@@ -1,8 +1,15 @@
 import { Box, Typography } from "@mui/material";
 import useTranslation from "../../hooks/useTranslation";
 
+const FIRST_YEAR = 2024;
+
+/**
+ * Site footer. Displays a dynamic copyright year range.
+ */
 const Footer = () => {
   const {t} = useTranslation();
+  const currentYear = new Date().getFullYear();
+  const yearRange = currentYear > FIRST_YEAR ? `${FIRST_YEAR}–${currentYear}` : `${FIRST_YEAR}`;
 
   return (
     <Box
@@ -20,7 +27,7 @@ const Footer = () => {
           margin: "auto",
         }}
       >
-        {t("footer.copyright")}
+        {t("footer.copyright", { yearRange })}
       </Typography>
     </Box>
   );

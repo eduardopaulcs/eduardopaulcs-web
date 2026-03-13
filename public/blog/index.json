@@ -1,9 +1,9 @@
 [
   {
-    "id": "example",
-    "title": "Example post",
+    "id": "hola",
+    "title": "Hola",
     "date": "2026-03-13",
-    "preview": "An example post.",
-    "lang": "en"
+    "preview": "Algunas palabras para iniciar el blog.",
+    "lang": "es"
   }
 ]

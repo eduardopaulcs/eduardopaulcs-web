@@ -21,7 +21,7 @@
     "goBack": "Inicio"
   },
   "footer": {
-    "copyright": "Copyright © 2024 Eduardo Paul Contardi Soria"
+    "copyright": "Copyright © {{yearRange}} Eduardo Paul Contardi Soria"
   },
   "modal": {
     "closeModal": "Cerrar"
