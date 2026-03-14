@@ -71,6 +71,10 @@
         "snake": {
           "name": "Snake",
           "description": "Juego clásico de la serpiente."
+        },
+        "ants": {
+          "name": "Hormigas",
+          "description": "Simulación de colonia de hormigas."
         }
       }
     },
