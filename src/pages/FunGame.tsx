@@ -1,5 +1,8 @@
 import { useState } from "react";
 import { Box, Button, IconButton, Typography, useMediaQuery, useTheme } from "@mui/material";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import MenuIcon from "@mui/icons-material/Menu";
+import CloseIcon from "@mui/icons-material/Close";
 import { useEffect } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import useTranslation from "../hooks/useTranslation";
@@ -63,7 +66,8 @@ const FunGame = () => {
           onClick={() => navigate(relativeToAbsolutePath("fun", currentLang))}
           sx={{ borderRadius: 0 }}
         >
-          ← {t("navbar.links.fun")}
+          <ArrowBackIcon sx={{ fontSize: "1rem", mr: 0.5 }} />
+          {t("navbar.links.fun")}
         </Button>
       </Box>
     );
@@ -104,7 +108,7 @@ const FunGame = () => {
               "&:hover": { backgroundColor: "secondary.main" },
             }}
           >
-            {menuOpen ? "✕" : "☰"}
+            {menuOpen ? <CloseIcon fontSize="small" /> : <MenuIcon fontSize="small" />}
           </IconButton>
           {menuOpen && (
             <Box sx={{ display: "flex", flexDirection: "column", gap: 1, mt: 1 }}>
@@ -115,7 +119,7 @@ const FunGame = () => {
                 onClick={() => { navigate(relativeToAbsolutePath("/", currentLang)); setMenuOpen(false); }}
                 sx={navButtonSx}
               >
-                ← {t("navbar.goBack")}
+                <ArrowBackIcon sx={{ fontSize: "1rem", mr: 0.5 }} />{t("navbar.goBack")}
               </Button>
               <Button
                 variant="contained"
@@ -124,7 +128,7 @@ const FunGame = () => {
                 onClick={() => { navigate(relativeToAbsolutePath("fun", currentLang)); setMenuOpen(false); }}
                 sx={navButtonSx}
               >
-                ← {t("navbar.links.fun")}
+                <ArrowBackIcon sx={{ fontSize: "1rem", mr: 0.5 }} />{t("navbar.links.fun")}
               </Button>
               {LANGUAGES.length > 1 && LANGUAGES.map((lang) => (
                 <Button
@@ -162,7 +166,7 @@ const FunGame = () => {
               onClick={() => navigate(relativeToAbsolutePath("/", currentLang))}
               sx={navButtonSx}
             >
-              ← {t("navbar.goBack")}
+              <ArrowBackIcon sx={{ fontSize: "1rem", mr: 0.5 }} />{t("navbar.goBack")}
             </Button>
             <Button
               variant="contained"
@@ -171,7 +175,7 @@ const FunGame = () => {
               onClick={() => navigate(relativeToAbsolutePath("fun", currentLang))}
               sx={navButtonSx}
             >
-              ← {t("navbar.links.fun")}
+              <ArrowBackIcon sx={{ fontSize: "1rem", mr: 0.5 }} />{t("navbar.links.fun")}
             </Button>
           </Box>
           {LANGUAGES.length > 1 && (

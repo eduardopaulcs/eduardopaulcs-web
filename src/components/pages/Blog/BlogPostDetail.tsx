@@ -1,10 +1,8 @@
-import { Box, Button, CircularProgress, Divider, Typography } from "@mui/material";
+import { Box, CircularProgress, Divider, Typography } from "@mui/material";
 import ReactMarkdown from "react-markdown";
-import { useNavigate } from "react-router-dom";
 import useBlogPost from "../../../hooks/useBlogPost";
 import { BlogPostMeta } from "../../../hooks/useBlogPosts";
 import useTranslation from "../../../hooks/useTranslation";
-import relativeToAbsolutePath from "../../../utils/relativeToAbsolutePath";
 
 interface BlogPostDetailProps {
   post: BlogPostMeta;
@@ -15,8 +13,7 @@ interface BlogPostDetailProps {
  * Fetches the markdown file and renders it with MUI-styled typography.
  */
 const BlogPostDetail = ({ post }: BlogPostDetailProps) => {
-  const { t, currentLang } = useTranslation();
-  const navigate = useNavigate();
+  const { currentLang } = useTranslation();
   const { content, loading, error } = useBlogPost(post);
 
   const formattedDate = new Date(`${post.date}T00:00:00`).toLocaleDateString(
@@ -24,25 +21,8 @@ const BlogPostDetail = ({ post }: BlogPostDetailProps) => {
     { year: "numeric", month: "long", day: "numeric" }
   );
 
-  const handleBack = () => {
-    navigate(relativeToAbsolutePath("blog", currentLang));
-  };
-
   return (
     <Box sx={{ maxWidth: 720, mx: "auto", py: 4, px: 2 }}>
-      <Button
-        onClick={handleBack}
-        sx={{
-          mb: 3,
-          borderRadius: 0,
-          backgroundColor: "secondary.main",
-          color: "text.primary",
-          "&:hover": { backgroundColor: "secondary.main" },
-        }}
-      >
-        {t("pages.blog.backToBlog")}
-      </Button>
-
       <Typography variant="h4" component="h1" gutterBottom>
         {post.title}
       </Typography>

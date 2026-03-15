@@ -2,6 +2,9 @@
   "components": {
     "navbar": {
       "width": "56px"
+    },
+    "bottomNav": {
+      "height": "56px"
     }
   }
 }

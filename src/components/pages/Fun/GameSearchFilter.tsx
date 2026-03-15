@@ -20,7 +20,7 @@ const GameSearchFilter = ({ value, onChange }: GameSearchFilterProps) => {
       onChange={(e) => onChange(e.target.value)}
       label={t("pages.fun.searchByName")}
       sx={{
-        minWidth: 260,
+        width: "100%",
         "& .MuiOutlinedInput-root": {
           borderRadius: 0,
           "& fieldset": { borderColor: "secondary.main" },
