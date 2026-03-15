@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from "react";
 import { Box, Card, CardActionArea, CardContent, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import Background from "../components/pages/Home/Background";
@@ -16,19 +17,28 @@ import relativeToAbsolutePath from "../utils/relativeToAbsolutePath";
 const Landing = () => {
   const { t, currentLang } = useTranslation();
   const navigate = useNavigate();
+  const landingRef = useRef<HTMLDivElement>();
+  const [landingHeight, setLandingHeight] = useState(0);
+
+  useEffect(() => {
+    if (landingRef.current) {
+      setLandingHeight(landingRef.current.offsetHeight);
+    }
+  }, []);
 
   return (
     <Box
+      ref={landingRef}
       sx={{
         position: "relative",
-        minHeight: "100vh",
+        minHeight: "100dvh",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
         overflowX: "hidden",
       }}
     >
-      <Background totalHeight={0} />
+      <Background totalHeight={landingHeight} />
       {/* Centered content block */}
       <Box
         sx={{

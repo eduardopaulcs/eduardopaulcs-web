@@ -13,14 +13,10 @@ interface BackgroundProps {
 const bgImages = [bg1, bg2, bg3, bg4, bg5];
 
 const getBackgroundHeight = (totalHeight: number) => {
-  // Calculate background height
-  let newBackgroundHeight = Math.ceil(totalHeight/2);
-  // Cap minimum height to window height
-  if (newBackgroundHeight < window.innerHeight) {
-    newBackgroundHeight = window.innerHeight;
-  }
-
-  return newBackgroundHeight;
+  // Background needs to cover the viewport bottom even after the parallax offset.
+  // At max scroll, top = -maxScrollY/4, so height must be window.innerHeight + maxScrollY/4.
+  const maxScrollY = Math.max(0, totalHeight - window.innerHeight);
+  return window.innerHeight + Math.ceil(maxScrollY / 4);
 };
 
 const getBackgroundScroll = () => {
