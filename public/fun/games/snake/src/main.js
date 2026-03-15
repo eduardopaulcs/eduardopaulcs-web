@@ -33,6 +33,16 @@ window.setup = function setup() {
   createCanvas(config.width, config.height);
   frameRate(30);
 
+  // Pause the loop when the tab is hidden; discard accumulated delta on restore
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) {
+      noLoop();
+    } else {
+      state.deltaSum = 0;
+      loop();
+    }
+  });
+
   // Set MainMenu state
   state.gs = new MainMenu();
 };
@@ -48,7 +58,7 @@ window.keyPressed = function keyPressed() {
  * Draws a frame.
  */
 window.draw = function draw() {
-  state.deltaSum += deltaTime;
+  state.deltaSum = Math.min(state.deltaSum + deltaTime, config.timeForTick * 3);
 
   // If we have to tick
   while (state.deltaSum >= config.timeForTick) {

@@ -1,4 +1,5 @@
 [
   { "id": "dichos", "platform": "any" },
-  { "id": "snake", "platform": "desktop" }
+  { "id": "snake", "platform": "desktop" },
+  { "id": "ants", "platform": "desktop" }
 ]

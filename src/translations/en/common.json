@@ -71,6 +71,10 @@
         "snake": {
           "name": "Snake",
           "description": "Classic snake game."
+        },
+        "ants": {
+          "name": "Ants",
+          "description": "Ant colony simulation."
         }
       }
     },
