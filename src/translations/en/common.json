@@ -59,11 +59,22 @@
       "title": "Fun",
       "searchByName": "Search by name",
       "noGamesFound": "No games found.",
+      "platformIncompatible": {
+        "desktop": "This game can only be played on desktop.",
+        "mobile": "This game can only be played on mobile."
+      },
       "games": {
         "dichos": {
           "name": "Dichos",
-          "description": "Argentine sayings generator.",
-          "generate": "Generate"
+          "description": "Argentine sayings generator."
+        },
+        "snake": {
+          "name": "Snake",
+          "description": "Classic snake game."
+        },
+        "ants": {
+          "name": "Ants",
+          "description": "Ant colony simulation."
         }
       }
     },

@@ -59,11 +59,22 @@
       "title": "Fun",
       "searchByName": "Buscar por nombre",
       "noGamesFound": "No se encontraron juegos.",
+      "platformIncompatible": {
+        "desktop": "Este juego solo se puede jugar en escritorio.",
+        "mobile": "Este juego solo se puede jugar en móvil."
+      },
       "games": {
         "dichos": {
           "name": "Dichos",
-          "description": "Generador de dichos argentinos.",
-          "generate": "Generar"
+          "description": "Generador de dichos argentinos."
+        },
+        "snake": {
+          "name": "Snake",
+          "description": "Juego clásico de la serpiente."
+        },
+        "ants": {
+          "name": "Hormigas",
+          "description": "Simulación de colonia de hormigas."
         }
       }
     },

@@ -14,10 +14,12 @@ src/
 ├── components/
 │   ├── layout/         # Global UI: Layout, Navbar, Content, Footer, NavbarList, NavbarListItem
 │   └── pages/
-│       └── Home/       # Section components: AboutMeSection, ExperienceSection, ToolsSection, ContactSection
+│       ├── Home/       # Section components: AboutMeSection, ExperienceSection, ToolsSection, ContactSection
+│       ├── Blog/       # BlogPostCard, BlogPostDetail, BlogDateFilter, BlogTitleFilter
+│       └── Fun/        # GameCard, GameSearchFilter
 ├── hooks/              # Custom hooks (camelCase filenames)
 ├── images/             # Static assets
-├── pages/              # Routable pages: Landing, Home, Blog, Fun, Error
+├── pages/              # Routable pages: Landing, Home, Blog, BlogPost, Fun, FunGame, Error
 ├── routes/             # router.tsx — createBrowserRouter setup
 ├── styles/             # theme.ts + customTheme.json
 ├── translations/
@@ -26,6 +28,8 @@ src/
 ├── utils/              # Pure mappers and helpers (camelCase filenames)
 └── constants.ts        # HOME_SECTIONS, SITE_SECTIONS, CONTACT_MEANS, LANGUAGES, DEFAULT_LANG
 ```
+
+Games (standalone HTML in iframes) live in `public/fun/games/{gameId}/`. See `.claude/architecture.md` for the full Fun system design.
 
 **Key distinction:** `src/pages/` = routable top-level pages. `src/components/pages/` = section components used within pages.
 
@@ -178,6 +182,8 @@ const isLandingPage = pathname.split("/").filter(Boolean).length <= 1;
 
 `Content.tsx` applies `marginLeft: navbar.width` only when `hasNavbar` is true. **Do not** add margin-left logic in individual pages — it belongs in `Content.tsx` via the `hasNavbar` prop.
 
+**Game pages** (`/:lang/fun/:gameId`) are a special case: no Navbar, no Footer, no MUI Container padding. `Layout.tsx` detects `isGamePage` and passes `disableContainer={true}` to `Content`. The `FunGame` page component owns all floating controls (back-nav + lang switcher). See `.claude/architecture.md` for details.
+
 ---
 
 ## Scroll System (on `/me` page)
@@ -201,12 +207,15 @@ See `.claude/architecture.md` for full details on this system.
 
 All runtime config comes from `REACT_APP_*` env vars (CRA convention). Access via `getEnvVariable(name)` in `src/utils/getEnvVariable.ts` — it auto-prefixes `REACT_APP_` and handles missing values gracefully.
 
+For CRA special variables that don't carry the `REACT_APP_` prefix (e.g. `PUBLIC_URL`), pass `raw: true` as the third argument: `getEnvVariable("PUBLIC_URL", "", true)`. Do not use `process.env.*` directly.
+
 Current variables:
 - `REACT_APP_LINKEDIN_URL`
 - `REACT_APP_GITHUB_URL`
 - `REACT_APP_CONTACT_EMAIL`
+- `PUBLIC_URL` (CRA built-in, accessed with `raw: true`)
 
-Set in GitHub Actions secrets. Not available at runtime — build-time injection only.
+Set as GitHub Actions secrets. Not available at runtime — build-time injection only.
 
 ---
 
@@ -223,3 +232,5 @@ Set in GitHub Actions secrets. Not available at runtime — build-time injection
 - ❌ Omit JSDoc from components or exported functions
 - ❌ Use class components
 - ❌ Skip adding a translation key to one of the two language files
+- ❌ Access `process.env.PUBLIC_URL` directly — use `getEnvVariable("PUBLIC_URL", "", true)`
+- ❌ Add a visual language badge or indicator on blog post cards or detail views — `lang` is HTML-only

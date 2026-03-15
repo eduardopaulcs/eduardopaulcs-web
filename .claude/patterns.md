@@ -206,13 +206,16 @@ pages.
     experience.title / ...
     tools.title / categories[{title, items[]}]
     contact.title / links.{contactKey}
-  blog.title / comingSoon
-  fun.title / comingSoon
+  blog.title / (post content comes from markdown, not translations)
+  fun.title / noGamesFound
+  fun.games.{gameId}.name / description    ← one entry per game ID in index.json
 navbar.links.{sectionKey}
 navbar.toggleNavigation / closeNavigation / changeLanguage / goBack
-footer.copyright
+footer.copyright                           ← supports {{yearRange}} interpolation
 seo.lang / title / description
 ```
+
+Note: game-internal strings (button labels, etc.) live in `public/fun/games/{gameId}/i18n/{lang}.json`, not in the React translation files. Only the gallery card name/description go in `common.json`.
 
 ---
 
@@ -239,3 +242,60 @@ The section renders automatically in `Home.tsx` via `Object.entries(HOME_SECTION
 
 The card on the Landing page renders automatically via `Object.keys(SITE_SECTIONS)`.
 The Navbar link renders automatically when NOT on the `/me` page.
+
+---
+
+## Checklist: Add a New Blog Post
+
+1. **Write the post** — create `public/blog/posts/{YYYY-MM-DD}-{id}.md`
+2. **`public/blog/index.json`** — prepend a new entry (newest-first order):
+   ```json
+   {
+     "id": "my-post-slug",
+     "title": "Post Title",
+     "date": "YYYY-MM-DD",
+     "preview": "One-sentence teaser shown on the list page.",
+     "lang": "en"
+   }
+   ```
+   The `lang` field is optional but recommended — it sets the HTML `lang` attribute for browser translation detection. Use a BCP 47 tag (`"en"`, `"es"`, etc.).
+
+No code changes required. The list page and routing pick up the new post automatically.
+
+---
+
+## Checklist: Add a New Game
+
+1. **`public/fun/index.json`** — add the game ID string to the array (e.g. `["dichos", "newgame"]`)
+2. **`public/fun/games/newgame/`** — create the game folder:
+   - `index.html` — standalone game page (use ES module `<script type="module">`)
+   - `style.css` — game styles (use `min-height: 100vh`, NOT `height: 100%` or `display: flex` on `html/body`)
+   - `assets/` — game-specific static assets
+   - `i18n/en.json` — English strings used inside the game
+   - `i18n/es.json` — Spanish strings used inside the game
+3. **`src/translations/en/common.json`** — add under `pages.fun.games.newgame`: `name` and `description`
+4. **`src/translations/es/common.json`** — same keys in Spanish
+
+The game card in the Fun gallery and the routing to `/:lang/fun/newgame` both work automatically — no React code changes needed.
+
+### Game i18n skeleton (`index.html`)
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <script type="module">
+    import { loadTranslations } from '/fun/games/i18n.js';
+    const lang = new URLSearchParams(location.search).get('lang') ?? 'en';
+    const t = await loadTranslations('newgame', lang);
+    // use t('some.key') to get translated strings
+  </script>
+</body>
+</html>
+```
+
+The React app passes `?lang={currentLang}` in the iframe `src`, so games always start in the user's selected language.

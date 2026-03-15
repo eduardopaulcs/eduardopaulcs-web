@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 import Content from "./Content";
 import { Box, Button } from "@mui/material";
-import { Navigate, useLocation, useNavigate } from "react-router-dom";
+import { Navigate, useLocation } from "react-router-dom";
 import { LANGUAGES, SITE_SECTIONS } from "../../constants";
 import Navbar from "./Navbar";
+import BottomNav from "./BottomNav";
 import useLocationPath from "../../hooks/useLocationPath";
 import useLangParam from "../../hooks/useLangParam";
+import useLangSwitch from "../../hooks/useLangSwitch";
 import useTranslation from "../../hooks/useTranslation";
 import Footer from "./Footer";
 
@@ -21,7 +23,6 @@ const validateLocationPathAndLangParam = (locationPath: string, langParam: strin
  */
 const Layout = () => {
   const { pathname } = useLocation();
-  const navigate = useNavigate();
   const locationPath = useLocationPath(true);
   const langParam = useLangParam();
 
@@ -31,17 +32,8 @@ const Layout = () => {
   // Game pages (/:lang/fun/:gameId) have their own full-screen layout — no Navbar or Footer
   const isGamePage = pathSegments.length >= 3 && pathSegments[1] === SITE_SECTIONS.fun;
   const showNavbar = !isLandingPage && !isGamePage;
-  const {t, currentLang, setLang} = useTranslation();
-
-  /**
-   * Switches the site language, preserving the current sub-path.
-   */
-  const handleLangSwitch = (lang: string) => {
-    if (lang !== currentLang) {
-      const newPath = pathname.replace(`/${currentLang}`, `/${lang}`);
-      navigate(newPath, { replace: true });
-    }
-  };
+  const { t, currentLang, setLang } = useTranslation();
+  const { handleLangSwitch } = useLangSwitch();
 
   const {
     isLocationPathValid: locationPathValid,
@@ -110,12 +102,14 @@ const Layout = () => {
 
     return (
       <Box
-        sx={{
+        sx={(theme) => ({
           display: "flex",
           flexDirection: "column",
           minHeight: "100vh",
-        }}
+          pb: { xs: showNavbar ? theme.custom.components.bottomNav.height : 0, sm: 0 },
+        })}
       >
+        {/* Language switcher — desktop only; mobile uses BottomNav */}
         {LANGUAGES.length > 1 && !isGamePage && (
           <Box
             sx={{
@@ -123,7 +117,7 @@ const Layout = () => {
               top: 16,
               right: 16,
               zIndex: 2000,
-              display: "flex",
+              display: { xs: "none", sm: "flex" },
               gap: 1,
             }}
           >
@@ -145,7 +139,8 @@ const Layout = () => {
           </Box>
         )}
         {showNavbar && <Navbar />}
-        <Content hasNavbar={showNavbar} disableContainer={isGamePage} />
+        {showNavbar && <BottomNav />}
+        <Content hasNavbar={showNavbar} hasBottomNav={showNavbar} disableContainer={isGamePage} />
         {!isGamePage && <Footer />}
       </Box>
     );

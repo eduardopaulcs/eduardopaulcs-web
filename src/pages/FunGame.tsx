@@ -1,5 +1,8 @@
 import { useState } from "react";
-import { Box, Button, IconButton, useMediaQuery, useTheme } from "@mui/material";
+import { Box, Button, IconButton, Typography, useMediaQuery, useTheme } from "@mui/material";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import MenuIcon from "@mui/icons-material/Menu";
+import CloseIcon from "@mui/icons-material/Close";
 import { useEffect } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import useTranslation from "../hooks/useTranslation";
@@ -12,6 +15,7 @@ import { LANGUAGES } from "../constants";
  * Individual game page.
  * Reads the :gameId URL param, finds the matching game, and renders it in an iframe.
  * Redirects to the fun list if the game is not found.
+ * Shows an incompatibility screen if the game's platform restriction doesn't match the device.
  * On desktop: floating back-nav (top-left) and lang switcher (top-right).
  * On mobile: single toggle button (top-left) that opens a panel with all controls.
  */
@@ -25,7 +29,7 @@ const FunGame = () => {
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const [menuOpen, setMenuOpen] = useState(false);
 
-  const game = games.find((g) => g === gameId) ?? null;
+  const game = games.find((g) => g.id === gameId) ?? null;
 
   useEffect(() => {
     if (!loading && game === null) {
@@ -34,6 +38,40 @@ const FunGame = () => {
   }, [loading, game, navigate, currentLang]);
 
   if (loading || game === null) return null;
+
+  const isIncompatible =
+    (game.platform === "desktop" && isMobile) ||
+    (game.platform === "mobile" && !isMobile);
+
+  if (isIncompatible) {
+    return (
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          height: "100vh",
+          gap: 3,
+          px: 4,
+          textAlign: "center",
+        }}
+      >
+        <Typography variant="h5">
+          {t(`pages.fun.platformIncompatible.${game.platform}`)}
+        </Typography>
+        <Button
+          variant="contained"
+          color="secondary"
+          onClick={() => navigate(relativeToAbsolutePath("fun", currentLang))}
+          sx={{ borderRadius: 0 }}
+        >
+          <ArrowBackIcon sx={{ fontSize: "1rem", mr: 0.5 }} />
+          {t("navbar.links.fun")}
+        </Button>
+      </Box>
+    );
+  }
 
   const publicUrl = getEnvVariable("PUBLIC_URL", "", true);
 
@@ -70,7 +108,7 @@ const FunGame = () => {
               "&:hover": { backgroundColor: "secondary.main" },
             }}
           >
-            {menuOpen ? "✕" : "☰"}
+            {menuOpen ? <CloseIcon fontSize="small" /> : <MenuIcon fontSize="small" />}
           </IconButton>
           {menuOpen && (
             <Box sx={{ display: "flex", flexDirection: "column", gap: 1, mt: 1 }}>
@@ -81,7 +119,7 @@ const FunGame = () => {
                 onClick={() => { navigate(relativeToAbsolutePath("/", currentLang)); setMenuOpen(false); }}
                 sx={navButtonSx}
               >
-                ← {t("navbar.goBack")}
+                <ArrowBackIcon sx={{ fontSize: "1rem", mr: 0.5 }} />{t("navbar.goBack")}
               </Button>
               <Button
                 variant="contained"
@@ -90,7 +128,7 @@ const FunGame = () => {
                 onClick={() => { navigate(relativeToAbsolutePath("fun", currentLang)); setMenuOpen(false); }}
                 sx={navButtonSx}
               >
-                ← {t("navbar.links.fun")}
+                <ArrowBackIcon sx={{ fontSize: "1rem", mr: 0.5 }} />{t("navbar.links.fun")}
               </Button>
               {LANGUAGES.length > 1 && LANGUAGES.map((lang) => (
                 <Button
@@ -128,7 +166,7 @@ const FunGame = () => {
               onClick={() => navigate(relativeToAbsolutePath("/", currentLang))}
               sx={navButtonSx}
             >
-              ← {t("navbar.goBack")}
+              <ArrowBackIcon sx={{ fontSize: "1rem", mr: 0.5 }} />{t("navbar.goBack")}
             </Button>
             <Button
               variant="contained"
@@ -137,7 +175,7 @@ const FunGame = () => {
               onClick={() => navigate(relativeToAbsolutePath("fun", currentLang))}
               sx={navButtonSx}
             >
-              ← {t("navbar.links.fun")}
+              <ArrowBackIcon sx={{ fontSize: "1rem", mr: 0.5 }} />{t("navbar.links.fun")}
             </Button>
           </Box>
           {LANGUAGES.length > 1 && (
@@ -171,8 +209,8 @@ const FunGame = () => {
         </>
       )}
       <iframe
-        src={`${publicUrl}/fun/games/${game}/index.html?lang=${currentLang}`}
-        title={t(`pages.fun.games.${game}.name`)}
+        src={`${publicUrl}/fun/games/${game.id}/index.html?lang=${currentLang}`}
+        title={t(`pages.fun.games.${game.id}.name`)}
         style={{ display: "block", width: "100%", height: "100vh", border: "none" }}
       />
     </>
