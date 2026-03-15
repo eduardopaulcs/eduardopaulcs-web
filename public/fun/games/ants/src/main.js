@@ -25,6 +25,16 @@ window.setup = function setup() {
   // Prevent browser context menu so right click can be used in-game
   document.addEventListener('contextmenu', e => e.preventDefault());
 
+  // Pause the loop when the tab is hidden; discard accumulated delta on restore
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) {
+      noLoop();
+    } else {
+      deltaSum = 0;
+      loop();
+    }
+  });
+
   ps = new MainState();
 
   ps.startRandom();
@@ -46,7 +56,7 @@ window.mousePressed = function mousePressed() {
  * Draws a frame.
  */
 window.draw = function draw() {
-  deltaSum += deltaTime;
+  deltaSum = Math.min(deltaSum + deltaTime, config.timeForTick * 3);
 
   // If we have to tick
   while (deltaSum > config.timeForTick) {

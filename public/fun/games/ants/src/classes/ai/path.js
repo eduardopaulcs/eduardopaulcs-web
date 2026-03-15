@@ -10,16 +10,20 @@ export class Path {
    */
   constructor(points = []) {
     this.points = points;
-    this.life = 0; // set by colony.addPath() based on final point count
+    this.life = 0;        // set by colony.addPath()
+    this.reinforced = false; // true if any ant traversed this path this tick
     this.alive = true;
   }
 
   /**
-   * Advances this path by one tick, aging it toward expiry.
+   * Advances this path by one tick. Only decays if no ant reinforced it this tick.
    */
   tick() {
-    this.life--;
-    if (this.life <= 0) this.alive = false;
+    if (!this.reinforced) {
+      this.life--;
+      if (this.life <= 0) this.alive = false;
+    }
+    this.reinforced = false; // reset for next tick
   }
 
   addPoint(pos) {

@@ -13,7 +13,7 @@ export class Food extends Entity {
     this.radius = 10;
     this.maxLife = config.foodMaxLife;
     this.life = config.foodMaxLife;
-    this.traced = false; // true once a tracer ant has been spawned from this food
+    this.tracedBy = new WeakSet(); // weak refs — dead colonies are GC'd automatically
   }
 
   /**

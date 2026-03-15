@@ -76,6 +76,7 @@ export class MainState extends ProgramState {
     }
 
     this.foods = this.foods.filter(f => f.alive);
+    this.colonies = this.colonies.filter(c => c.alive);
 
     super.tick();
   }
@@ -99,8 +100,8 @@ export class MainState extends ProgramState {
       noStroke();
       fill(180);
       textAlign(CENTER, BOTTOM);
-      textSize(14);
-      text(state.i18n.hint, width / 2, height - 10);
+      textSize(16);
+      text(state.i18n.hint, width / 2, height - 26);
     }
 
     super.draw();

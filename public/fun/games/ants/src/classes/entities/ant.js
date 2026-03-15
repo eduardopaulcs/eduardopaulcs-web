@@ -65,6 +65,8 @@ export class Ant extends Creature {
 
     if (!nearestPath) return false;
 
+    if (towardColony) nearestPath.reinforced = true;
+
     const targetIdx = towardColony
       ? Math.min(nearestPath.points.length - 1, nearestIdx + 1)
       : Math.max(0, nearestIdx - 1);
@@ -107,8 +109,8 @@ export class Ant extends Creature {
       for (const food of foods) {
         if (dist(this.pos.x, this.pos.y, food.pos.x, food.pos.y) < food.radius) {
           food.deplete();
-          if (!food.traced) {
-            food.traced = true;
+          if (!food.tracedBy.has(this.colony)) {
+            food.tracedBy.add(this.colony);
             this.becomeTracer();
           } else {
             this.isCarrier = true;
@@ -119,10 +121,8 @@ export class Ant extends Creature {
     } else if (this.isTracer) {
       this.applyMovement();
 
-      // Follow path toward colony; fall back to direct steering if no path in range
-      if (!this.steerAlongPath(true)) {
-        this.steerTowardColony();
-      }
+      // Steer directly toward colony — no path following for tracers
+      this.steerTowardColony();
 
       // Deposit trail points at regular intervals
       this.trailTimer++;
@@ -134,6 +134,7 @@ export class Ant extends Creature {
       // Check arrival at colony — transfer trail and die
       if (dist(this.pos.x, this.pos.y, this.colony.pos.x, this.colony.pos.y) < this.colony.radius) {
         this.colony.addPath(this.trail);
+        this.colony.feed();
         this.alive = false;
       }
     } else { // isCarrier
@@ -142,8 +143,9 @@ export class Ant extends Creature {
       // Follow path toward colony — no fallback, just wanders if no path in range
       this.steerAlongPath(true);
 
-      // Check arrival at colony — just die (no trail)
+      // Check arrival at colony — feed colony and die (no trail)
       if (dist(this.pos.x, this.pos.y, this.colony.pos.x, this.colony.pos.y) < this.colony.radius) {
+        this.colony.feed();
         this.alive = false;
       }
     }
@@ -161,7 +163,7 @@ export class Ant extends Creature {
   draw() {
     // Draw active trail
     if (this.isTracer && this.trail && this.trail.points.length > 1) {
-      stroke(240, 220, 60, 150);
+      stroke(red(this.colony.col), green(this.colony.col), blue(this.colony.col), 150);
       strokeWeight(1);
       for (let i = 1; i < this.trail.points.length; i++) {
         const a = this.trail.points[i - 1].pos;
@@ -170,8 +172,10 @@ export class Ant extends Creature {
       }
     }
 
-    // Green if carrying food (tracer or carrier), red otherwise
-    this.col = (this.isTracer || this.isCarrier) ? color(80, 200, 100) : color(215, 15, 15);
+    // Full colony color if carrying, dimmed if wandering
+    this.col = (this.isTracer || this.isCarrier)
+      ? this.colony.col
+      : lerpColor(this.colony.col, color(0), 0.4);
     strokeWeight(4);
     super.draw();
   }

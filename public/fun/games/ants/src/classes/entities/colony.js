@@ -29,8 +29,25 @@ export class Colony extends Entity {
     this.ants = [];
     this.paths = [];
 
+    this.maxLife = config.colonyMaxLife;
+    this.life = config.colonyMaxLife;
+
+    // Assign a visually distinct color using golden-angle hue rotation
+    const h = Colony._nextHue;
+    Colony._nextHue = (Colony._nextHue + 137) % 360;
+    colorMode(HSB, 360, 100, 100);
+    this.col = color(h, 75, 90);
+    colorMode(RGB, 255, 255, 255, 255);
+
     // In ticks.
     this.antTime = 0;
+  }
+
+  /**
+   * Restores some life to this colony when an ant delivers food.
+   */
+  feed() {
+    this.life = Math.min(this.maxLife, this.life + config.colonyFeedAmount);
   }
 
   /**
@@ -38,7 +55,7 @@ export class Colony extends Entity {
    * @param {Path} path
    */
   addPath(path) {
-    path.life = path.points.length * config.pathLifePerPoint;
+    path.life = config.pathMaxLife + path.points.length * config.pathInitialLifePerPoint;
     this.paths.push(path);
   }
 
@@ -58,6 +75,10 @@ export class Colony extends Entity {
    * @param {Food[]} foods List of food sources for ants to detect.
    */
   tick(foods) {
+    // Decay life; die if starved
+    this.life -= config.colonyLifeDecay;
+    if (this.life <= 0) { this.alive = false; return; }
+
     // Should we spawn an ant?
     if (this.antTime <= 0) {
       // Do we have "ant space"? Yup, I'm calling that "ant space".
@@ -97,7 +118,7 @@ export class Colony extends Entity {
     // Draw completed tracer trails
     for (const path of this.paths) {
       if (path.points.length < 2) continue;
-      stroke(240, 220, 60, 150);
+      stroke(red(this.col), green(this.col), blue(this.col), 150);
       strokeWeight(1);
       for (let i = 1; i < path.points.length; i++) {
         const a = path.points[i - 1].pos;
@@ -106,7 +127,17 @@ export class Colony extends Entity {
       }
     }
 
-    stroke(color(200, 195, 150));
+    // Life bar
+    const barW = this.size * 10;
+    const barH = 3;
+    const ratio = this.life / this.maxLife;
+    noStroke();
+    fill(60, 60, 60);
+    rect(this.pos.x - barW / 2, this.pos.y - this.radius - 10, barW, barH);
+    fill(lerpColor(color(60, 60, 60), this.col, ratio));
+    rect(this.pos.x - barW / 2, this.pos.y - this.radius - 10, barW * ratio, barH);
+
+    stroke(this.col);
     strokeWeight(this.size*8);
     point(this.pos);
 
@@ -115,3 +146,5 @@ export class Colony extends Entity {
     }
   }
 }
+
+Colony._nextHue = 0;
