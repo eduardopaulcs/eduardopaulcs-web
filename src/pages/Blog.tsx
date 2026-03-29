@@ -6,6 +6,7 @@ import BlogTitleFilter from "../components/pages/Blog/BlogTitleFilter";
 import useTranslation from "../hooks/useTranslation";
 import useBlogPosts from "../hooks/useBlogPosts";
 import normalize from "../utils/normalize";
+import useDocumentTitle from "../hooks/useDocumentTitle";
 
 /**
  * Returns true if all whitespace-separated tokens in query appear in title.
@@ -24,6 +25,7 @@ const matchesTitle = (title: string, query: string): boolean => {
 const Blog = () => {
   const { t } = useTranslation();
   const { posts, loading, error } = useBlogPosts();
+  useDocumentTitle(t("pages.blog.title"));
   const [yearFilter, setYearFilter] = useState<string>("all");
   const [titleFilter, setTitleFilter] = useState<string>("");
 

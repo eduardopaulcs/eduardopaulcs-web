@@ -10,6 +10,7 @@ import useLangParam from "../../hooks/useLangParam";
 import useLangSwitch from "../../hooks/useLangSwitch";
 import useTranslation from "../../hooks/useTranslation";
 import Footer from "./Footer";
+import { PageTitleProvider, usePageTitleContext } from "../../contexts/PageTitleContext";
 
 const validateLocationPathAndLangParam = (locationPath: string, langParam: string | null) => {
   const isLangParamValid = !!(langParam && LANGUAGES.includes(langParam));
@@ -19,9 +20,10 @@ const validateLocationPathAndLangParam = (locationPath: string, langParam: strin
 };
 
 /**
- * Site layout component.
+ * Inner layout component. Consumes PageTitleContext to build the document title.
+ * Must be a child of PageTitleProvider.
  */
-const Layout = () => {
+const LayoutInner = () => {
   const { pathname } = useLocation();
   const locationPath = useLocationPath(true);
   const langParam = useLangParam();
@@ -34,6 +36,7 @@ const Layout = () => {
   const showNavbar = !isLandingPage && !isGamePage;
   const { t, currentLang, setLang } = useTranslation();
   const { handleLangSwitch } = useLangSwitch();
+  const { pageTitle } = usePageTitleContext();
 
   const {
     isLocationPathValid: locationPathValid,
@@ -63,12 +66,13 @@ const Layout = () => {
         setLang(newLang);
       }
 
-      // Always keep SEO metadata in sync with the current language
+      // Always keep SEO metadata in sync with the current language.
+      // Page-specific titles are prepended when set via useDocumentTitle.
       document.documentElement.lang = t("seo.lang");
-      document.title = t("seo.title");
+      document.title = pageTitle ? `${pageTitle} — ${t("seo.title")}` : t("seo.title");
       document.querySelector("meta[name='description']")?.setAttribute("content", t("seo.description"));
     }
-  }, [locationPath, langParam, t, currentLang, setLang]);
+  }, [locationPath, langParam, t, currentLang, setLang, pageTitle]);
 
   const renderContent = () => {
     // If we should redirect the user to the default language home page
@@ -152,5 +156,15 @@ const Layout = () => {
     </>
   );
 };
+
+/**
+ * Site layout component.
+ * Provides the PageTitleContext so nested pages can set page-specific document titles.
+ */
+const Layout = () => (
+  <PageTitleProvider>
+    <LayoutInner />
+  </PageTitleProvider>
+);
 
 export default Layout;
