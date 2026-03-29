@@ -1,9 +1,7 @@
-export const LANGUAGES = [
-  "en",
-  "es"
-];
+import languagesConfig from "./config/languages.json";
 
-export const DEFAULT_LANG = "en";
+export const LANGUAGES = languagesConfig.languages;
+export const DEFAULT_LANG = languagesConfig.defaultLang;
 
 export const HOME_SECTIONS = {
   "aboutMe": "about-me",

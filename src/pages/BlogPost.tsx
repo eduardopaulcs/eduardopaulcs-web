@@ -55,6 +55,7 @@ const BlogPost = () => {
     setMetaProperty("og:title", post.title);
     setMetaProperty("og:description", post.preview);
     setMetaProperty("og:url", window.location.href);
+    if (post.lang != null) setMetaProperty("og:locale", post.lang);
 
     return () => {
       removeMetaProperty("og:type");
@@ -62,6 +63,7 @@ const BlogPost = () => {
       removeMetaProperty("og:title");
       removeMetaProperty("og:description");
       removeMetaProperty("og:url");
+      removeMetaProperty("og:locale");
     };
   }, [post]);
 
