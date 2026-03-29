@@ -1,0 +1,5 @@
+{
+  "languages": ["en", "es"],
+  "defaultLang": "en",
+  "localeMap": { "en": "en_US", "es": "es_AR" }
+}
