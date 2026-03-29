@@ -52,10 +52,16 @@ const BlogPost = () => {
 
     setMetaProperty("og:type", "article");
     setMetaProperty("article:published_time", `${post.date}T00:00:00Z`);
+    setMetaProperty("og:title", post.title);
+    setMetaProperty("og:description", post.preview);
+    setMetaProperty("og:url", window.location.href);
 
     return () => {
       removeMetaProperty("og:type");
       removeMetaProperty("article:published_time");
+      removeMetaProperty("og:title");
+      removeMetaProperty("og:description");
+      removeMetaProperty("og:url");
     };
   }, [post]);
 
