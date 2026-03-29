@@ -1,9 +1,20 @@
 import translator from "i18next";
+import type { Resource } from "i18next";
 import { initReactI18next } from "react-i18next";
 import { DEFAULT_LANG, LANGUAGES } from "../constants";
 
-import common_en from "./en/common.json";
-import common_es from "./es/common.json";
+// Dynamically loads all common.json files from src/translations/{lang}/ subdirectories.
+// Adding a new language only requires creating the translation folder — no changes here.
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const translationContext = (require as any).context("./", true, /common\.json$/);
+const resources: Resource = {};
+(translationContext.keys() as string[]).forEach((key) => {
+  const match = key.match(/\.\/([\w-]+)\/common\.json$/);
+  if (match) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    resources[match[1]] = { common: translationContext(key) as any };
+  }
+});
 
 /**
  * Determines the correct initial language before i18next initializes,
@@ -29,14 +40,7 @@ translator
     fallbackLng: DEFAULT_LANG,
     supportedLngs: LANGUAGES,
     load: "languageOnly",
-    resources: {
-      en: {
-        common: common_en,
-      },
-      es: {
-        common: common_es,
-      },
-    },
+    resources,
     interpolation: {
       escapeValue: false,
     },
