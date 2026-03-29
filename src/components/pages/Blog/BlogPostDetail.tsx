@@ -22,7 +22,7 @@ const BlogPostDetail = ({ post }: BlogPostDetailProps) => {
   );
 
   return (
-    <Box sx={{ maxWidth: 720, mx: "auto", py: 4, px: 2 }}>
+    <Box component="article" sx={{ maxWidth: 720, mx: "auto", py: 4, px: 2 }}>
       <Typography variant="h4" component="h1" gutterBottom>
         {post.title}
       </Typography>

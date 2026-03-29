@@ -5,6 +5,7 @@ import GameSearchFilter from "../components/pages/Fun/GameSearchFilter";
 import useTranslation from "../hooks/useTranslation";
 import useFunGames from "../hooks/useFunGames";
 import normalize from "../utils/normalize";
+import useDocumentTitle from "../hooks/useDocumentTitle";
 
 /**
  * Returns true if all whitespace-separated tokens in query appear in name.
@@ -23,6 +24,7 @@ const matchesName = (name: string, query: string): boolean => {
 const Fun = () => {
   const { t } = useTranslation();
   const { games, loading, error } = useFunGames();
+  useDocumentTitle(t("pages.fun.title"));
   const [searchFilter, setSearchFilter] = useState<string>("");
 
   const filteredGames = games.filter((g) =>

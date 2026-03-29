@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Link, isRouteErrorResponse, useRouteError } from "react-router-dom";
 import useTranslation from "../hooks/useTranslation";
 import { Box, Button, Stack, Typography } from "@mui/material";
@@ -14,6 +15,12 @@ const Error = () => {
   const error = useRouteError();
   const isRouteError = isRouteErrorResponse(error);
   const status = isRouteError ? error.status : 0;
+
+  useEffect(() => {
+    document.title = status > 0
+      ? t("pages.error.titles.code", { code: status })
+      : t("pages.error.titles.generic");
+  }, [status, t]);
 
   /**
    * Gets the error title to display.

@@ -10,6 +10,7 @@ import useFunGames from "../hooks/useFunGames";
 import relativeToAbsolutePath from "../utils/relativeToAbsolutePath";
 import getEnvVariable from "../utils/getEnvVariable";
 import { LANGUAGES } from "../constants";
+import useDocumentTitle from "../hooks/useDocumentTitle";
 
 /**
  * Individual game page.
@@ -30,6 +31,8 @@ const FunGame = () => {
   const [menuOpen, setMenuOpen] = useState(false);
 
   const game = games.find((g) => g.id === gameId) ?? null;
+
+  useDocumentTitle(game ? t(`pages.fun.games.${game.id}.name`) : null);
 
   useEffect(() => {
     if (!loading && game === null) {
