@@ -4,6 +4,27 @@ import BlogPostDetail from "../components/pages/Blog/BlogPostDetail";
 import useTranslation from "../hooks/useTranslation";
 import useBlogPosts from "../hooks/useBlogPosts";
 import relativeToAbsolutePath from "../utils/relativeToAbsolutePath";
+import useDocumentTitle from "../hooks/useDocumentTitle";
+
+/**
+ * Adds or updates a <meta> tag by property attribute, creating it if absent.
+ */
+const setMetaProperty = (property: string, content: string) => {
+  let el = document.querySelector<HTMLMetaElement>(`meta[property="${property}"]`);
+  if (!el) {
+    el = document.createElement("meta");
+    el.setAttribute("property", property);
+    document.head.appendChild(el);
+  }
+  el.setAttribute("content", content);
+};
+
+/**
+ * Removes a <meta> tag by property attribute if it exists.
+ */
+const removeMetaProperty = (property: string) => {
+  document.querySelector(`meta[property="${property}"]`)?.remove();
+};
 
 /**
  * Individual blog post page.
@@ -18,11 +39,25 @@ const BlogPost = () => {
 
   const post = posts.find((p) => p.id === postId) ?? null;
 
+  useDocumentTitle(post?.title ?? null);
+
   useEffect(() => {
     if (!loading && post === null) {
       navigate(relativeToAbsolutePath("blog", currentLang), { replace: true });
     }
   }, [loading, post, navigate, currentLang]);
+
+  useEffect(() => {
+    if (post === null) return;
+
+    setMetaProperty("og:type", "article");
+    setMetaProperty("article:published_time", `${post.date}T00:00:00Z`);
+
+    return () => {
+      removeMetaProperty("og:type");
+      removeMetaProperty("article:published_time");
+    };
+  }, [post]);
 
   if (loading || post === null) return null;
 

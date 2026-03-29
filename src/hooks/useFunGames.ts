@@ -25,7 +25,7 @@ const useFunGames = () => {
     if (cachedGames !== null) return;
 
     if (pendingFetch === null) {
-      pendingFetch = fetch(`${getEnvVariable("PUBLIC_URL", "", true)}/fun/index.json`)
+      pendingFetch = fetch(`${getEnvVariable("PUBLIC_URL", "", true)}/fun/index.json?v=${getEnvVariable("BUILD_ID")}`)
         .then((res) => {
           if (!res.ok) throw new Error(`Failed to load games list (${res.status})`);
           return res.json() as Promise<GameMeta[]>;

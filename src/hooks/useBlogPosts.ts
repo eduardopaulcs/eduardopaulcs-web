@@ -28,7 +28,7 @@ const useBlogPosts = () => {
     if (cachedPosts !== null) return;
 
     if (pendingFetch === null) {
-      pendingFetch = fetch(`${getEnvVariable("PUBLIC_URL", "", true)}/blog/index.json`)
+      pendingFetch = fetch(`${getEnvVariable("PUBLIC_URL", "", true)}/blog/index.json?v=${getEnvVariable("BUILD_ID")}`)
         .then((res) => {
           if (!res.ok) throw new Error(`Failed to load blog index (${res.status})`);
           return res.json() as Promise<BlogPostMeta[]>;
