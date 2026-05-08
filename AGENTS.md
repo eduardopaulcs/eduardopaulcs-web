@@ -14,12 +14,12 @@ src/
 ├── components/
 │   ├── layout/         # Global UI: Layout, Navbar, Content, Footer, NavbarList, NavbarListItem
 │   └── pages/
-│       ├── Home/       # Section components: AboutMeSection, ExperienceSection, ToolsSection, ContactSection
+│       ├── Portfolio/       # Section components: AboutMeSection, ExperienceSection, ToolsSection, ContactSection
 │       ├── Blog/       # BlogPostCard, BlogPostDetail, BlogDateFilter, BlogTitleFilter
 │       └── Fun/        # GameCard, GameSearchFilter
 ├── hooks/              # Custom hooks (camelCase filenames)
 ├── images/             # Static assets
-├── pages/              # Routable pages: Landing, Home, Blog, BlogPost, Fun, FunGame, Error
+├── pages/              # Routable pages: Landing, Portfolio, Blog, BlogPost, Fun, FunGame, Error
 ├── routes/             # router.tsx — createBrowserRouter setup
 ├── styles/             # theme.ts + customTheme.json
 ├── translations/
@@ -45,7 +45,7 @@ Games (standalone HTML in iframes) live in `public/fun/games/{gameId}/`. See `.c
 
 ```tsx
 /**
- * Displays the cover section of the home page.
+ * Displays the cover section of the portfolio page.
  */
 const CoverSection = () => {
   return <Box>...</Box>;
@@ -99,7 +99,7 @@ const useTranslationArray = <T,>(key: string) => { ... };        // Generic hook
 - Use the custom `useTranslation()` hook — never import directly from `react-i18next`.
 - Use `useTranslationArray<T>(key)` for arrays from translation files.
 - When adding a translation key, always add it to **both** `en/common.json` and `es/common.json`.
-- Translation keys follow nested dot-notation: `"pages.home.sections.cover.name"`.
+- Translation keys follow nested dot-notation: `"pages.portfolio.sections.cover.name"`.
 - `useTranslation()` returns `{ t, currentLang, setLang }`.
 
 ---
@@ -129,8 +129,8 @@ const useTranslationArray = <T,>(key: string) => { ... };        // Generic hook
 All semantic identifiers live in `src/constants.ts`. Never use magic strings in components.
 
 ```ts
-HOME_SECTIONS   // sections on the /me page: { aboutMe, experience, tools, contact }
-SITE_SECTIONS   // top-level site pages: { me, blog, fun }
+PORTFOLIO_SECTIONS   // sections on the /portfolio page: { aboutMe, experience, tools, contact }
+SITE_SECTIONS   // top-level site pages: { portfolio, blog, fun }
 CONTACT_MEANS   // contact links: { linkedin, github, email }
 LANGUAGES       // supported languages: ["en", "es"]
 DEFAULT_LANG    // "en"
@@ -143,7 +143,7 @@ DEFAULT_LANG    // "en"
 Section-to-component and key-to-icon mappings use **switch-based functions** in `src/utils/`. Never use inline conditionals or object literals for this — mappers need to return JSX and switch gives exhaustiveness safety.
 
 ```tsx
-// src/utils/homeSectionMappers.tsx
+// src/utils/portfolioSectionMappers.tsx
 export const mapSectionKeyToIcon = (key: string): JSX.Element => {
   switch (key) {
     case "aboutMe": return <Info />;
@@ -153,10 +153,10 @@ export const mapSectionKeyToIcon = (key: string): JSX.Element => {
 };
 ```
 
-**To add a new section to `/me`:**
-1. Add entry to `HOME_SECTIONS` in `src/constants.ts`
-2. Add cases to both mappers in `src/utils/homeSectionMappers.tsx`
-3. Create `src/components/pages/Home/NewSection.tsx`
+**To add a new section to `/portfolio`:**
+1. Add entry to `PORTFOLIO_SECTIONS` in `src/constants.ts`
+2. Add cases to both mappers in `src/utils/portfolioSectionMappers.tsx`
+3. Create `src/components/pages/Portfolio/NewSection.tsx`
 4. Add translation keys to both `en/common.json` and `es/common.json`
 5. Add `navbar.links.newKey` to both translation files
 
@@ -186,7 +186,7 @@ const isLandingPage = pathname.split("/").filter(Boolean).length <= 1;
 
 ---
 
-## Scroll System (on `/me` page)
+## Scroll System (on `/portfolio` page)
 
 Two hooks work together to keep URL hash ↔ visible section in sync. Both are initialized in `Navbar.tsx`:
 

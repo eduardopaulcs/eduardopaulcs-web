@@ -24,7 +24,7 @@ const getBackgroundScroll = () => {
 };
 
 /**
- * Component to display the background image of the home page.
+ * Component to display the background image of the portfolio page.
  */
 const Background = ({
   totalHeight

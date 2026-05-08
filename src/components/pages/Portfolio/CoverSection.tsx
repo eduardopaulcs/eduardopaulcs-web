@@ -1,7 +1,7 @@
 import { Box, Stack, Typography } from "@mui/material";
-import Face from "../../../images/home/face.png";
-import Blob from "../../../images/home/blob.png";
-import Lines from "../../../images/home/lines.png";
+import Face from "../../../images/portfolio/face.png";
+import Blob from "../../../images/portfolio/blob.png";
+import Lines from "../../../images/portfolio/lines.png";
 import useTranslation from "../../../hooks/useTranslation";
 
 const CoverSection = () => {
@@ -30,7 +30,7 @@ const CoverSection = () => {
               fontWeight: "bold",
             }}
           >
-            {t("pages.home.sections.cover.name")}
+            {t("pages.portfolio.sections.cover.name")}
           </Typography>
           <Typography
             variant="subtitle1"
@@ -39,7 +39,7 @@ const CoverSection = () => {
               fontSize: "1.2em",
             }}
           >
-            {t("pages.home.sections.cover.profession")}
+            {t("pages.portfolio.sections.cover.profession")}
           </Typography>
         </Stack>
         <Box
@@ -101,7 +101,7 @@ const CoverSection = () => {
           <Box
             component="img"
             src={Face}
-            alt={t("pages.home.sections.cover.face")}
+            alt={t("pages.portfolio.sections.cover.face")}
             sx={{
               display: "block",
               height: "auto",

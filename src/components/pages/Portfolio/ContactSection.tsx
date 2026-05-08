@@ -74,7 +74,7 @@ const ContactSection = () => {
                 <ListItemIcon>
                   {contactLink.icon}
                 </ListItemIcon>
-                <ListItemText primary={t(`pages.home.sections.contact.links.${contactLink.key}`)} />
+                <ListItemText primary={t(`pages.portfolio.sections.contact.links.${contactLink.key}`)} />
               </>
             ),
             sx: {
@@ -105,7 +105,7 @@ const ContactSection = () => {
           variant="h6"
           component="h2"
         >
-          {t(`pages.home.sections.contact.links.${emailLinkModalInfo.key}`)}
+          {t(`pages.portfolio.sections.contact.links.${emailLinkModalInfo.key}`)}
         </Typography>
         <Typography>
           {emailLinkModalInfo.link}
@@ -130,7 +130,7 @@ const ContactSection = () => {
             fontWeight: "bold",
           }}
         >
-          {t("pages.home.sections.contact.title")}
+          {t("pages.portfolio.sections.contact.title")}
         </Typography>
         <List>
           {getContactListItems()}
