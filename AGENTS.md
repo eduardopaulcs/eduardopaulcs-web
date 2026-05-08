@@ -203,6 +203,17 @@ See `.claude/architecture.md` for full details on this system.
 
 ---
 
+## Node Version Management
+
+- Este proyecto usa **nvm** para manejar la versión de Node.js.
+- Versión requerida: `18.20.8` (definida en `.nvmrc`).
+- **Antes de ejecutar cualquier comando npm/node**, ejecutar `nvm use`.
+- Si la versión no está instalada, ejecutar `nvm install` primero.
+- Verificar con `nvm current` para confirmar la versión activa.
+- Si se cambió de versión, puede hacer falta `npm ci` para recompilar dependencias nativas.
+
+---
+
 ## Environment Variables
 
 All runtime config comes from `REACT_APP_*` env vars (CRA convention). Access via `getEnvVariable(name)` in `src/utils/getEnvVariable.ts` — it auto-prefixes `REACT_APP_` and handles missing values gracefully.
@@ -234,3 +245,4 @@ Set as GitHub Actions secrets. Not available at runtime — build-time injection
 - ❌ Skip adding a translation key to one of the two language files
 - ❌ Access `process.env.PUBLIC_URL` directly — use `getEnvVariable("PUBLIC_URL", "", true)`
 - ❌ Add a visual language badge or indicator on blog post cards or detail views — `lang` is HTML-only
+- ❌ Ejecutar npm/node commands sin hacer `nvm use` primero
