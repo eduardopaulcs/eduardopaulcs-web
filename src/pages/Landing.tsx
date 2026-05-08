@@ -35,11 +35,11 @@ const Landing = () => {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
+        paddingY: 4,
         overflowX: "hidden",
       }}
     >
       <Background totalHeight={landingHeight} />
-      {/* Centered content block */}
       <Box
         sx={{
           display: "flex",
@@ -50,10 +50,8 @@ const Landing = () => {
           width: "100%",
           maxWidth: 960,
           paddingX: { xs: 1, sm: 2, md: 4 },
-          paddingY: 4,
         }}
       >
-        {/* Name above columns */}
         <Typography
           variant="h3"
           component="h1"
@@ -61,7 +59,6 @@ const Landing = () => {
         >
           {t("pages.home.sections.cover.name")}
         </Typography>
-        {/* Two columns: face + cards */}
         <Box
           sx={{
             display: "flex",
@@ -71,9 +68,6 @@ const Landing = () => {
             width: "100%",
           }}
         >
-          {/* Face image — overflow visible so the portrait isn't clipped.
-              Decorations (blob/lines) are at negative z-index so the cards
-              cover any overflow that extends into the gap. */}
           <Box
             sx={{
               position: "relative",
@@ -127,7 +121,6 @@ const Landing = () => {
               }}
             />
           </Box>
-          {/* Section cards */}
           <Box
             sx={{
               display: "flex",
