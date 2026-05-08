@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Box, Card, CardActionArea, CardContent, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import Background from "../components/common/Background";
+import DonationBanner from "../components/pages/Landing/DonationBanner";
 import Face from "../images/landing/face.png";
 import Blob from "../images/landing/blob.png";
 import Lines from "../images/landing/lines.png";
@@ -180,6 +181,7 @@ const Landing = () => {
             ))}
           </Box>
         </Box>
+        <DonationBanner />
       </Box>
     </Box>
   );

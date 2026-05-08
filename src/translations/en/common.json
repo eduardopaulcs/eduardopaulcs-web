@@ -21,7 +21,8 @@
     "goBack": "Home"
   },
   "footer": {
-    "copyright": "Copyright © {{yearRange}} Eduardo Paul Contardi Soria"
+    "copyright": "Copyright © {{yearRange}} Eduardo Paul Contardi Soria",
+    "donate": "Donate"
   },
   "modal": {
     "closeModal": "Cerrar"
@@ -43,6 +44,10 @@
         "portfolio": { "title": "Portfolio", "description": "About me, my experience and contact" },
         "blog": { "title": "Blog", "description": "Articles and thoughts" },
         "fun": { "title": "Fun", "description": "Games and simple projects" }
+      },
+      "donate": {
+        "title": "Show support",
+        "description": "If you would like to support me, you can donate by clicking this button!"
       }
     },
     "blog": {

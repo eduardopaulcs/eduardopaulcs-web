@@ -37,6 +37,7 @@ jobs:
           REACT_APP_LINKEDIN_URL: ${{ vars.REACT_APP_LINKEDIN_URL }}
           REACT_APP_GITHUB_URL: ${{ vars.REACT_APP_GITHUB_URL }}
           REACT_APP_CONTACT_EMAIL: ${{ vars.REACT_APP_CONTACT_EMAIL }}
+          REACT_APP_DONATION_URL: ${{ vars.REACT_APP_DONATION_URL }}
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
