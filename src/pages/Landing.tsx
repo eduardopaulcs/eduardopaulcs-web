@@ -17,13 +17,21 @@ import relativeToAbsolutePath from "../utils/relativeToAbsolutePath";
 const Landing = () => {
   const { t, currentLang } = useTranslation();
   const navigate = useNavigate();
-  const landingRef = useRef<HTMLDivElement>();
+  const landingRef = useRef<HTMLDivElement>(null);
   const [landingHeight, setLandingHeight] = useState(0);
 
   useEffect(() => {
-    if (landingRef.current) {
-      setLandingHeight(landingRef.current.offsetHeight);
-    }
+    const node = landingRef.current;
+    if (!node) return;
+
+    const observer = new ResizeObserver((entries) => {
+      for (const entry of entries) {
+        setLandingHeight(entry.target.scrollHeight);
+      }
+    });
+
+    observer.observe(node);
+    return () => observer.disconnect();
   }, []);
 
   return (
