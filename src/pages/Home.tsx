@@ -1,30 +1,30 @@
 import { useEffect, useRef, useState } from "react";
-import type { MutableRefObject } from "react";
 import Section from "../components/pages/Home/Section";
 import { HOME_SECTIONS } from "../constants";
 import { mapSectionKeyToComponent } from "../utils/homeSectionMappers";
 import Background from "../components/pages/Home/Background";
 import { Box } from "@mui/material";
 
-const getHomeHeight = (homeRef: MutableRefObject<HTMLDivElement | undefined>) => {
-  if (homeRef.current) {
-    return homeRef.current.offsetHeight;
-  }
-
-  return 0;
-};
-
 /**
  * Homepage of the site.
  */
 const Home = () => {
-  const homeRef = useRef<HTMLDivElement>();
-
-  const [homeHeight, setHomeHeight] = useState<number>(getHomeHeight(homeRef));
+  const homeRef = useRef<HTMLDivElement>(null);
+  const [homeHeight, setHomeHeight] = useState(0);
 
   useEffect(() => {
-    setHomeHeight(getHomeHeight(homeRef));
-  }, [homeRef]);
+    const node = homeRef.current;
+    if (!node) return;
+
+    const observer = new ResizeObserver((entries) => {
+      for (const entry of entries) {
+        setHomeHeight(entry.target.scrollHeight);
+      }
+    });
+
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, []);
 
   return (
     <Box

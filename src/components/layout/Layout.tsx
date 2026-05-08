@@ -7,6 +7,7 @@ import Navbar from "./Navbar";
 import BottomNav from "./BottomNav";
 import useLocationPath from "../../hooks/useLocationPath";
 import useLangParam from "../../hooks/useLangParam";
+import useScrollToTop from "../../hooks/useScrollToTop";
 import useLangSwitch from "../../hooks/useLangSwitch";
 import useTranslation from "../../hooks/useTranslation";
 import Footer from "./Footer";
@@ -27,6 +28,7 @@ const LayoutInner = () => {
   const { pathname } = useLocation();
   const locationPath = useLocationPath(true);
   const langParam = useLangParam();
+  useScrollToTop();
 
   // The landing page has only one path segment (the lang), e.g. "/en/"
   const pathSegments = pathname.split("/").filter(Boolean);

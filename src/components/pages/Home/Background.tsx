@@ -29,7 +29,8 @@ const getBackgroundScroll = () => {
 const Background = ({
   totalHeight
 }: BackgroundProps) => {
-  const backgroundRef = useRef<HTMLDivElement>();
+  const backgroundRef = useRef<HTMLDivElement>(null);
+  const [resizeTick, setResizeTick] = useState(0);
   const backgroundHeight = getBackgroundHeight(totalHeight);
 
   const [bgImage, setBgImage] = useState<string | null>(null);
@@ -46,13 +47,21 @@ const Background = ({
     setBackgroundScroll(getBackgroundScroll());
   };
 
-  useEffect(() => {
-    // When the component loads
+  /**
+   * Forces re-render on window resize so getBackgroundHeight
+   * recomputes with the current window.innerHeight.
+   */
+  const handleResize = () => {
+    setResizeTick((t) => t + 1);
+  };
 
+  useEffect(() => {
     window.addEventListener("scroll", handleScroll, {passive: true});
+    window.addEventListener("resize", handleResize, {passive: true});
 
     return () => {
       window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", handleResize);
     };
   }, []);
 
