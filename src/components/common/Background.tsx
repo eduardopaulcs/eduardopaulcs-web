@@ -30,7 +30,7 @@ const Background = ({
   totalHeight
 }: BackgroundProps) => {
   const backgroundRef = useRef<HTMLDivElement>(null);
-  const [resizeTick, setResizeTick] = useState(0);
+  const [, setResizeTick] = useState(0);
   const backgroundHeight = getBackgroundHeight(totalHeight);
 
   const [bgImage, setBgImage] = useState<string | null>(null);
