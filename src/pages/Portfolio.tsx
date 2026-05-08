@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import Section from "../components/pages/Portfolio/Section";
 import { PORTFOLIO_SECTIONS } from "../constants";
 import { mapSectionKeyToComponent } from "../utils/portfolioSectionMappers";
-import Background from "../components/pages/Portfolio/Background";
+import Background from "../components/common/Background";
 import { Box } from "@mui/material";
 
 /**

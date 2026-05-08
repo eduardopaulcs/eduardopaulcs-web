@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 import { Box, Card, CardActionArea, CardContent, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import Background from "../components/pages/Portfolio/Background";
-import Face from "../images/portfolio/face.png";
-import Blob from "../images/portfolio/blob.png";
-import Lines from "../images/portfolio/lines.png";
+import Background from "../components/common/Background";
+import Face from "../images/landing/face.png";
+import Blob from "../images/landing/blob.png";
+import Lines from "../images/landing/lines.png";
 import useTranslation from "../hooks/useTranslation";
 import { SITE_SECTIONS } from "../constants";
 import { mapSiteSectionKeyToIcon } from "../utils/siteSectionMappers";

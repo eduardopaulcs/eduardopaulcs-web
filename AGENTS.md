@@ -45,13 +45,13 @@ Games (standalone HTML in iframes) live in `public/fun/games/{gameId}/`. See `.c
 
 ```tsx
 /**
- * Displays the cover section of the portfolio page.
+ * Displays the about me section of the portfolio page.
  */
-const CoverSection = () => {
+const AboutMeSection = () => {
   return <Box>...</Box>;
 };
 
-export default CoverSection;
+export default AboutMeSection;
 ```
 
 ---
