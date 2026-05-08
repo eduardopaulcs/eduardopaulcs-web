@@ -3,7 +3,7 @@ import languagesConfig from "./config/languages.json";
 export const LANGUAGES = languagesConfig.languages;
 export const DEFAULT_LANG = languagesConfig.defaultLang;
 
-export const HOME_SECTIONS = {
+export const PORTFOLIO_SECTIONS = {
   "aboutMe": "about-me",
   "experience": "experience",
   "tools": "tools",
@@ -11,7 +11,7 @@ export const HOME_SECTIONS = {
 };
 
 export const SITE_SECTIONS = {
-  "me": "me",
+  "portfolio": "portfolio",
   "blog": "blog",
   "fun": "fun",
 };
@@ -21,3 +21,5 @@ export const CONTACT_MEANS = {
   "github": "GITHUB_URL",
   "email": "CONTACT_EMAIL",
 };
+
+export const DONATION_URL = "DONATION_URL";

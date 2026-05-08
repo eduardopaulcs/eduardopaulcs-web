@@ -12,7 +12,7 @@
       "experience": "Experiencia",
       "tools": "Herramientas",
       "contact": "Contacto",
-      "me": "Portfolio",
+      "portfolio": "Portfolio",
       "blog": "Blog",
       "fun": "Fun",
       "backToBlog": "Volver al Blog"
@@ -21,7 +21,8 @@
     "goBack": "Inicio"
   },
   "footer": {
-    "copyright": "Copyright © {{yearRange}} Eduardo Paul Contardi Soria"
+    "copyright": "Copyright © {{yearRange}} Eduardo Paul Contardi Soria",
+    "donate": "Donar"
   },
   "modal": {
     "closeModal": "Cerrar"
@@ -40,9 +41,13 @@
     },
     "landing": {
       "sections": {
-        "me": { "title": "Portfolio", "description": "Sobre mí, mi experiencia y contacto" },
+        "portfolio": { "title": "Portfolio", "description": "Sobre mí, mi experiencia y contacto" },
         "blog": { "title": "Blog", "description": "Posts y pensamientos" },
         "fun": { "title": "Fun", "description": "Juegos y proyectos simples" }
+      },
+      "donate": {
+        "title": "Muestra tu apoyo",
+        "description": "Si te gustaría apoyarme, ¡puedes hacer una donación haciendo clic en este botón!"
       }
     },
     "blog": {
@@ -78,7 +83,7 @@
         }
       }
     },
-    "home": {
+    "portfolio": {
       "sections": {
         "cover": {
           "name": "Eduardo Paul Contardi Soria",

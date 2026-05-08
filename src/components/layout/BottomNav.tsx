@@ -25,7 +25,7 @@ import { LANGUAGES, SITE_SECTIONS } from "../../constants";
  */
 const getActiveTab = (pathname: string): number => {
   const parts = pathname.split("/").filter(Boolean);
-  if (parts.includes(SITE_SECTIONS.me)) return 1;
+  if (parts.includes(SITE_SECTIONS.portfolio)) return 1;
   if (parts.includes(SITE_SECTIONS.blog)) return 2;
   if (parts.includes(SITE_SECTIONS.fun)) return 3;
   return 0;
@@ -106,9 +106,9 @@ const BottomNav = () => {
             sx={{ minWidth: 0 }}
           />
           <BottomNavigationAction
-            aria-label={t("navbar.links.me")}
+            aria-label={t("navbar.links.portfolio")}
             icon={<PersonIcon />}
-            onClick={() => handleNavAction(SITE_SECTIONS.me)}
+            onClick={() => handleNavAction(SITE_SECTIONS.portfolio)}
             sx={{ minWidth: 0 }}
           />
           <BottomNavigationAction

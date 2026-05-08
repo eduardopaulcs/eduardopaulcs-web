@@ -7,7 +7,7 @@ export const mapSiteSectionKeyToIcon = (sectionKey: string) => {
   let icon = null;
 
   switch (sectionKey) {
-    case "me":
+    case "portfolio":
       icon = <Person />;
       break;
 

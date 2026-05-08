@@ -7,7 +7,7 @@ import useTranslationArray from "../../../hooks/useTranslationArray";
  */
 const AboutMeSection = () => {
   const {t} = useTranslation();
-  const aboutMe = useTranslationArray<string>("pages.home.sections.aboutMe.description");
+  const aboutMe = useTranslationArray<string>("pages.portfolio.sections.aboutMe.description");
 
   return (
     <Box
@@ -24,7 +24,7 @@ const AboutMeSection = () => {
             fontWeight: "bold",
           }}
         >
-          {t("pages.home.sections.aboutMe.title")}
+          {t("pages.portfolio.sections.aboutMe.title")}
         </Typography>
         <Stack spacing={2}>
           {aboutMe.map((paragraph, idx) => (

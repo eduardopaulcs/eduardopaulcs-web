@@ -14,12 +14,12 @@ src/
 ├── components/
 │   ├── layout/         # Global UI: Layout, Navbar, Content, Footer, NavbarList, NavbarListItem
 │   └── pages/
-│       ├── Home/       # Section components: AboutMeSection, ExperienceSection, ToolsSection, ContactSection
+│       ├── Portfolio/       # Section components: AboutMeSection, ExperienceSection, ToolsSection, ContactSection
 │       ├── Blog/       # BlogPostCard, BlogPostDetail, BlogDateFilter, BlogTitleFilter
 │       └── Fun/        # GameCard, GameSearchFilter
 ├── hooks/              # Custom hooks (camelCase filenames)
 ├── images/             # Static assets
-├── pages/              # Routable pages: Landing, Home, Blog, BlogPost, Fun, FunGame, Error
+├── pages/              # Routable pages: Landing, Portfolio, Blog, BlogPost, Fun, FunGame, Error
 ├── routes/             # router.tsx — createBrowserRouter setup
 ├── styles/             # theme.ts + customTheme.json
 ├── translations/
@@ -45,13 +45,13 @@ Games (standalone HTML in iframes) live in `public/fun/games/{gameId}/`. See `.c
 
 ```tsx
 /**
- * Displays the cover section of the home page.
+ * Displays the about me section of the portfolio page.
  */
-const CoverSection = () => {
+const AboutMeSection = () => {
   return <Box>...</Box>;
 };
 
-export default CoverSection;
+export default AboutMeSection;
 ```
 
 ---
@@ -99,7 +99,7 @@ const useTranslationArray = <T,>(key: string) => { ... };        // Generic hook
 - Use the custom `useTranslation()` hook — never import directly from `react-i18next`.
 - Use `useTranslationArray<T>(key)` for arrays from translation files.
 - When adding a translation key, always add it to **both** `en/common.json` and `es/common.json`.
-- Translation keys follow nested dot-notation: `"pages.home.sections.cover.name"`.
+- Translation keys follow nested dot-notation: `"pages.portfolio.sections.cover.name"`.
 - `useTranslation()` returns `{ t, currentLang, setLang }`.
 
 ---
@@ -129,8 +129,8 @@ const useTranslationArray = <T,>(key: string) => { ... };        // Generic hook
 All semantic identifiers live in `src/constants.ts`. Never use magic strings in components.
 
 ```ts
-HOME_SECTIONS   // sections on the /me page: { aboutMe, experience, tools, contact }
-SITE_SECTIONS   // top-level site pages: { me, blog, fun }
+PORTFOLIO_SECTIONS   // sections on the /portfolio page: { aboutMe, experience, tools, contact }
+SITE_SECTIONS   // top-level site pages: { portfolio, blog, fun }
 CONTACT_MEANS   // contact links: { linkedin, github, email }
 LANGUAGES       // supported languages: ["en", "es"]
 DEFAULT_LANG    // "en"
@@ -143,7 +143,7 @@ DEFAULT_LANG    // "en"
 Section-to-component and key-to-icon mappings use **switch-based functions** in `src/utils/`. Never use inline conditionals or object literals for this — mappers need to return JSX and switch gives exhaustiveness safety.
 
 ```tsx
-// src/utils/homeSectionMappers.tsx
+// src/utils/portfolioSectionMappers.tsx
 export const mapSectionKeyToIcon = (key: string): JSX.Element => {
   switch (key) {
     case "aboutMe": return <Info />;
@@ -153,10 +153,10 @@ export const mapSectionKeyToIcon = (key: string): JSX.Element => {
 };
 ```
 
-**To add a new section to `/me`:**
-1. Add entry to `HOME_SECTIONS` in `src/constants.ts`
-2. Add cases to both mappers in `src/utils/homeSectionMappers.tsx`
-3. Create `src/components/pages/Home/NewSection.tsx`
+**To add a new section to `/portfolio`:**
+1. Add entry to `PORTFOLIO_SECTIONS` in `src/constants.ts`
+2. Add cases to both mappers in `src/utils/portfolioSectionMappers.tsx`
+3. Create `src/components/pages/Portfolio/NewSection.tsx`
 4. Add translation keys to both `en/common.json` and `es/common.json`
 5. Add `navbar.links.newKey` to both translation files
 
@@ -186,7 +186,7 @@ const isLandingPage = pathname.split("/").filter(Boolean).length <= 1;
 
 ---
 
-## Scroll System (on `/me` page)
+## Scroll System (on `/portfolio` page)
 
 Two hooks work together to keep URL hash ↔ visible section in sync. Both are initialized in `Navbar.tsx`:
 
@@ -200,6 +200,17 @@ useScrollHashSync(isNavigatingRef, syncHashRef);           // scroll → hash
 - `syncHashRef`: stores the **exact hash string** the observer just navigated to. `useScrollToLocation` matches against this to skip auto-scroll for observer-driven hash changes. Storing the string (not a boolean) prevents a race condition where a user click and an observer fire overlap.
 
 See `.claude/architecture.md` for full details on this system.
+
+---
+
+## Node Version Management
+
+- Este proyecto usa **nvm** para manejar la versión de Node.js.
+- Versión requerida: `18.20.8` (definida en `.nvmrc`).
+- **Antes de ejecutar cualquier comando npm/node**, ejecutar `nvm use`.
+- Si la versión no está instalada, ejecutar `nvm install` primero.
+- Verificar con `nvm current` para confirmar la versión activa.
+- Si se cambió de versión, puede hacer falta `npm ci` para recompilar dependencias nativas.
 
 ---
 
@@ -234,3 +245,4 @@ Set as GitHub Actions secrets. Not available at runtime — build-time injection
 - ❌ Skip adding a translation key to one of the two language files
 - ❌ Access `process.env.PUBLIC_URL` directly — use `getEnvVariable("PUBLIC_URL", "", true)`
 - ❌ Add a visual language badge or indicator on blog post cards or detail views — `lang` is HTML-only
+- ❌ Ejecutar npm/node commands sin hacer `nvm use` primero

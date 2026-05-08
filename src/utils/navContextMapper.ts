@@ -9,7 +9,7 @@ export type NavContext = "portfolio" | "blogPost" | "other";
 export const getNavContext = (pathname: string): NavContext => {
   const pathParts = pathname.split("/").filter(Boolean);
 
-  if (pathParts.includes(SITE_SECTIONS.me)) {
+  if (pathParts.includes(SITE_SECTIONS.portfolio)) {
     return "portfolio";
   }
 

@@ -1,10 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import { Box, Card, CardActionArea, CardContent, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import Background from "../components/pages/Home/Background";
-import Face from "../images/home/face.png";
-import Blob from "../images/home/blob.png";
-import Lines from "../images/home/lines.png";
+import Background from "../components/common/Background";
+import DonationBanner from "../components/pages/Landing/DonationBanner";
+import Face from "../images/landing/face.png";
+import Blob from "../images/landing/blob.png";
+import Lines from "../images/landing/lines.png";
 import useTranslation from "../hooks/useTranslation";
 import { SITE_SECTIONS } from "../constants";
 import { mapSiteSectionKeyToIcon } from "../utils/siteSectionMappers";
@@ -17,13 +18,21 @@ import relativeToAbsolutePath from "../utils/relativeToAbsolutePath";
 const Landing = () => {
   const { t, currentLang } = useTranslation();
   const navigate = useNavigate();
-  const landingRef = useRef<HTMLDivElement>();
+  const landingRef = useRef<HTMLDivElement>(null);
   const [landingHeight, setLandingHeight] = useState(0);
 
   useEffect(() => {
-    if (landingRef.current) {
-      setLandingHeight(landingRef.current.offsetHeight);
-    }
+    const node = landingRef.current;
+    if (!node) return;
+
+    const observer = new ResizeObserver((entries) => {
+      for (const entry of entries) {
+        setLandingHeight(entry.target.scrollHeight);
+      }
+    });
+
+    observer.observe(node);
+    return () => observer.disconnect();
   }, []);
 
   return (
@@ -35,11 +44,11 @@ const Landing = () => {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
+        paddingY: 4,
         overflowX: "hidden",
       }}
     >
       <Background totalHeight={landingHeight} />
-      {/* Centered content block */}
       <Box
         sx={{
           display: "flex",
@@ -50,18 +59,15 @@ const Landing = () => {
           width: "100%",
           maxWidth: 960,
           paddingX: { xs: 1, sm: 2, md: 4 },
-          paddingY: 4,
         }}
       >
-        {/* Name above columns */}
         <Typography
           variant="h3"
           component="h1"
           sx={{ fontWeight: "bold", textAlign: "center" }}
         >
-          {t("pages.home.sections.cover.name")}
+          {t("pages.portfolio.sections.cover.name")}
         </Typography>
-        {/* Two columns: face + cards */}
         <Box
           sx={{
             display: "flex",
@@ -71,9 +77,6 @@ const Landing = () => {
             width: "100%",
           }}
         >
-          {/* Face image — overflow visible so the portrait isn't clipped.
-              Decorations (blob/lines) are at negative z-index so the cards
-              cover any overflow that extends into the gap. */}
           <Box
             sx={{
               position: "relative",
@@ -119,7 +122,7 @@ const Landing = () => {
             <Box
               component="img"
               src={Face}
-              alt={t("pages.home.sections.cover.face")}
+              alt={t("pages.portfolio.sections.cover.face")}
               sx={{
                 display: "block",
                 width: "100%",
@@ -127,7 +130,6 @@ const Landing = () => {
               }}
             />
           </Box>
-          {/* Section cards */}
           <Box
             sx={{
               display: "flex",
@@ -179,6 +181,7 @@ const Landing = () => {
             ))}
           </Box>
         </Box>
+        <DonationBanner />
       </Box>
     </Box>
   );

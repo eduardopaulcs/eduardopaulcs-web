@@ -21,9 +21,9 @@ type TimelineItemTranslation = {
  */
 const ExperienceSection = () => {
   const {t} = useTranslation();
-  const timeline = useTranslationArray<string>("pages.home.sections.aboutMe.timeline.description");
-  const future = useTranslationArray<string>("pages.home.sections.aboutMe.future.description");
-  const timelineItems = useTranslationArray<TimelineItemTranslation>("pages.home.sections.aboutMe.timeline.items");
+const timeline = useTranslationArray<string>("pages.portfolio.sections.aboutMe.timeline.description");
+const future = useTranslationArray<string>("pages.portfolio.sections.aboutMe.future.description");
+const timelineItems = useTranslationArray<TimelineItemTranslation>("pages.portfolio.sections.aboutMe.timeline.items");
 
   const [timelineItemModalInfo, setTimelineItemModalInfo] = useState<TimelineItemTranslation | null>(null);
   const [timelineItemModalOpen, setTimelineItemModalOpen] = useState<boolean>(false);
@@ -92,7 +92,7 @@ const ExperienceSection = () => {
             fontWeight: "bold",
           }}
         >
-          {t("pages.home.sections.aboutMe.timeline.title")}
+          {t("pages.portfolio.sections.aboutMe.timeline.title")}
         </Typography>
         <Stack spacing={2}>
           {timeline.map((paragraph, idx) => (
@@ -134,7 +134,7 @@ const ExperienceSection = () => {
               fontWeight: "bold",
             }}
           >
-            {t("pages.home.sections.aboutMe.future.title")}
+            {t("pages.portfolio.sections.aboutMe.future.title")}
           </Typography>
           {future.map((paragraph, idx) => (
             <Typography key={idx}>

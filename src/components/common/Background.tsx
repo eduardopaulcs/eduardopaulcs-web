@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 import { Box } from "@mui/material";
-import bg1 from "../../../images/background/bg1.jpg";
-import bg2 from "../../../images/background/bg2.jpg";
-import bg3 from "../../../images/background/bg3.jpg";
-import bg4 from "../../../images/background/bg4.jpg";
-import bg5 from "../../../images/background/bg5.jpg";
+import bg1 from "../../images/background/bg1.jpg";
+import bg2 from "../../images/background/bg2.jpg";
+import bg3 from "../../images/background/bg3.jpg";
+import bg4 from "../../images/background/bg4.jpg";
+import bg5 from "../../images/background/bg5.jpg";
 
 interface BackgroundProps {
   totalHeight: number;
@@ -24,12 +24,13 @@ const getBackgroundScroll = () => {
 };
 
 /**
- * Component to display the background image of the home page.
+ * Component to display the background image of the portfolio page.
  */
 const Background = ({
   totalHeight
 }: BackgroundProps) => {
-  const backgroundRef = useRef<HTMLDivElement>();
+  const backgroundRef = useRef<HTMLDivElement>(null);
+  const [resizeTick, setResizeTick] = useState(0);
   const backgroundHeight = getBackgroundHeight(totalHeight);
 
   const [bgImage, setBgImage] = useState<string | null>(null);
@@ -46,13 +47,21 @@ const Background = ({
     setBackgroundScroll(getBackgroundScroll());
   };
 
-  useEffect(() => {
-    // When the component loads
+  /**
+   * Forces re-render on window resize so getBackgroundHeight
+   * recomputes with the current window.innerHeight.
+   */
+  const handleResize = () => {
+    setResizeTick((t) => t + 1);
+  };
 
+  useEffect(() => {
     window.addEventListener("scroll", handleScroll, {passive: true});
+    window.addEventListener("resize", handleResize, {passive: true});
 
     return () => {
       window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", handleResize);
     };
   }, []);
 
