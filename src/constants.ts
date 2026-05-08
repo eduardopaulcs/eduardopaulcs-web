@@ -21,3 +21,5 @@ export const CONTACT_MEANS = {
   "github": "GITHUB_URL",
   "email": "CONTACT_EMAIL",
 };
+
+export const DONATION_URL = "DONATION_URL";
