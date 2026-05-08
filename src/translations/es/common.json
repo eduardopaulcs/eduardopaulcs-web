@@ -12,7 +12,7 @@
       "experience": "Experiencia",
       "tools": "Herramientas",
       "contact": "Contacto",
-      "me": "Portfolio",
+      "portfolio": "Portfolio",
       "blog": "Blog",
       "fun": "Fun",
       "backToBlog": "Volver al Blog"
@@ -40,7 +40,7 @@
     },
     "landing": {
       "sections": {
-        "me": { "title": "Portfolio", "description": "Sobre mí, mi experiencia y contacto" },
+        "portfolio": { "title": "Portfolio", "description": "Sobre mí, mi experiencia y contacto" },
         "blog": { "title": "Blog", "description": "Posts y pensamientos" },
         "fun": { "title": "Fun", "description": "Juegos y proyectos simples" }
       }
@@ -78,7 +78,7 @@
         }
       }
     },
-    "home": {
+    "portfolio": {
       "sections": {
         "cover": {
           "name": "Eduardo Paul Contardi Soria",

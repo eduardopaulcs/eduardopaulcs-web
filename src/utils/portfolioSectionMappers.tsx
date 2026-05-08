@@ -1,11 +1,11 @@
 import { Build, Info, Message, QuestionMark, WorkHistory } from "@mui/icons-material";
-import AboutMeSection from "../components/pages/Home/AboutMeSection";
-import ExperienceSection from "../components/pages/Home/ExperienceSection";
-import ToolsSection from "../components/pages/Home/ToolsSection";
-import ContactSection from "../components/pages/Home/ContactSection";
+import AboutMeSection from "../components/pages/Portfolio/AboutMeSection";
+import ExperienceSection from "../components/pages/Portfolio/ExperienceSection";
+import ToolsSection from "../components/pages/Portfolio/ToolsSection";
+import ContactSection from "../components/pages/Portfolio/ContactSection";
 
 /**
- * Maps a home section key to its navbar icon.
+ * Maps a portfolio section key to its navbar icon.
  */
 export const mapSectionKeyToIcon = (sectionKey: string) => {
   let icon = null;
@@ -36,7 +36,7 @@ export const mapSectionKeyToIcon = (sectionKey: string) => {
 };
 
 /**
- * Maps a home section key to its page component.
+ * Maps a portfolio section key to its page component.
  */
 export const mapSectionKeyToComponent = (sectionKey: string) => {
   let component = null;

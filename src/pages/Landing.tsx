@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 import { Box, Card, CardActionArea, CardContent, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import Background from "../components/pages/Home/Background";
-import Face from "../images/home/face.png";
-import Blob from "../images/home/blob.png";
-import Lines from "../images/home/lines.png";
+import Background from "../components/common/Background";
+import Face from "../images/landing/face.png";
+import Blob from "../images/landing/blob.png";
+import Lines from "../images/landing/lines.png";
 import useTranslation from "../hooks/useTranslation";
 import { SITE_SECTIONS } from "../constants";
 import { mapSiteSectionKeyToIcon } from "../utils/siteSectionMappers";
@@ -65,7 +65,7 @@ const Landing = () => {
           component="h1"
           sx={{ fontWeight: "bold", textAlign: "center" }}
         >
-          {t("pages.home.sections.cover.name")}
+          {t("pages.portfolio.sections.cover.name")}
         </Typography>
         <Box
           sx={{
@@ -121,7 +121,7 @@ const Landing = () => {
             <Box
               component="img"
               src={Face}
-              alt={t("pages.home.sections.cover.face")}
+              alt={t("pages.portfolio.sections.cover.face")}
               sx={{
                 display: "block",
                 width: "100%",

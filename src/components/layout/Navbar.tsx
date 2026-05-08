@@ -3,13 +3,13 @@ import { Box, Drawer } from "@mui/material";
 import HomeIcon from "@mui/icons-material/Home";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import NavbarList from "./NavbarList";
-import { HOME_SECTIONS, SITE_SECTIONS } from "../../constants";
+import { PORTFOLIO_SECTIONS, SITE_SECTIONS } from "../../constants";
 import relativeToAbsolutePath from "../../utils/relativeToAbsolutePath";
 import { useLocation, useNavigate } from "react-router-dom";
 import useScrollToLocation from "../../hooks/useScrollToLocation";
 import useScrollHashSync from "../../hooks/useScrollHashSync";
 import NavbarListItem from "./NavbarListItem";
-import { mapSectionKeyToIcon } from "../../utils/homeSectionMappers";
+import { mapSectionKeyToIcon } from "../../utils/portfolioSectionMappers";
 import useTranslation from "../../hooks/useTranslation";
 import { getNavContext } from "../../utils/navContextMapper";
 
@@ -22,7 +22,7 @@ type NavbarLink = {
 
 /**
  * Builds the navbar link list dynamically based on the current route context.
- * On the portfolio page (`/me`), shows home section links with hash anchors.
+ * On the portfolio page (`/portfolio`), shows portfolio section links with hash anchors.
  * On a blog post detail page, shows a single "Back to Blog" link.
  * On the blog list page or other pages, shows no section links.
  */
@@ -30,9 +30,9 @@ const getNavbarLinks = (pathname: string): NavbarLink[] => {
   const context = getNavContext(pathname);
 
   if (context === "portfolio") {
-    return Object.entries(HOME_SECTIONS).map(([sectionKey, sectionRoute]) => ({
+    return Object.entries(PORTFOLIO_SECTIONS).map(([sectionKey, sectionRoute]) => ({
       key: sectionKey,
-      route: `${SITE_SECTIONS.me}#${sectionRoute}`,
+      route: `${SITE_SECTIONS.portfolio}#${sectionRoute}`,
       icon: mapSectionKeyToIcon(sectionKey),
       isAbsolute: false,
     }));
@@ -53,7 +53,7 @@ const getNavbarLinks = (pathname: string): NavbarLink[] => {
 /**
  * Site Navbar. Permanent left sidebar shown on desktop for all non-game pages.
  * On mobile, navigation is handled by BottomNav instead.
- * Also hosts the scroll synchronization hooks for the /me page.
+ * Also hosts the scroll synchronization hooks for the /portfolio page.
  */
 const Navbar = () => {
   const syncHashRef = useRef<string | null>(null);

@@ -1,10 +1,10 @@
 import { MutableRefObject, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { HOME_SECTIONS } from "../constants";
+import { PORTFOLIO_SECTIONS } from "../constants";
 
 /**
  * Keeps the URL hash in sync with the most visible section as the user scrolls.
- * Uses IntersectionObserver to track visibility ratios across all home sections.
+ * Uses IntersectionObserver to track visibility ratios across all portfolio sections.
  * Stores the exact hash value in `syncHashRef` before each navigate call so
  * `useScrollToLocation` can skip auto-scroll only when the hash change matches
  * what the observer set — preventing false positives when the user clicks a
@@ -18,7 +18,7 @@ const useScrollHashSync = (
   const navigate = useNavigate();
 
   useEffect(() => {
-    const sectionIds = Object.values(HOME_SECTIONS);
+    const sectionIds = Object.values(PORTFOLIO_SECTIONS);
     const visibilityMap: Record<string, number> = {};
 
     const observer = new IntersectionObserver(

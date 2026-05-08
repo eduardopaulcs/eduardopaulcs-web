@@ -6,7 +6,7 @@ interface SectionProps {
 };
 
 /**
- * One section of the homepage, it typically is the same height of the screen
+ * One section of the portfolio page, it typically is the same height of the screen
  * at least.
  */
 const Section = ({

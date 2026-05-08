@@ -1,7 +1,7 @@
 import { Route, createBrowserRouter, createRoutesFromElements } from "react-router-dom";
 import Layout from "../components/layout/Layout";
 import Error from "../pages/Error";
-import Home from "../pages/Home";
+import Portfolio from "../pages/Portfolio";
 import Landing from "../pages/Landing";
 import Blog from "../pages/Blog";
 import BlogPost from "../pages/BlogPost";
@@ -24,8 +24,8 @@ const router = createBrowserRouter(
           element={<Landing />}
         />
         <Route
-          path="/:lang/me"
-          element={<Home />}
+          path="/:lang/portfolio"
+          element={<Portfolio />}
         />
         <Route
           path="/:lang/blog"

@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 import { Box } from "@mui/material";
-import bg1 from "../../../images/background/bg1.jpg";
-import bg2 from "../../../images/background/bg2.jpg";
-import bg3 from "../../../images/background/bg3.jpg";
-import bg4 from "../../../images/background/bg4.jpg";
-import bg5 from "../../../images/background/bg5.jpg";
+import bg1 from "../../images/background/bg1.jpg";
+import bg2 from "../../images/background/bg2.jpg";
+import bg3 from "../../images/background/bg3.jpg";
+import bg4 from "../../images/background/bg4.jpg";
+import bg5 from "../../images/background/bg5.jpg";
 
 interface BackgroundProps {
   totalHeight: number;
@@ -24,7 +24,7 @@ const getBackgroundScroll = () => {
 };
 
 /**
- * Component to display the background image of the home page.
+ * Component to display the background image of the portfolio page.
  */
 const Background = ({
   totalHeight

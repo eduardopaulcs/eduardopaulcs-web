@@ -12,8 +12,8 @@ type ToolCategoryTranslation = {
  */
 const ToolsSection = () => {
   const {t} = useTranslation();
-  const tools = useTranslationArray<string>("pages.home.sections.aboutMe.tools.description");
-  const toolCategories = useTranslationArray<ToolCategoryTranslation>("pages.home.sections.aboutMe.tools.categories");
+  const tools = useTranslationArray<string>("pages.portfolio.sections.aboutMe.tools.description");
+  const toolCategories = useTranslationArray<ToolCategoryTranslation>("pages.portfolio.sections.aboutMe.tools.categories");
 
   return (
     <Box
@@ -30,7 +30,7 @@ const ToolsSection = () => {
             fontWeight: "bold",
           }}
         >
-          {t("pages.home.sections.aboutMe.tools.title")}
+          {t("pages.portfolio.sections.aboutMe.tools.title")}
         </Typography>
         <Stack spacing={2}>
           {tools.map((paragraph, idx) => (
