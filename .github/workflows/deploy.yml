@@ -38,6 +38,8 @@ jobs:
           REACT_APP_GITHUB_URL: ${{ vars.REACT_APP_GITHUB_URL }}
           REACT_APP_CONTACT_EMAIL: ${{ vars.REACT_APP_CONTACT_EMAIL }}
           REACT_APP_DONATION_URL: ${{ vars.REACT_APP_DONATION_URL }}
+          REACT_APP_UMAMI_HOST_URL: ${{ vars.REACT_APP_UMAMI_HOST_URL }}
+          REACT_APP_UMAMI_WEBSITE_ID: ${{ vars.REACT_APP_UMAMI_WEBSITE_ID }}
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
