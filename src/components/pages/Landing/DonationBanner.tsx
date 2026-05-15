@@ -16,9 +16,8 @@ const DonationBanner = () => {
       elevation={0}
       sx={(theme) => ({
         width: "100%",
-        maxWidth: 600,
-        mt: 4,
-        p: 3,
+        maxWidth: 480,
+        p: 2,
         display: "flex",
         flexDirection: { xs: "column", sm: "row" },
         alignItems: "center",
@@ -30,7 +29,7 @@ const DonationBanner = () => {
       })}
     >
       <Box sx={{ flex: 1, textAlign: { xs: "center", sm: "left" } }}>
-        <Typography variant="h6" component="h2">
+        <Typography variant="subtitle1" component="h2">
           {t("pages.landing.donate.title")}
         </Typography>
         <Typography variant="body2" color="text.secondary">
