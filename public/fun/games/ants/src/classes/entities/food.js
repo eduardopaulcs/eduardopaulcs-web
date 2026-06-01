@@ -1,41 +1,31 @@
 import { Entity } from './entity.js';
-import { config } from '../../config.js';
+import { CONFIG } from '../../config.js';
 
 /**
- * A food source that ants can detect and collect.
+ * A food source the ants can detect, deplete, and ferry back to the colony.
  */
 export class Food extends Entity {
-  /**
-   * @param {Vector} pos Position of the food.
-   */
   constructor(pos) {
     super(pos);
-    this.radius = 10;
-    this.maxLife = config.foodMaxLife;
-    this.life = config.foodMaxLife;
-    this.tracedBy = new WeakSet(); // weak refs — dead colonies are GC'd automatically
+    this.radius  = 10;
+    this.maxLife = CONFIG.food.maxLife;
+    this.life    = CONFIG.food.maxLife;
+    // Colonies that have already traced this food source. WeakSet → dead
+    // colonies are garbage-collected without holding the food alive.
+    this.tracedBy = new WeakSet();
   }
 
-  /**
-   * Removes life from this food source. Sets alive = false when fully consumed.
-   */
+  /** Subtracts one ant's worth of life. Sets alive=false when exhausted. */
   deplete() {
-    this.life -= config.foodDepleteAmount;
+    this.life -= CONFIG.food.depleteAmount;
     if (this.life <= 0) this.alive = false;
   }
 
-  /**
-   * Returns true if the given point is within this food's clickable area.
-   * @param {number} x
-   * @param {number} y
-   */
+  /** True if (x, y) is inside the food's clickable radius. */
   contains(x, y) {
     return dist(x, y, this.pos.x, this.pos.y) <= this.radius;
   }
 
-  /**
-   * Draws this food as a green circle, fading as it gets consumed.
-   */
   draw() {
     const alpha = map(this.life, 0, this.maxLife, 0, 255);
     noStroke();

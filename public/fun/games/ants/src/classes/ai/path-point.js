@@ -1,10 +1,7 @@
 /**
- * A path point is one logical point of a path.
+ * One stored point of a colony's tracer trail.
  */
 export class PathPoint {
-  /**
-   * @param {Vector} pos Initial position.
-   */
   constructor(pos) {
     this.pos = pos;
   }

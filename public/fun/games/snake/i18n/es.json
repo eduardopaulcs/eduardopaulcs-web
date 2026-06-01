@@ -1,8 +1,16 @@
 {
+  "title": "Snake",
   "pressAnyKeyToStart": "¡Presiona cualquier tecla para empezar!",
   "useArrowKeysToMove": "Usa las flechas o WASD para moverte",
   "score": "Puntaje: ",
-  "pressAnyKeyToRestart": "Presiona cualquier tecla para reiniciar",
   "youveLost": "Perdiste",
-  "youveWon": "¡Ganaste!"
+  "youveWon": "¡Ganaste!",
+  "speedLabel": "Velocidad",
+  "gridLabel": "Grilla",
+  "speedSlow": "Lenta",
+  "speedNormal": "Normal",
+  "speedFast": "Rápida",
+  "start": "Empezar",
+  "restart": "Nuevo juego",
+  "pressRToRestart": "R: nuevo juego"
 }

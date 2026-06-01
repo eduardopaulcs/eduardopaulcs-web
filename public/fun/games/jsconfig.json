@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "target": "esnext",
+    "module": "esnext",
+    "moduleResolution": "node",
+    "allowJs": true,
+    "checkJs": false,
+    "types": ["p5"]
+  },
+  "include": ["*/src/**/*.js", "i18n.js", "p5-global.d.ts"]
+}

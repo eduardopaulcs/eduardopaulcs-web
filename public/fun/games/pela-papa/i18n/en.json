@@ -1,0 +1,14 @@
+{
+  "title": "Potato Peeler",
+  "ctrlRotate": "Right click / WASD: rotate",
+  "ctrlZoom": "Scroll / Q E: move the knife",
+  "ctrlCut": "Left click / Space: cut",
+  "pressAnyKeyToStart": "Press any key to start",
+  "volumeKept": "Volume kept",
+  "skinLeft": "Skin left",
+  "peeled": "Peeled!",
+  "accuracy": "Accuracy",
+  "playAgain": "R: new potato",
+  "keepPlaying": "Click, Space or WASD: keep slicing",
+  "ctrlReset": "R: new potato"
+}
