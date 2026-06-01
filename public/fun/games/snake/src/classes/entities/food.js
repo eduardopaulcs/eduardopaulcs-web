@@ -1,10 +1,8 @@
 import { Entity } from './entity.js';
 
-/**
- * The player should eat food in order to make the snake grow.
- */
+/** A single edible food item placed on a random empty cell. */
 export class Food extends Entity {
-  constructor(x, y) {
-    super(x, y, color(205, 92, 92));
+  constructor(grid, x, y) {
+    super(grid, x, y, color(205, 92, 92));
   }
 }

@@ -1,121 +1,84 @@
-import { config } from '../../config.js';
+import { CONFIG } from '../../config.js';
 import { Entity } from './entity.js';
 import { Ant } from './ant.js';
 
 /**
- * A colony is a base for ants. They spawn there and try to bring food in.
+ * A colony spawns ants, accumulates trails brought back by them, and slowly
+ * starves unless its ants keep delivering food. Visualized as a big colored
+ * dot with a life bar above it.
  */
 export class Colony extends Entity {
-  /**
-   * @param {Vector} pos Initial position.
-   */
   constructor(pos = null) {
-    // If no position specified, get random.
-    if (!pos) {
-      let randomX, randomY;
+    super(pos ?? createVector(random(0, width), random(0, height)));
 
-      randomX = round(random(0, config.width));
-      randomY = round(random(0, config.height));
+    this.size    = round(random(1, 8));
+    this.radius  = this.size * 4; // matches strokeWeight(size * 8) → visual radius = size * 4
+    this.maxAnts = round(this.size * random(CONFIG.ant.maxPerSizeMin, CONFIG.ant.maxPerSizeMax));
 
-      pos = createVector(randomX, randomY);
-    }
-    super(pos);
-
-    this.size = round(random(1, 8));
-    this.radius = this.size * 4; // matches strokeWeight(size * 8) → visual radius = size * 4
-
-    this.maxAnts = round(this.size * random(config.antMaxPerSizeMin, config.antMaxPerSizeMax));
-
-    this.ants = [];
+    this.ants  = [];
     this.paths = [];
 
-    this.maxLife = config.colonyMaxLife;
-    this.life = config.colonyMaxLife;
+    this.maxLife = CONFIG.colony.maxLife;
+    this.life    = CONFIG.colony.maxLife;
 
-    // Assign a visually distinct color using golden-angle hue rotation
+    // Visually distinct color per colony via golden-angle hue rotation.
     const h = Colony._nextHue;
     Colony._nextHue = (Colony._nextHue + 137) % 360;
     colorMode(HSB, 360, 100, 100);
     this.col = color(h, 75, 90);
     colorMode(RGB, 255, 255, 255, 255);
 
-    // In ticks.
-    this.antTime = 0;
+    this.antTime = 0; // countdown (ticks) until the next ant may spawn
   }
 
-  /**
-   * Restores some life to this colony when an ant delivers food.
-   */
+  /** Restores life when an ant delivers food. Capped at maxLife. */
   feed() {
-    this.life = Math.min(this.maxLife, this.life + config.colonyFeedAmount);
+    this.life = Math.min(this.maxLife, this.life + CONFIG.colony.feedAmount);
   }
 
   /**
-   * Stores a completed tracer trail in this colony.
-   * @param {Path} path
+   * Stores a completed tracer trail. Path's life scales with its length.
+   * Enforces `CONFIG.colony.maxPaths`: oldest path is dropped if the cap
+   * would otherwise be exceeded. Bounds the per-ant scan cost so a long
+   * session doesn't progressively slow down.
    */
   addPath(path) {
-    path.life = config.pathMaxLife + path.points.length * config.pathInitialLifePerPoint;
+    path.life = CONFIG.path.maxLife + path.points.length * CONFIG.path.initialLifePerPoint;
     this.paths.push(path);
+    if (this.paths.length > CONFIG.colony.maxPaths) this.paths.shift();
   }
 
-  /**
-   * Spawns one ant at the center of the colony.
-   */
+  /** Spawns one ant at the colony's center and sets a random cooldown. */
   spawnAnt() {
-    // Add ant at the center of the colony.
     this.ants.push(new Ant(this.pos.copy(), this));
-
-    // Increase ant time.
     this.antTime += round(random(10, 30));
   }
 
   /**
-   * Processes this colony for one tick.
-   * @param {Food[]} foods List of food sources for ants to detect.
+   * @param {Food[]} foods Food sources visible to this colony's ants.
    */
   tick(foods) {
-    // Decay life; die if starved
-    this.life -= config.colonyLifeDecay;
+    this.life -= CONFIG.colony.lifeDecay;
     if (this.life <= 0) { this.alive = false; return; }
 
-    // Should we spawn an ant?
+    // Spawn one ant per cooldown expiration, if we have "ant space" left.
     if (this.antTime <= 0) {
-      // Do we have "ant space"? Yup, I'm calling that "ant space".
-      if (this.ants.length < this.maxAnts) {
-        this.spawnAnt();
-      }
+      if (this.ants.length < this.maxAnts) this.spawnAnt();
     } else {
       this.antTime--;
     }
 
-    // Tick each ant and discard those that marked themselves as dead
-    this.ants = this.ants.filter(ant => {
-      ant.tick(foods);
-      return ant.alive;
-    });
-
-    // Age paths and discard expired ones
-    this.paths = this.paths.filter(path => {
-      path.tick();
-      return path.alive;
-    });
+    this.ants  = this.ants.filter(ant => { ant.tick(foods); return ant.alive; });
+    this.paths = this.paths.filter(p   => { p.tick();       return p.alive;   });
   }
 
-  /**
-   * Returns true if the given point is within this colony's clickable area.
-   * @param {number} x
-   * @param {number} y
-   */
+  /** True if (x, y) is inside this colony's clickable area. */
   contains(x, y) {
     return dist(x, y, this.pos.x, this.pos.y) <= this.radius;
   }
 
-  /**
-   * Draws this colony as a big dot.
-   */
   draw() {
-    // Draw completed tracer trails
+    // Stored tracer trails (faded colony color).
     for (const path of this.paths) {
       if (path.points.length < 2) continue;
       stroke(red(this.col), green(this.col), blue(this.col), 150);
@@ -127,9 +90,9 @@ export class Colony extends Entity {
       }
     }
 
-    // Life bar
-    const barW = this.size * 10;
-    const barH = 3;
+    // Life bar above the colony.
+    const barW  = this.size * 10;
+    const barH  = 3;
     const ratio = this.life / this.maxLife;
     noStroke();
     fill(60, 60, 60);
@@ -137,13 +100,12 @@ export class Colony extends Entity {
     fill(lerpColor(color(60, 60, 60), this.col, ratio));
     rect(this.pos.x - barW / 2, this.pos.y - this.radius - 10, barW * ratio, barH);
 
+    // The colony itself: a big colored point.
     stroke(this.col);
-    strokeWeight(this.size*8);
+    strokeWeight(this.size * 8);
     point(this.pos);
 
-    for (let ant of this.ants) {
-      ant.draw();
-    }
+    for (const ant of this.ants) ant.draw();
   }
 }
 

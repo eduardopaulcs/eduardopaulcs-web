@@ -80,6 +80,10 @@
         "ants": {
           "name": "Ants",
           "description": "Ant colony simulation."
+        },
+        "pela-papa": {
+          "name": "Potato Peeler",
+          "description": "3D potato peeling game."
         }
       }
     },

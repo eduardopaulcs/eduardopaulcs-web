@@ -1,22 +1,44 @@
-export const gameLang = new URLSearchParams(window.location.search).get('lang') || 'en';
+p5.disableFriendlyErrors = true;
 
-export const config = {
-  width: 768,
-  height: 512,
-  timeForTick: 24,           // MS
-  antMaxPerSizeMin: 12,      // Min ants per colony size unit
-  antMaxPerSizeMax: 24,      // Max ants per colony size unit
-  antMaxTurn: Math.PI / 16,  // Max angular velocity per tick
-  antTurnAccel: Math.PI / 8, // Max change in angular velocity per tick
-  antTrailInterval: 8,       // Ticks between trail point deposits
-  antTracerSteering: 0.3,    // Steering pull toward colony per tick
-  antPathDetectRadius: 40,   // Radius within which a normal ant detects path points
-  antPathSteering: 0.6,      // Steering pull toward nearby path point
-  foodMaxLife: 100,          // Starting life of a food source
-  foodDepleteAmount: 2,      // Life removed each time an ant reaches the food
-  pathMaxLife: 300,          // Ticks of life a path has before dying if unused
-  pathInitialLifePerPoint: 16, // Extra initial life per path point (≈ 2× antTrailInterval)
-  colonyMaxLife: 8000,       // Starting life of a colony
-  colonyLifeDecay: 1,        // Life lost per tick
-  colonyFeedAmount: 100,     // Life restored per food delivery
+export const GAME_LANG = new URLSearchParams(window.location.search).get('lang') || 'en';
+
+export const CONFIG = {
+  fps: 30,
+  tps: 15,
+
+  ant: {
+    // Population: each colony spawns up to `size * random(min, max)` ants.
+    maxPerSizeMin: 12,
+    maxPerSizeMax: 24,
+    // Steering kinematics. Ants accumulate angular velocity per tick within
+    // [-maxTurn, +maxTurn], driven by random turnAccel jitter plus pull from
+    // path/colony when applicable.
+    maxTurn:           Math.PI / 16,
+    turnAccel:         Math.PI / 8,
+    tracerSteering:    0.3,  // pull toward colony when carrying a fresh trail
+    pathSteering:      0.6,  // pull toward nearest path point when one is in range
+    pathDetectRadius:  40,   // radius in which non-tracer ants notice paths
+    trailInterval:     8,    // ticks between trail-point deposits while tracing
+  },
+
+  food: {
+    maxLife:       100,  // initial life of a food source
+    depleteAmount: 2,    // life removed each time an ant touches the food
+  },
+
+  path: {
+    maxLife:             300, // ticks before a non-reinforced path expires
+    initialLifePerPoint: 16,  // extra initial life per stored path point (~2× trailInterval)
+  },
+
+  colony: {
+    maxLife:    8000, // initial colony life
+    lifeDecay:  1,    // life lost per tick when no food is delivered
+    feedAmount: 100,  // life restored per food delivery
+    // Hard cap on stored trails per colony. Path scanning is the hot loop
+    // (every ant, every tick, walks every point of every path), so an
+    // unbounded path list is the main thing that turns lag on at scale.
+    // The oldest path is dropped when a new one would exceed the cap.
+    maxPaths:   40,
+  },
 };

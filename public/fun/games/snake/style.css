@@ -1,10 +1,143 @@
 html, body {
   margin: 0;
   padding: 0;
+  overflow: hidden;
+  background: #0c0c10;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
 }
 
 canvas {
   display: block;
-  margin-left: auto;
-  margin-right: auto;
+  margin: 0 auto;
+}
+
+/* UI overlay. pointer-events:none so canvas clicks pass through; specific
+   elements (buttons) opt back in below. */
+#ui {
+  position: fixed;
+  inset: 0;
+  display: none;
+  pointer-events: none;
+  z-index: 10;
+  color: #e8e8ec;
+  user-select: none;
+}
+
+#ui.menu,
+#ui.result {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(8, 8, 12, 0.45);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+#ui.playing {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.panel {
+  text-align: center;
+  padding: 2rem 3rem;
+}
+
+.panel h1 {
+  font-size: clamp(2.5rem, 8vw, 5rem);
+  margin: 0 0 1.5rem;
+  letter-spacing: 2px;
+  font-weight: 800;
+}
+
+/* Accent colors live on the result-screen title only — the rest of the UI
+   stays neutral so the green doesn't bleed everywhere. */
+.panel.result.won h1  { color: #87cd87; }
+.panel.result.lost h1 { color: #cd5c5c; }
+
+.panel .hint {
+  font-size: 0.85rem;
+  margin: 0.5rem 0 0;
+  opacity: 0.55;
+}
+
+.panel .stat {
+  font-size: 1.25rem;
+  margin: 0.5rem 0 1.25rem;
+  opacity: 0.9;
+}
+
+.panel .stat strong {
+  font-weight: 700;
+  margin-left: 0.25rem;
+}
+
+/* Selectors (menu only) ----------------------------------------------- */
+.selectors {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin: 1.5rem auto;
+  width: max-content;
+}
+
+.selector {
+  display: grid;
+  grid-template-columns: 100px 36px 130px 36px;
+  align-items: center;
+  column-gap: 0.5rem;
+}
+
+.selector .label {
+  text-align: right;
+  opacity: 0.75;
+  font-size: 0.95rem;
+}
+
+.selector .value {
+  text-align: center;
+  font-weight: 600;
+}
+
+/* Buttons --------------------------------------------------------------- */
+button.step,
+button.primary {
+  pointer-events: auto;
+  font-family: inherit;
+  color: inherit;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 6px;
+  cursor: pointer;
+  user-select: none;
+}
+
+button.step {
+  font-size: 1rem;
+  padding: 0.25rem 0;
+}
+
+button.primary {
+  font-size: 1rem;
+  padding: 0.55rem 1.5rem;
+  margin-top: 0.5rem;
+  font-weight: 600;
+}
+
+button.step:hover,
+button.primary:hover { background: rgba(255, 255, 255, 0.14); }
+
+button.step:active,
+button.primary:active { transform: translateY(1px); }
+
+/* HUD ------------------------------------------------------------------- */
+.hud {
+  margin-top: 1rem;
+  display: flex;
+  gap: 1.5rem;
+  background: rgba(8, 8, 12, 0.55);
+  padding: 0.5rem 1.25rem;
+  border-radius: 999px;
+  font-size: 0.95rem;
 }
