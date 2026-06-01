@@ -1,69 +1,66 @@
-import { config, gameLang } from './config.js';
-import { state } from './state.js';
-import { MainState } from './classes/program-states/main-state.js';
+import { CONFIG, GAME_LANG } from './config.js';
+import { Playing } from './classes/game-states/playing.js';
 
-let ps = null;
-let deltaSum = 0;
-
-/**
- * Loads assets before setup runs. p5.js ensures this completes before setup() is called.
- */
-window.preload = function preload() {
-  state.i18n = loadJSON(`i18n/${gameLang}.json`);
+window.ctx = {
+  /** Current game state */
+  gs: null,
+  /** Accumulated delta for the fixed-rate tick */
+  deltaSum: 0,
+  /** Translations for the current language */
+  i18n: {},
 };
 
-/**
- * Executed the first time the program runs, sets up everything needed to start.
- */
+const tickInterval = 1000 / CONFIG.tps;
+
+/** Switches game state, cleaning up the previous one if needed. */
+window.setGameState = function setGameState(gs) {
+  if (window.ctx.gs && typeof window.ctx.gs.dispose === 'function') {
+    window.ctx.gs.dispose();
+  }
+  window.ctx.gs = gs;
+  window.ctx.deltaSum = 0;
+};
+
+window.preload = function preload() {
+  window.ctx.i18n = loadJSON(`i18n/${GAME_LANG}.json`);
+};
+
 window.setup = function setup() {
-  config.width = windowWidth;
-  config.height = windowHeight;
+  createCanvas(windowWidth, windowHeight);
+  frameRate(CONFIG.fps);
 
-  createCanvas(config.width, config.height);
-  frameRate();
+  document.querySelector('canvas').addEventListener('contextmenu', e => e.preventDefault());
 
-  // Prevent browser context menu so right click can be used in-game
-  document.addEventListener('contextmenu', e => e.preventDefault());
-
-  // Pause the loop when the tab is hidden; discard accumulated delta on restore
   document.addEventListener('visibilitychange', () => {
     if (document.hidden) {
       noLoop();
     } else {
-      deltaSum = 0;
+      window.ctx.deltaSum = 0;
       loop();
     }
   });
 
-  ps = new MainState();
-
-  ps.startRandom();
+  window.ctx.gs = new Playing();
 };
 
-/**
- * Handles mouse clicks.
- */
-window.mousePressed = function mousePressed() {
-  if (mouseButton === LEFT) {
-    ps.handleLeftClick(mouseX, mouseY);
-  } else if (mouseButton === RIGHT) {
-    ps.handleRightClick(mouseX, mouseY);
-  }
-  return false;
-};
+window.keyPressed    = () => window.ctx.gs.keyPressed(keyCode);
+window.mousePressed  = () => window.ctx.gs.mousePressed();
+window.mouseDragged  = () => window.ctx.gs.mouseDragged();
+window.mouseReleased = () => window.ctx.gs.mouseReleased();
+window.mouseWheel    = (e) => window.ctx.gs.mouseWheel(e);
 
-/**
- * Draws a frame.
- */
 window.draw = function draw() {
-  deltaSum = Math.min(deltaSum + deltaTime, config.timeForTick * 3);
+  const frameTime = Math.min(deltaTime, 250);
+  window.ctx.deltaSum += frameTime;
 
-  // If we have to tick
-  while (deltaSum > config.timeForTick) {
-    ps.tick();
-
-    deltaSum -= config.timeForTick;
+  while (window.ctx.deltaSum >= tickInterval) {
+    window.ctx.gs.tick();
+    window.ctx.deltaSum -= tickInterval;
   }
 
-  ps.draw();
+  window.ctx.gs.draw();
+};
+
+window.windowResized = function windowResized() {
+  resizeCanvas(windowWidth, windowHeight);
 };

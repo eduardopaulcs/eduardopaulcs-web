@@ -1,93 +1,89 @@
 import { Entity } from './entity.js';
 import { Food } from './food.js';
 import { SnakeBody } from './snake-body.js';
-import { state } from '../../state.js';
-import { STATE_PLAYING } from '../../config.js';
 
 /**
- * The snake is the character of the player.
+ * The snake's head. Holds the body (a FIFO of SnakeBody segments) and
+ * handles the eat / grow / move logic. Delegates score, food respawn and
+ * lose conditions back to the owning Playing state.
  */
 export class Snake extends Entity {
-  constructor(x, y) {
-    super(x, y, color(135, 205, 135));
-
+  /**
+   * @param {Cell[][]} grid
+   * @param {number}   x
+   * @param {number}   y
+   * @param {Playing}  playing State the snake reports score / loss / food
+   *                           respawn back to.
+   */
+  constructor(grid, x, y, playing) {
+    super(grid, x, y, color(135, 205, 135));
+    this.playing = playing;
     this.body = [];
   }
 
   /**
-   * Moves this entity one cell in the facing direction.
-   *
-   * @returns True if successful. False otherwise.
+   * Move one cell forward, eating any food in the target cell and dying on
+   * contact with the body. Returns false if the move was rejected (e.g.
+   * out of bounds — caller decides whether that's a lose condition).
    */
+  /**
+   * Two small black dots that telegraph which way the head will move next.
+   * Positioned forward of center along `this.dir` and splayed sideways on
+   * the perpendicular axis. push()/pop() so the noStroke/fill don't leak
+   * into the next cell's rect draw (which would erase the grid lines).
+   */
+  drawDecoration(cell) {
+    if (this.dir.x === 0 && this.dir.y === 0) return; // no heading yet
+
+    const s  = cell.w;
+    const fx = cell.xp + this.dir.x * s * 0.30; // forward offset (eyes pair center)
+    const fy = cell.yp + this.dir.y * s * 0.30;
+    // Perpendicular to (dx, dy) is (-dy, dx). Eyes splayed left/right of the
+    // forward axis by this offset.
+    const px = -this.dir.y * s * 0.18;
+    const py =  this.dir.x * s * 0.18;
+
+    push();
+    noStroke();
+    fill(0);
+    const eyeSize = s * 0.14;
+    ellipse(fx + px, fy + py, eyeSize);
+    ellipse(fx - px, fy - py, eyeSize);
+    pop();
+  }
+
   move() {
-    let newCell = this.facingToCell();
+    const newCell = this.facingToCell();
+    if (newCell === null) return false;
+
+    const cellEntity = newCell.entity;
     let eaten = false;
-    let oldX, oldY;
-    let moved = false;
 
-    // If we are moving into a valid cell
-    if (newCell !== null) {
-      moved = true;
-      oldX = this.x;
-      oldY = this.y;
-
-      let cellEntity = state.gs.cells[newCell.x][newCell.y].entity;
-
-      // If we are about to move into an entity
-      if (cellEntity !== null) {
-        // If we are about to move into food
-        if (cellEntity instanceof Food) {
-          // Prepare to spawn body
-          eaten = true;
-        }
-        // If we are about to move into ourselves
-        else if (cellEntity instanceof SnakeBody) {
-          state.gs.lose();
-        }
-      }
+    if (cellEntity instanceof Food) {
+      eaten = true;
+    } else if (cellEntity instanceof SnakeBody) {
+      this.playing.lose();
+      return false;
     }
 
-    // If we are still playing
-    if (state.gs.state === STATE_PLAYING) {
-      // Could we move?
-      if (super.move()) {
-        // If we have eaten
-        if (eaten) {
-          // Create body
-          let newBody = new SnakeBody(oldX, oldY);
+    const oldX = this.x;
+    const oldY = this.y;
+    if (!super.move()) return false;
 
-          // Set body direction
-          newBody.changeDir(this.lastDir);
-
-          // Add body at the start of the list
-          this.body.unshift(newBody);
-
-          // Add one score point
-          state.gs.addScorePoint();
-
-          // Spawn new food
-          state.gs.spawnFood();
-        }
-        // If we have moved
-        else if (moved) {
-          // If we have a body
-          if (this.body.length > 0) {
-            // Get tail
-            let tail = this.body.pop();
-
-            // Teleport tail to the beginning
-            tail.teleport(oldX, oldY);
-            tail.changeDir(this.lastDir);
-
-            // Add tail at the start of the list
-            this.body.unshift(tail);
-          }
-        }
-
-        return true;
-      }
+    if (eaten) {
+      // Grow: the cell the head just left becomes the new front segment.
+      const newBody = new SnakeBody(this.grid, oldX, oldY);
+      newBody.changeDir(this.lastDir);
+      this.body.unshift(newBody);
+      this.playing.addScorePoint();
+      this.playing.spawnFood();
+    } else if (this.body.length > 0) {
+      // Walk: teleport the tail to where the head was a moment ago.
+      const tail = this.body.pop();
+      tail.teleport(oldX, oldY);
+      tail.changeDir(this.lastDir);
+      this.body.unshift(tail);
     }
-
-    return false;
+    return true;
   }
 }

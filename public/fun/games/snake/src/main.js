@@ -1,72 +1,77 @@
-import { state } from './state.js';
-import { config, gameLang } from './config.js';
+import { CONFIG, GAME_LANG } from './config.js';
 import { MainMenu } from './classes/game-states/main-menu.js';
 
-/**
- * Loads assets before setup runs. p5.js ensures this completes before setup() is called.
- */
-window.preload = function preload() {
-  state.i18n = loadJSON(`i18n/${gameLang}.json`);
+window.ctx = {
+  /** Current game state */
+  gs: null,
+  /** Accumulated delta for the fixed-rate tick */
+  deltaSum: 0,
+  /** Translations for the current language */
+  i18n: {},
 };
 
-/**
- * Executed the first time the program runs, it "sets up" every thing needed to start.
- */
+/** Switches game state, cleaning up the previous one if needed. */
+window.setGameState = function setGameState(gs) {
+  if (window.ctx.gs && typeof window.ctx.gs.dispose === 'function') {
+    window.ctx.gs.dispose();
+  }
+  window.ctx.gs = gs;
+  window.ctx.deltaSum = 0;
+};
+
+window.preload = function preload() {
+  window.ctx.i18n = loadJSON(`i18n/${GAME_LANG}.json`);
+};
+
 window.setup = function setup() {
-  // If this screen is vertical
-  if (windowHeight > windowWidth && config.cols > config.rows) {
-    let temp = config.cols;
-    config.cols = config.rows;
-    config.rows = temp;
+  // Initial canvas size for the title screen. Playing.init() resizes again
+  // for the grid the player picks. Snap to whole-pixel square cells.
+  if (windowHeight > windowWidth && CONFIG.grid.cols > CONFIG.grid.rows) {
+    [CONFIG.grid.cols, CONFIG.grid.rows] = [CONFIG.grid.rows, CONFIG.grid.cols];
   }
-
-  // Make canvas full screen width
-  config.width = floor(windowWidth / config.cols) * config.cols;
-  config.height = config.cellW * config.rows;
-
-  // If height is too tall, cap size with height
-  if (config.height > windowHeight) {
-    config.height = floor(windowHeight / config.rows) * config.rows;
-    config.width = config.cellH * config.cols;
+  let cellSize = floor(windowWidth / CONFIG.grid.cols);
+  let canvasW  = cellSize * CONFIG.grid.cols;
+  let canvasH  = cellSize * CONFIG.grid.rows;
+  if (canvasH > windowHeight) {
+    cellSize = floor(windowHeight / CONFIG.grid.rows);
+    canvasW  = cellSize * CONFIG.grid.cols;
+    canvasH  = cellSize * CONFIG.grid.rows;
   }
+  createCanvas(canvasW, canvasH);
+  frameRate(CONFIG.fps);
 
-  createCanvas(config.width, config.height);
-  frameRate(30);
+  document.querySelector('canvas').addEventListener('contextmenu', e => e.preventDefault());
 
-  // Pause the loop when the tab is hidden; discard accumulated delta on restore
   document.addEventListener('visibilitychange', () => {
     if (document.hidden) {
       noLoop();
     } else {
-      state.deltaSum = 0;
+      window.ctx.deltaSum = 0;
       loop();
     }
   });
 
-  // Set MainMenu state
-  state.gs = new MainMenu();
+  window.ctx.gs = new MainMenu();
 };
 
-/**
- * Handles key input.
- */
-window.keyPressed = function keyPressed() {
-  state.gs.keyPressed(keyCode);
-};
+window.keyPressed    = () => window.ctx.gs.keyPressed(keyCode);
+window.mousePressed  = () => window.ctx.gs.mousePressed();
+window.mouseDragged  = () => window.ctx.gs.mouseDragged();
+window.mouseReleased = () => window.ctx.gs.mouseReleased();
+window.mouseWheel    = (e) => window.ctx.gs.mouseWheel(e);
 
-/**
- * Draws a frame.
- */
 window.draw = function draw() {
-  state.deltaSum = Math.min(state.deltaSum + deltaTime, config.timeForTick * 3);
+  const frameTime = Math.min(deltaTime, 250);
+  window.ctx.deltaSum += frameTime;
 
-  // If we have to tick
-  while (state.deltaSum >= config.timeForTick) {
-    state.gs.tick();
-
-    state.deltaSum -= config.timeForTick;
+  // Each state can declare its own tps (default CONFIG.tps). Picked up
+  // every frame so the speed selector on the menu takes effect immediately
+  // when entering Playing.
+  const tickInterval = 1000 / (window.ctx.gs.tps ?? CONFIG.tps);
+  while (window.ctx.deltaSum >= tickInterval) {
+    window.ctx.gs.tick();
+    window.ctx.deltaSum -= tickInterval;
   }
 
-  // We are assuming 30 fps
-  state.gs.draw();
+  window.ctx.gs.draw();
 };

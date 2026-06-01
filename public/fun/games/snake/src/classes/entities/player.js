@@ -1,60 +1,30 @@
 import { Snake } from './snake.js';
-import { state } from '../../state.js';
-import { NULL_DIR, RIGHT_DIR, UP_DIR, LEFT_DIR, DOWN_DIR } from '../../config.js';
+import { UP, DOWN, LEFT, RIGHT, NONE } from '../directions.js';
 
-/**
- * The player is the entity that the user can control.
- */
+/** Snake the user controls. Reads arrow/WASD input to change direction. */
 export class Player extends Snake {
-  constructor(x, y) {
-    super(x, y);
+  constructor(grid, x, y, playing) {
+    super(grid, x, y, playing);
   }
 
   /**
-   * Processes user input.
-   *
-   * @param keyCode p5.js keyCode global variable that has the code for the key pressed.
+   * @param {number} keyCode p5's keyCode for the key just pressed.
    */
   input(keyCode) {
     switch (keyCode) {
-      case RIGHT_ARROW:
-      case 68: // D
-        this.changeDir(RIGHT_DIR);
-        break;
-
-      case UP_ARROW:
-      case 87: // W
-        this.changeDir(UP_DIR);
-        break;
-
-      case LEFT_ARROW:
-      case 65: // A
-        this.changeDir(LEFT_DIR);
-        break;
-
-      case DOWN_ARROW:
-      case 83: // S
-        this.changeDir(DOWN_DIR);
-        break;
-
-      default:
-        break;
+      case RIGHT_ARROW: case 68: this.changeDir(RIGHT); break;
+      case UP_ARROW:    case 87: this.changeDir(UP);    break;
+      case LEFT_ARROW:  case 65: this.changeDir(LEFT);  break;
+      case DOWN_ARROW:  case 83: this.changeDir(DOWN);  break;
     }
   }
 
-  /**
-   * Moves this entity one cell in the facing direction.
-   *
-   * @returns True if successful. False otherwise.
-   */
+  /** Same as Snake.move but treats out-of-bounds as a lose, not a no-op. */
   move() {
-    // Are we moving out of bounds?
-    if (this.facingToCell() === null && this.dir !== NULL_DIR) {
-      state.gs.lose();
-
+    if (this.facingToCell() === null && this.dir !== NONE) {
+      this.playing.lose();
       return false;
     }
-
     return super.move();
   }
 }

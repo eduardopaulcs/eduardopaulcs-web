@@ -80,6 +80,10 @@
         "ants": {
           "name": "Hormigas",
           "description": "Simulación de colonia de hormigas."
+        },
+        "pela-papa": {
+          "name": "Pela Papa",
+          "description": "Juego 3D de pelar una papa."
         }
       }
     },
